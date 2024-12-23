@@ -1,0 +1,120 @@
+@font-face {
+    font-family: 'Manchette';
+    src: url('Manchette-Black.eot');
+    src: url('Manchette-Black.eot?#iefix') format('embedded-opentype'),
+        url('Manchette-Black.woff2') format('woff2'),
+        url('Manchette-Black.woff') format('woff'),
+        url('Manchette-Black.ttf') format('truetype');
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Manchette';
+    src: url('Manchette-Bold.eot');
+    src: url('Manchette-Bold.eot?#iefix') format('embedded-opentype'),
+        url('Manchette-Bold.woff2') format('woff2'),
+        url('Manchette-Bold.woff') format('woff'),
+        url('Manchette-Bold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Manchette';
+    src: url('Manchette-ExtraBold.eot');
+    src: url('Manchette-ExtraBold.eot?#iefix') format('embedded-opentype'),
+        url('Manchette-ExtraBold.woff2') format('woff2'),
+        url('Manchette-ExtraBold.woff') format('woff'),
+        url('Manchette-ExtraBold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Manchette';
+    src: url('Manchette-Heavy.eot');
+    src: url('Manchette-Heavy.eot?#iefix') format('embedded-opentype'),
+        url('Manchette-Heavy.woff2') format('woff2'),
+        url('Manchette-Heavy.woff') format('woff'),
+        url('Manchette-Heavy.ttf') format('truetype');
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Manchette';
+    src: url('Manchette-Light.eot');
+    src: url('Manchette-Light.eot?#iefix') format('embedded-opentype'),
+        url('Manchette-Light.woff2') format('woff2'),
+        url('Manchette-Light.woff') format('woff'),
+        url('Manchette-Light.ttf') format('truetype');
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Manchette';
+    src: url('Manchette-Medium.eot');
+    src: url('Manchette-Medium.eot?#iefix') format('embedded-opentype'),
+        url('Manchette-Medium.woff2') format('woff2'),
+        url('Manchette-Medium.woff') format('woff'),
+        url('Manchette-Medium.ttf') format('truetype');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Manchette';
+    src: url('Manchette-Regular.eot');
+    src: url('Manchette-Regular.eot?#iefix') format('embedded-opentype'),
+        url('Manchette-Regular.woff2') format('woff2'),
+        url('Manchette-Regular.woff') format('woff'),
+        url('Manchette-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Manchette';
+    src: url('Manchette-SemiBold.eot');
+    src: url('Manchette-SemiBold.eot?#iefix') format('embedded-opentype'),
+        url('Manchette-SemiBold.woff2') format('woff2'),
+        url('Manchette-SemiBold.woff') format('woff'),
+        url('Manchette-SemiBold.ttf') format('truetype');
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Manchette';
+    src: url('Manchette-Thin.eot');
+    src: url('Manchette-Thin.eot?#iefix') format('embedded-opentype'),
+        url('Manchette-Thin.woff2') format('woff2'),
+        url('Manchette-Thin.woff') format('woff'),
+        url('Manchette-Thin.ttf') format('truetype');
+    font-weight: 100;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Manchette';
+    src: url('Manchette-UltraLight.eot');
+    src: url('Manchette-UltraLight.eot?#iefix') format('embedded-opentype'),
+        url('Manchette-UltraLight.woff2') format('woff2'),
+        url('Manchette-UltraLight.woff') format('woff'),
+        url('Manchette-UltraLight.ttf') format('truetype');
+    font-weight: 200;
+    font-style: normal;
+    font-display: swap;
+}
+
