@@ -1,6 +1,8 @@
 // storage-adapter-import-placeholder
 import { mongooseAdapter } from '@payloadcms/db-mongodb'
 import { payloadCloudPlugin } from '@payloadcms/payload-cloud'
+import { en } from '@payloadcms/translations/languages/en'
+import { ar } from '@payloadcms/translations/languages/ar'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import path from 'path'
 import { buildConfig } from 'payload'
@@ -46,6 +48,9 @@ export default buildConfig({
     ],
     defaultLocale: 'en', // required
     fallback: true, // defaults to true
+  },
+  i18n: {
+    supportedLanguages: { en, ar },
   },
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',

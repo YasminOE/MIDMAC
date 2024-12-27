@@ -40,7 +40,7 @@
     "**/*.js",
     "**/*.jsx",
     "**/*.json"
-  ],
+, "src/app/(frontend)/[slug]/page.tsx", "src/app/(frontend)/([[...slug]].jsx)"  ],
   "exclude": [
     "node_modules"
   ]

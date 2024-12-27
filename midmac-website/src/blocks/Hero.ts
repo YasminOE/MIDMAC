@@ -22,7 +22,16 @@ export const Hero: Block = {
           relationTo: 'media',
           required: true,
           label: 'Foreground Image',
-        }
+          localized: true,
+        },
+        {
+          name: 'foregroundImageMobile',
+          type: 'upload',
+          relationTo: 'media',
+          required: true,
+          label: 'Foreground Image Mobile',
+          localized: true,
+        },
       ]
     },
     {
@@ -59,22 +68,3 @@ export const Hero: Block = {
     }
   ]
 }
-
-// {
-//     slug: 'hero',
-//     imageAltText: 'Hero',
-//     interfaceName: 'HeroBlock',
-//     fields: [
-//         {
-//             name: 'image',
-//             type: 'upload',
-//             relationTo: 'media',
-//             required: true,
-//         },
-//         {
-//             name: 'title',
-//             label: 'Title',
-//             type: 'text',
-//         }
-//     ]
-// },

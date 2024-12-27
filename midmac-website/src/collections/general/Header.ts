@@ -28,12 +28,12 @@ const Header: GlobalConfig = {
             {
               label: 'Page Link',
               value: 'page',
-              relationTo: 'pages', 
+            //   relationTo: 'pages', 
             },
             {
               label: 'Section Link',
               value: 'section',
-              relationTo: 'sections',
+            //   relationTo: 'sections',
             }
           ],
         },
@@ -42,9 +42,23 @@ const Header: GlobalConfig = {
           type: 'text',
           required: true,
           admin: {
-            description: 'For pages: use the page slug. For sections: use the section ID (e.g., #about-us)',
+            condition: (data, siblingData) => {
+              return siblingData.linkType === 'section'
+            },
+            description: 'Enter the section ID (e.g., #services, #about-us)',
           },
         },
+        {
+          name: 'pageLink',
+          type: 'relationship',
+          relationTo: 'pages',
+          required: true,
+          admin: {
+            condition: (data, siblingData) => {
+              return siblingData.linkType === 'page'
+            },
+          },
+        }
       ]
     },
   ],

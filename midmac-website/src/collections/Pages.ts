@@ -1,6 +1,9 @@
 import { Hero } from '@/blocks/Hero'
+import { Services } from '@/blocks/Services'
+import { ProgressImages } from '@/blocks/ProgressImages'
 import { authenticated } from '@/hooks/authenticated'
 import type { CollectionConfig } from 'payload'
+import { Projects } from '@/blocks/Projects'
 
 export const Pages: CollectionConfig = {
     slug: 'pages',
@@ -38,64 +41,9 @@ export const Pages: CollectionConfig = {
             minRows: 1,
             blocks: [
                 Hero,
-                {
-                    slug: 'services',
-                    interfaceName: 'ServicesBlock',
-                    fields: [
-                        {
-                            name: 'title',
-                            label: 'Title',
-                            type: 'text',
-                            required: true,
-                        },
-                        {
-                            name: 'services',
-                            type: 'array',
-                            fields: [
-                                {
-                                    name: 'name',
-                                    label: 'Name',
-                                    type: 'text',
-                                    required: true,
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    slug: 'showcase',
-                    interfaceName: 'ShowcaseBlock',
-                    fields: [
-                        {
-                            name: 'image',
-                            type: 'upload',
-                            relationTo: 'media',
-                            required: true,
-                        },
-                        {
-                            name: 'description',
-                            type: 'textarea',
-                        }
-                    ]
-                },
-                {
-                    slug: 'projects',
-                    interfaceName: 'ProjectsBlock',
-                    fields: [
-                        {
-                            name: 'title',
-                            label: 'Title',
-                            type: 'text',
-                            required: true,
-                        },
-                        {
-                            name: 'projects',
-                            type: 'relationship',
-                            relationTo: 'projects',
-                            hasMany: true,
-                        }
-                    ]
-                }
+                Services,
+                ProgressImages,
+                Projects,
             ],
         },
     ],

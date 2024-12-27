@@ -107,18 +107,42 @@ export interface Media {
  */
 export interface Project {
   id: string;
-  name: string;
+  title: string;
+  titleAr?: string | null;
+  content?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  projectDetails?: {
+    city?: string | null;
+    size?: string | null;
+    year?: string | null;
+  };
+  media?:
+    | {
+        image: string | Media;
+        id?: string | null;
+      }[]
+    | null;
+  plans?:
+    | {
+        plan: string | Media;
+        id?: string | null;
+      }[]
+    | null;
   updatedAt: string;
   createdAt: string;
-  url?: string | null;
-  thumbnailURL?: string | null;
-  filename?: string | null;
-  mimeType?: string | null;
-  filesize?: number | null;
-  width?: number | null;
-  height?: number | null;
-  focalX?: number | null;
-  focalY?: number | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -128,7 +152,7 @@ export interface Page {
   id: string;
   name: string;
   slug: string;
-  layout?: (HeroBlock | ServicesBlock | ShowcaseBlock | ProjectsBlock)[] | null;
+  layout?: (HeroBlock | ServicesBlock | ProgressImagesBlock | ProjectsBlock)[] | null;
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
@@ -141,6 +165,7 @@ export interface HeroBlock {
   images: {
     backgroundImage: string | Media;
     foregroundImage: string | Media;
+    foregroundImageMobile: string | Media;
   };
   settings?: {
     fullHeight?: boolean | null;
@@ -155,35 +180,54 @@ export interface HeroBlock {
  * via the `definition` "ServicesBlock".
  */
 export interface ServicesBlock {
-  title: string;
-  services?:
-    | {
-        name: string;
-        id?: string | null;
-      }[]
-    | null;
+  /**
+   * Unique identifier for this section (e.g., "services", "our-services")
+   */
+  blockId: string;
+  servicesImage: string | Media;
+  ServiceTypes: {
+    title: string;
+    settings?: {
+      layout?: ('half' | 'full') | null;
+    };
+    services: string;
+  };
   id?: string | null;
   blockName?: string | null;
   blockType: 'services';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "ShowcaseBlock".
+ * via the `definition` "ProgressImagesBlock".
  */
-export interface ShowcaseBlock {
-  image: string | Media;
-  description?: string | null;
+export interface ProgressImagesBlock {
+  images?: {
+    image1?: (string | null) | Media;
+    image2?: (string | null) | Media;
+    image3?: (string | null) | Media;
+    image4?: (string | null) | Media;
+    image5?: (string | null) | Media;
+  };
   id?: string | null;
   blockName?: string | null;
-  blockType: 'showcase';
+  blockType: 'progressImages';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "ProjectsBlock".
  */
 export interface ProjectsBlock {
+  /**
+   * Unique identifier for this section
+   */
+  blockId: string;
   title: string;
-  projects?: (string | Project)[] | null;
+  projects?:
+    | {
+        project: string | Project;
+        id?: string | null;
+      }[]
+    | null;
   id?: string | null;
   blockName?: string | null;
   blockType: 'projects';
@@ -291,18 +335,30 @@ export interface MediaSelect<T extends boolean = true> {
  * via the `definition` "projects_select".
  */
 export interface ProjectsSelect<T extends boolean = true> {
-  name?: T;
+  title?: T;
+  titleAr?: T;
+  content?: T;
+  projectDetails?:
+    | T
+    | {
+        city?: T;
+        size?: T;
+        year?: T;
+      };
+  media?:
+    | T
+    | {
+        image?: T;
+        id?: T;
+      };
+  plans?:
+    | T
+    | {
+        plan?: T;
+        id?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
-  url?: T;
-  thumbnailURL?: T;
-  filename?: T;
-  mimeType?: T;
-  filesize?: T;
-  width?: T;
-  height?: T;
-  focalX?: T;
-  focalY?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -316,7 +372,7 @@ export interface PagesSelect<T extends boolean = true> {
     | {
         hero?: T | HeroBlockSelect<T>;
         services?: T | ServicesBlockSelect<T>;
-        showcase?: T | ShowcaseBlockSelect<T>;
+        progressImages?: T | ProgressImagesBlockSelect<T>;
         projects?: T | ProjectsBlockSelect<T>;
       };
   updatedAt?: T;
@@ -333,6 +389,7 @@ export interface HeroBlockSelect<T extends boolean = true> {
     | {
         backgroundImage?: T;
         foregroundImage?: T;
+        foregroundImageMobile?: T;
       };
   settings?:
     | T
@@ -348,23 +405,36 @@ export interface HeroBlockSelect<T extends boolean = true> {
  * via the `definition` "ServicesBlock_select".
  */
 export interface ServicesBlockSelect<T extends boolean = true> {
-  title?: T;
-  services?:
+  blockId?: T;
+  servicesImage?: T;
+  ServiceTypes?:
     | T
     | {
-        name?: T;
-        id?: T;
+        title?: T;
+        settings?:
+          | T
+          | {
+              layout?: T;
+            };
+        services?: T;
       };
   id?: T;
   blockName?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "ShowcaseBlock_select".
+ * via the `definition` "ProgressImagesBlock_select".
  */
-export interface ShowcaseBlockSelect<T extends boolean = true> {
-  image?: T;
-  description?: T;
+export interface ProgressImagesBlockSelect<T extends boolean = true> {
+  images?:
+    | T
+    | {
+        image1?: T;
+        image2?: T;
+        image3?: T;
+        image4?: T;
+        image5?: T;
+      };
   id?: T;
   blockName?: T;
 }
@@ -373,8 +443,14 @@ export interface ShowcaseBlockSelect<T extends boolean = true> {
  * via the `definition` "ProjectsBlock_select".
  */
 export interface ProjectsBlockSelect<T extends boolean = true> {
+  blockId?: T;
   title?: T;
-  projects?: T;
+  projects?:
+    | T
+    | {
+        project?: T;
+        id?: T;
+      };
   id?: T;
   blockName?: T;
 }
@@ -420,9 +496,10 @@ export interface Header {
     label: string;
     linkType: 'page' | 'section';
     /**
-     * For pages: use the page slug. For sections: use the section ID (e.g., #about-us)
+     * Enter the section ID (e.g., #services, #about-us)
      */
-    link: string;
+    link?: string | null;
+    pageLink?: (string | null) | Page;
     id?: string | null;
   }[];
   updatedAt?: string | null;
@@ -439,6 +516,7 @@ export interface HeaderSelect<T extends boolean = true> {
         label?: T;
         linkType?: T;
         link?: T;
+        pageLink?: T;
         id?: T;
       };
   updatedAt?: T;

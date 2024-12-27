@@ -206,6 +206,8 @@ ul {
 
 html {
   background-color: #1E1E1E;
+  scroll-behavior: smooth;
+  /* scroll-padding-top: 80px; */
 }
 
 body {
@@ -238,11 +240,11 @@ body {
   position: relative;
 }
 
-@media (min-width: 1400px) {
+/* @media (min-width: 1400px) {
   body {
     overflow: hidden;
   }
-}
+} */
 
 h1,
 h2,
@@ -327,26 +329,74 @@ h5.normal {
   padding-bottom: unset;
 }
 
-.container {
+.container-wrapper {
   width: 100%;
   max-width: 100%;
+  height: 100%;
   margin: 0 auto;
-  /* display: flex;
-  flex-direction: column; */
-  /* padding-left: var(--container-padding); */
-  /* padding-right: var(--container-padding); */
 
   display: grid;
   grid-template-columns: auto;
   grid-template-rows: repeat(4, auto);
   grid-template-areas:
-    "intro-area"
-    "about-area"
-    "work-area"
-    "contact-area";
-  gap: 5vh;
-  /* background-color: red; */
+    "hero"
+    "services"
+    "progress-images"
+    "contact";
+  gap: 0.5vh;
 }
+
+#hero, #services, #progress-images, #contact {
+  height: 100vh;
+}
+
+#hero {
+  grid-area: hero;
+  display: block;
+  overflow: hidden;
+}
+
+#services {
+  grid-area: services;
+  display: block;
+}
+
+#progress-images {
+  grid-area: progress-images;
+  display: block;
+  height: 90vh;
+  width: 100%;
+}
+
+#progress-images .section-wrapper {
+  display: flex;
+  overflow-x: hidden;
+  /* position: relative; */
+  /* padding: var(--gap-padding); */
+}
+
+#contact {
+  grid-area: contact;
+  display: block;
+}
+
+.container {
+  width: 100%;
+  max-width: 100%;
+  height: 100%;
+  margin: 0 auto;
+
+  /* display: grid;
+  grid-template-columns: auto; 
+  grid-template-rows: repeat(4, auto); 
+    grid-template-areas:
+      "hero"
+      "services"
+      "about"
+      "contact";
+  gap: 5vh; */
+}
+
 
 .container.large {
   padding-left: var(--gap-padding);
@@ -2005,7 +2055,7 @@ figure {
 }
 
 /* -------------------------------------------  preloader 
-------------------------------------------- */
+------------------------------------------ */
 
 .introduction {
   overflow: hidden; /* hide scroll bar */
@@ -2109,7 +2159,7 @@ figure {
   width: 100%;
   height: 73px;
   padding: 0 20px;
-  z-index: 10;
+  z-index: 100;
 }
 
 .header .container.large {
@@ -2138,6 +2188,8 @@ figure {
   color: var(--color-text-light);
   text-decoration: none;
   font-size: 14px;
+}
+.lang-switch.active{
   text-decoration: underline;
   text-underline-offset: 5px;
 }
@@ -2206,8 +2258,6 @@ figure {
     /* padding: 100px 30px 80px; */
   }
 }
-
-
 .nav {
   height: 100%;
   box-sizing: border-box;

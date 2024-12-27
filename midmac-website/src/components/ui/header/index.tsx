@@ -1,8 +1,9 @@
 'use client'
 
 import { Header } from '@/payload-types'
-import { useEffect, useRef, useState } from 'react'
-import { motion, AnimatePresence } from "motion/react"
+import React,{ useEffect, useRef, useState } from 'react'
+import {useRouter} from 'next/router'
+import { motion } from "motion/react"
 import Image from 'next/image'
 import Link from 'next/link'
 import ImageLogo from '@/assets/images/header-logo.svg'
@@ -11,6 +12,18 @@ import ImageMenu from '@/assets/images/header-nav-icon.svg'
 type Props = {
   HeaderLinks: Header
   lang?: 'en' | 'ar'
+}
+
+export function LanguageSwitch(){
+    const router = useRouter();
+    const currentLocale = router.locale;
+
+    return (
+        <div className="lang-switches">
+            <Link href={router.asPath} locale="ar" passHref className={`lang-switch ${currentLocale === "ar" ? "active" : ""}`}>A</Link>
+            <Link href={router.asPath} locale="en" passHref className={`lang-switch ${currentLocale === "en" ? "active" : ""}`}>E</Link>
+        </div>
+    )
 }
 
 const HeaderNav: React.FC<Props> = ({ HeaderLinks, lang = 'en' }) => {
@@ -60,12 +73,20 @@ const HeaderNav: React.FC<Props> = ({ HeaderLinks, lang = 'en' }) => {
     },
   }
 
+  const handleNavClick = (link: string) => {
+    setIsOpen(false)
+    if (link.startsWith('#')) {
+      // If it's a hash link, redirect to index page with hash
+      window.location.href = `/index${link}`
+    }
+  }
+
   return (
     <>
       <header className="header">
         <div className="container large">
           <div className="header-left">
-            <Link href="/" className="logo">
+            <Link href="index" className="logo">
               <Image 
                 src={ImageLogo} 
                 alt="Midmac Logo" 
@@ -96,7 +117,7 @@ const HeaderNav: React.FC<Props> = ({ HeaderLinks, lang = 'en' }) => {
           </div>
         </div>
 
-        <AnimatePresence mode="wait">
+        {/* <AnimatePresence mode="wait"> */}
           {isOpen && (
             <motion.div 
               ref={menuRef}
@@ -111,9 +132,9 @@ const HeaderNav: React.FC<Props> = ({ HeaderLinks, lang = 'en' }) => {
                   {HeaderLinks.links?.map((link, index) => (
                     <Link 
                       key={index}
-                      href={link.link}
+                      href={link.link.startsWith('#') ? `/index${link.link}` : link.link}
                       className="nav-link"
-                      onClick={() => setIsOpen(false)}
+                      onClick={() => handleNavClick(link.link)}
                     >
                       {link.label}
                     </Link>
@@ -122,7 +143,7 @@ const HeaderNav: React.FC<Props> = ({ HeaderLinks, lang = 'en' }) => {
               </nav>
             </motion.div>
           )}
-        </AnimatePresence>
+        {/* </AnimatePresence> */}
       </header>
     </>
   )

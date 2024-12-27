@@ -2,7 +2,11 @@ import { withPayload } from '@payloadcms/next/withPayload'
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Your Next.js config here
+  i18n:{
+    locales: ['en', 'ar'],
+    defaultLocale: 'en',
+    localeDetection: false,
+  }
 }
 
 export default withPayload(nextConfig)
