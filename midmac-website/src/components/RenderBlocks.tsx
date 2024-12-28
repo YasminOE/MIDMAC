@@ -1,7 +1,6 @@
 import React, { Fragment } from 'react'
-import type { Page } from '@/payload-types'
 
-// Import your components
+import type { Page } from '@/payload-types'
 import { HeroComponent } from '@/components/ui/home/HeroComponent'
 import { ServicesComponent } from '@/components/ui/home/ServicesComponent'
 import { ProgressImagesComponent } from '@/components/ui/home/ProgressImagesComponent'
@@ -9,20 +8,16 @@ import { ProjectsComponent } from './ui/home/ProjectsComponent'
 import { AboutHeroComponent } from './ui/about-us/AboutHeroComponent'
 import { TeamMembersComponent } from './ui/about-us/TeamMembersComponent'
 
-// Define the block components mapping with proper typing
+
 const blockComponents = {
-  hero: HeroComponent,
-  services: ServicesComponent,
-  progressImages: ProgressImagesComponent,
-  projects: ProjectsComponent,
-  aboutHero: AboutHeroComponent,
-  teamMembers: TeamMembersComponent,
-} as const
+    hero: HeroComponent,
+    services: ServicesComponent,
+    progressImages: ProgressImagesComponent,
+    projects: ProjectsComponent,
+    aboutHero: AboutHeroComponent,
+    teamMembers: TeamMembersComponent,
+}
 
-// Create a type for valid block types
-type BlockType = keyof typeof blockComponents
-
-// Fix the typing of the RenderBlocks component
 export const RenderBlocks: React.FC<{
   blocks: NonNullable<Page['layout']>
 }> = (props) => {
@@ -34,7 +29,7 @@ export const RenderBlocks: React.FC<{
     return (
       <Fragment>
         {blocks.map((block, index) => {
-          const { blockType } = block as { blockType: BlockType }
+          const { blockType } = block
 
           if (blockType && blockType in blockComponents) {
             const Block = blockComponents[blockType]
@@ -55,4 +50,4 @@ export const RenderBlocks: React.FC<{
   return null
 }
 
-export default RenderBlocks
+export default RenderBlocks;
