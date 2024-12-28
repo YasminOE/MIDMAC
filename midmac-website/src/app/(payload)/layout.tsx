@@ -24,6 +24,7 @@ const serverFunction: ServerFunctionClient = async function (args) {
 
 const Layout = ({ children }: Args) => (
   <RootLayout config={config} importMap={importMap} serverFunction={serverFunction}>
+     <div className="fixed-lines"></div>
     {children}
   </RootLayout>
 )

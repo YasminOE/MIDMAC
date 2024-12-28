@@ -1,14 +1,309 @@
-html {
-    background-color: #1E1E1E;
-    color: #DAD2C2;
+/* ------------------------------------------- /* Fonts
+------------------------------------------- */
+
+@font-face {
+    font-family: 'Manchette';
+    src: url('../../fonts/Manchette-Black.eot');
+    src: url('../../fonts/Manchette-Black.eot?#iefix') format('embedded-opentype'),
+        url('../../fonts/Manchette-Black.woff2') format('woff2'),
+        url('../../fonts/Manchette-Black.woff') format('woff'),
+        url('../../fonts/Manchette-Black.ttf') format('truetype');
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Manchette';
+    src: url('../../fonts/Manchette-Bold.eot');
+    src: url('../../fonts/Manchette-Bold.eot?#iefix') format('embedded-opentype'),
+        url('../../fonts/Manchette-Bold.woff2') format('woff2'),
+        url('../../fonts/Manchette-Bold.woff') format('woff'),
+        url('../../fonts/Manchette-Bold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Manchette';
+    src: url('../../fonts/Manchette-ExtraBold.eot');
+    src: url('../../fonts/Manchette-ExtraBold.eot?#iefix') format('embedded-opentype'),
+        url('../../fonts/Manchette-ExtraBold.woff2') format('woff2'),
+        url('../../fonts/Manchette-ExtraBold.woff') format('woff'),
+        url('../../fonts/Manchette-ExtraBold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Manchette';
+    src: url('../../fonts/Manchette-Heavy.eot');
+    src: url('../../fonts/Manchette-Heavy.eot?#iefix') format('embedded-opentype'),
+        url('../../fonts/Manchette-Heavy.woff2') format('woff2'),
+        url('../../fonts/Manchette-Heavy.woff') format('woff'),
+        url('../../fonts/Manchette-Heavy.ttf') format('truetype');
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Manchette';
+    src: url('../../fonts/Manchette-Light.eot');
+    src: url('../../fonts/Manchette-Light.eot?#iefix') format('embedded-opentype'),
+        url('../../fonts/Manchette-Light.woff2') format('woff2'),
+        url('../../fonts/Manchette-Light.woff') format('woff'),
+        url('../../fonts/Manchette-Light.ttf') format('truetype');
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Manchette';
+    src: url('../../fonts/Manchette-Medium.eot');
+    src: url('../../fonts/Manchette-Medium.eot?#iefix') format('embedded-opentype'),
+        url('../../fonts/Manchette-Medium.woff2') format('woff2'),
+        url('../../fonts/Manchette-Medium.woff') format('woff'),
+        url('../../fonts/Manchette-Medium.ttf') format('truetype');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Manchette';
+    src: url('../../fonts/Manchette-Regular.eot');
+    src: url('../../fonts/Manchette-Regular.eot?#iefix') format('embedded-opentype'),
+        url('../../fonts/Manchette-Regular.woff2') format('woff2'),
+        url('../../fonts/Manchette-Regular.woff') format('woff'),
+        url('../../fonts/Manchette-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Manchette';
+    src: url('../../fonts/Manchette-SemiBold.eot');
+    src: url('../../fonts/Manchette-SemiBold.eot?#iefix') format('embedded-opentype'),
+        url('../../fonts/Manchette-SemiBold.woff2') format('woff2'),
+        url('../../fonts/Manchette-SemiBold.woff') format('woff'),
+        url('../../fonts/Manchette-SemiBold.ttf') format('truetype');
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Manchette';
+    src: url('../../fonts/Manchette-Thin.eot');
+    src: url('../../fonts/Manchette-Thin.eot?#iefix') format('embedded-opentype'),
+        url('../../fonts/Manchette-Thin.woff2') format('woff2'),
+        url('../../fonts/Manchette-Thin.woff') format('woff'),
+        url('../../fonts/Manchette-Thin.ttf') format('truetype');
+    font-weight: 100;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Manchette';
+    src: url('../../fonts/Manchette-UltraLight.eot');
+    src: url('../../fonts/Manchette-UltraLight.eot?#iefix') format('embedded-opentype'),
+        url('../../fonts/Manchette-UltraLight.woff2') format('woff2'),
+        url('../../fonts/Manchette-UltraLight.woff') format('woff'),
+        url('../../fonts/Manchette-UltraLight.ttf') format('truetype');
+    font-weight: 200;
+    font-style: normal;
+    font-display: swap;
+}
+
+
+
+
+
+/* ------------------------------------------- /* Global Styles
+------------------------------------------- */
+
+html, .template-default__wrap {
+    background-color: #1E1E1E !important;
+    color: #DAD2C2 !important;
+    font-family: 'Montserrat', sans-serif !important;
+}
+
+.template-default__wrap{
+    padding: 40px !important;
+}
+
+.app-header__content{
+    background-color: #1E1E1E !important;
+    color: #DAD2C2 !important;
+    margin-top: 40px !important;
+
+}
+
+html [dir="rtl"] {
+    font-family: 'Manchette', 'Montserrat' !important;
+    font-weight: 400 !important;
+
+    .app-header, .field-type__wrap input{
+        font-family: 'Manchette', 'Montserrat' !important;
+        font-weight: 400 !important;
+    }
+}
+
+.fixed-lines {
+    position: fixed;
+    width: 100%;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 5;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 1rem;
+  }
+
+  .fixed-lines::before,
+  .fixed-lines::after {
+    content: '';
+    width: 0.5px;
+    height: 100%;
+    background-color: #DAD2C2;
+
 }
 
 .dashboard {
     background-color: #1E1E1E;
     color: #DAD2C2;
-  }
+    font-family: 'Montserrat', sans-serif !important;
+    font-weight: 400 !important;
+}
 
-  .dashboard-header {
+.dashboard-header {
     background-color: #1E1E1E;
     color: #DAD2C2;
+}
+
+
+// ------------------------------------------- /* Nav
+
+.nav__link-indicator{
+    display: none !important;
+    // background-color: #DAD2C2 !important
+}
+
+.template-default__nav-toggler-container{
+    // background-color: red;
+    margin-left: 40px !important;
+    margin-top: 20px !important;
+
+}
+
+// button.nav-toggler {
+//     background-color: red;
+// }
+
+.hamburger{
+    background: url('../../assets/images/header-nav-icon.svg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: none;
+    box-shadow: none;
+    padding: 2px !important;
+}
+
+.template-default__nav-toggler-wrapper svg {
+    // background: url('../../assets/images/header-nav-icon.svg');
+    // background-size: contain;
+    // background-repeat: no-repeat;
+    // background-position: center;
+    display: none;
+}
+
+.hamburger__open-icon, .hamburger__close-icon{
+    // background-color: red;
+    border: none !important;
+}
+
+
+.nav .nav--nav-open .nav--nav-animate .nav--nav-hydrated , .nav__scroll{
+    background-color: rgba(218, 210, 194, 0.52);
+    color: #DAD2C2;
+    font-family: 'Montserrat', sans-serif !important;
+    font-weight: 400 !important;
+}
+
+.nav__wrap{
+    padding: 20px !important;
+    margin-top: 20px !important;
+}
+
+.nav-group__label {
+    color: #DAD2C2 !important
   }
+
+.hamburger-icon {
+    background-color: #DAD2C2 !important
+}
+
+/* ------------------------------------------- /* Dashboard
+------------------------------------------- */
+
+ul.dashboard__card-list{
+    display: flex;
+    flex-direction: column;
+    background-color: none !important;
+    // background-color: #1E1E1E !important;
+    color: #DAD2C2 !important;
+    border: 0px 0px 0px 1px solid #DAD2C2 !important;
+}
+
+.doc-controls__wrapper, .gutter--left, .gutter--right, .doc-controls{
+    background-color: none !important;
+    background: none !important;
+}
+.doc-header__title, .render-title, .list-header{
+    font-family: 'Manchette', 'Montserrat' !important;
+    font-weight: 400 !important;
+}
+
+.array-field .array-field__header, .array-field__title, .array-field__header-content, .group-field__header{
+    font-family: 'Manchette', 'Montserrat' !important;
+    font-weight: 400 !important;
+    color: #DAD2C2 !important;
+    text-transform: uppercase !important;
+}
+
+.field-label {
+    font-family: 'Manchette', 'Montserrat' !important;
+    font-weight: 400 !important;
+    color: #DAD2C2 !important;
+    text-transform: uppercase !important;
+}
+
+.array-field__header-actions button{
+    // background-color: red !important;
+    font-family: 'Manchette', 'Montserrat' !important;
+    text-transform: uppercase;
+    color: #DAD2C2 !important;
+    font-size: 0.8rem;
+}
+
+/* ------------------------------------------- /* Media Queries
+------------------------------------------- */
+
+@media screen and (min-width: 1200px) {
+    .template-default__nav-toggler-wrapper{
+        // display: none !important;
+    }
+}
+
+@media screen and (max-width: 1200px) {
+    .template-default__nav-toggler-wrapper{
+        padding: 40px !important;
+    }
+}
