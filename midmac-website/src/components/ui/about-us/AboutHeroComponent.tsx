@@ -8,13 +8,13 @@ import type { AboutHeroBlock as AboutHeroBlockProps } from '@/payload-types'
 // TODO: Fix on small screens and roation on rlt
 
 type Props = {
-  className?: string
+  _className?: string
 } & AboutHeroBlockProps
 
 export const AboutHeroComponent: React.FC<Props> = ({ 
   title,
   description,
-  className 
+  _className
 }) => {
   // Extract text from the rich text description
   const descriptionText = description?.root?.children?.[0]?.children?.[0]?.text || ''

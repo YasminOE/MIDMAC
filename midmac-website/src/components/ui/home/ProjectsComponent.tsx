@@ -14,7 +14,7 @@ type Props = {
 
 export const ProjectsComponent: React.FC<Props> = ({ 
   className,
-  blockId,
+  _blockId,
   title,
   projects,
 }) => {

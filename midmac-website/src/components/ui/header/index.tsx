@@ -26,7 +26,7 @@ export function LanguageSwitch(){
     )
 }
 
-const HeaderNav: React.FC<Props> = ({ HeaderLinks, lang = 'en' }) => {
+const HeaderNav: React.FC<Props> = ({ HeaderLinks, _lang = 'en' }) => {
   const [isOpen, setIsOpen] = useState(false)
   const menuRef = useRef<HTMLDivElement>(null)
   const buttonRef = useRef<HTMLButtonElement>(null)

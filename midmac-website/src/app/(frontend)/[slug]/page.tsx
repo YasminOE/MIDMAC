@@ -42,7 +42,7 @@ type Args = {
 
 export default async function Page({ params: paramsPromise }: Args) {
   const { slug = 'home' } = await paramsPromise
-  const url = '/' + slug
+  // const url = '/' + slug
 
   const page: PageType | null = await queryPageBySlug({
     slug,

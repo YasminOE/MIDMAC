@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useRef, useEffect } from 'react'
+import React, { useRef, useEffect, useMemo } from 'react'
 import Image from 'next/image'
 import { motion, useAnimationControls } from 'framer-motion'
 import type { ProgressImagesBlock as ProgressImagesBlockProps } from '@/payload-types'
@@ -16,15 +16,19 @@ export const ProgressImagesComponent: React.FC<Props> = ({
   const controls = useAnimationControls()
   const containerRef = useRef<HTMLDivElement>(null)
 
-  if (!images) return null
 
-  const imageArray = [
-    images.image1,
-    images.image2,
-    images.image3,
-    images.image4,
-    images.image5
-  ]
+
+  const imageArray = useMemo(() => {
+    return [
+      images.image1,
+      images.image2,
+      images.image3,
+      images.image4,
+      images.image5
+    ]
+  }, [images])
+
+  if (!images) return null
   
   useEffect(() => {
     const animate = async () => {
