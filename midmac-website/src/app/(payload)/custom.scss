@@ -293,6 +293,26 @@ ul.dashboard__card-list{
     font-size: 0.8rem;
 }
 
+.pill, .blocks-field__block-number {
+    font-family: 'Montserrat' !important;
+    font-weight: 500 !important;
+    text-transform: uppercase;
+    background: none !important;
+    color: rgba(218, 210, 194, 0.52) !important;
+    // font-size: 0.8rem;
+}
+
+.collapsible__toggle-wrap{
+    background-color: rgba(218, 210, 194, 0.21);
+}
+
+.section-title__input{
+    color: rgba(218, 210, 194, 0.52) !important;
+    font-family: 'Manchette', 'Montserrat' !important;
+    font-size: 0.9rem;
+    // font-weight: 700 !important;
+}
+
 /* ------------------------------------------- /* Media Queries
 ------------------------------------------- */
 
