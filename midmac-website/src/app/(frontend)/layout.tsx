@@ -27,7 +27,7 @@ export default async function RootLayout({
         <body>
           <main>
             <div className="container no-padding">
-              <AnimatePresence mode="wait">
+              <AnimatePresence>
                <div className="fixed-lines"></div>
               <Header HeaderLinks={header} />
               {children}

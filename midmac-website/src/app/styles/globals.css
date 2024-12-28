@@ -387,8 +387,8 @@ h5.normal {
   margin: 0 auto;
 
   /* display: grid;
-  grid-template-columns: auto; 
-  grid-template-rows: repeat(4, auto); 
+  grid-template-columns: auto;
+  grid-template-rows: repeat(4, auto);
     grid-template-areas:
       "hero"
       "services"

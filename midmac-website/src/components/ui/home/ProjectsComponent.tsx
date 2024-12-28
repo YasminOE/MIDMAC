@@ -6,6 +6,8 @@ import Link from 'next/link'
 import { motion } from 'framer-motion'
 import type { ProjectsBlock as ProjectsBlockProps } from '@/payload-types'
 
+// TODO: change the projects block on mobile screen
+
 type Props = {
   className?: string
 } & ProjectsBlockProps 

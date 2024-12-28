@@ -152,7 +152,9 @@ export interface Page {
   id: string;
   name: string;
   slug: string;
-  layout?: (HeroBlock | ServicesBlock | ProgressImagesBlock | ProjectsBlock)[] | null;
+  layout?:
+    | (HeroBlock | ServicesBlock | ProgressImagesBlock | ProjectsBlock | AboutHeroBlock | TeamMembersBlock)[]
+    | null;
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
@@ -190,7 +192,21 @@ export interface ServicesBlock {
     settings?: {
       layout?: ('half' | 'full') | null;
     };
-    services: string;
+    services: {
+      root: {
+        type: string;
+        children: {
+          type: string;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    };
   };
   id?: string | null;
   blockName?: string | null;
@@ -231,6 +247,48 @@ export interface ProjectsBlock {
   id?: string | null;
   blockName?: string | null;
   blockType: 'projects';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "AboutHeroBlock".
+ */
+export interface AboutHeroBlock {
+  title: string;
+  description: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'aboutHero';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TeamMembersBlock".
+ */
+export interface TeamMembersBlock {
+  title: string;
+  members: {
+    image: string | Media;
+    name: string;
+    position: string;
+    bio: string;
+    id?: string | null;
+  }[];
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'teamMembers';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -374,6 +432,8 @@ export interface PagesSelect<T extends boolean = true> {
         services?: T | ServicesBlockSelect<T>;
         progressImages?: T | ProgressImagesBlockSelect<T>;
         projects?: T | ProjectsBlockSelect<T>;
+        aboutHero?: T | AboutHeroBlockSelect<T>;
+        teamMembers?: T | TeamMembersBlockSelect<T>;
       };
   updatedAt?: T;
   createdAt?: T;
@@ -449,6 +509,34 @@ export interface ProjectsBlockSelect<T extends boolean = true> {
     | T
     | {
         project?: T;
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "AboutHeroBlock_select".
+ */
+export interface AboutHeroBlockSelect<T extends boolean = true> {
+  title?: T;
+  description?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TeamMembersBlock_select".
+ */
+export interface TeamMembersBlockSelect<T extends boolean = true> {
+  title?: T;
+  members?:
+    | T
+    | {
+        image?: T;
+        name?: T;
+        position?: T;
+        bio?: T;
         id?: T;
       };
   id?: T;

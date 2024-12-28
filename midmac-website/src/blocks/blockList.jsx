@@ -6,5 +6,7 @@ export const blocks = {
     "services": Services,
     "projects": Projects,
     "progressImages": ProgressImages,
+    "aboutHero": AboutHero,
+    "teamMembers": TeamMembers,
     "text": Text,
 }

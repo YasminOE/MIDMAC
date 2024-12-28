@@ -4,6 +4,8 @@ import { ProgressImages } from '@/blocks/ProgressImages'
 import { authenticated } from '@/hooks/authenticated'
 import type { CollectionConfig } from 'payload'
 import { Projects } from '@/blocks/Projects'
+import { AboutHero } from '@/blocks/AboutHero'
+import { TeamMembers } from '@/blocks/TeamMembers'
 
 export const Pages: CollectionConfig = {
     slug: 'pages',
@@ -44,6 +46,8 @@ export const Pages: CollectionConfig = {
                 Services,
                 ProgressImages,
                 Projects,
+                AboutHero,
+                TeamMembers,
             ],
         },
     ],

@@ -55,7 +55,7 @@ export const ProgressImagesComponent: React.FC<Props> = ({
     return () => {
       controls.stop()
     }
-  }, [controls, imageArray]) // Add dependencies
+  }, [controls, imageArray])
 
   return (
     <section 

@@ -58,7 +58,7 @@ export const Services: Block = {
             },
             {
               name: 'services',
-              type: 'textarea',
+              type: 'richText',
               label: 'Services',
               required: true,
               localized: true,
