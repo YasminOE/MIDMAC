@@ -3,12 +3,17 @@
 import React from 'react'
 import Image from 'next/image'
 import { motion } from 'motion/react'
-import type { TeamMembersBlock as TeamMembersBlockProps } from '@/payload-types'
+import type { TeamMembersBlock as TeamMembersBlockProps, Media } from '@/payload-types'
 
 // TODO: Fix on small screens
 type Props = {
   className?: string
 } & TeamMembersBlockProps
+
+// Add type guard at the top
+const isMediaObject = (image: string | Media): image is Media => {
+  return typeof image !== 'string' && 'url' in image;
+};
 
 export const TeamMembersComponent: React.FC<Props> = ({ 
   title,
@@ -45,7 +50,7 @@ export const TeamMembersComponent: React.FC<Props> = ({
               transition={{ duration: 0.8 }}
             >
               <div className="relative aspect-square mb-6 rounded-lg overflow-hidden">
-                {member.image?.url && (
+                {member.image && isMediaObject(member.image) && member.image.url && (
                   <Image
                     src={member.image.url}
                     alt={member.name || ''}
@@ -72,7 +77,7 @@ export const TeamMembersComponent: React.FC<Props> = ({
               transition={{ duration: 0.8 }}
             >
               <div className="relative aspect-square mb-6 rounded-lg overflow-hidden">
-                {member.image?.url && (
+                {member.image && isMediaObject(member.image) && member.image.url && (
                   <Image
                     src={member.image.url}
                     alt={member.name || ''}

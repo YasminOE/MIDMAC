@@ -1,3 +1,4 @@
+
 import configPromise from '@payload-config'
 import { getPayload } from 'payload'
 import '../styles/globals.css'

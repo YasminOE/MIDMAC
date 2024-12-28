@@ -3,8 +3,8 @@
 import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { motion } from 'framer-motion'
-import type { ProjectsBlock as ProjectsBlockProps } from '@/payload-types'
+import { motion } from 'motion/react'
+import type { ProjectsBlock as ProjectsBlockProps, Project, Media } from '@/payload-types'
 
 // TODO: change the projects block on mobile screen
 
@@ -12,17 +12,25 @@ type Props = {
   className?: string
 } & ProjectsBlockProps 
 
+// Add type guard
+const isProject = (project: string | Project): project is Project => {
+  return typeof project !== 'string' && 'media' in project;
+};
+
+const isMediaObject = (image: string | Media): image is Media => {
+  return typeof image !== 'string' && 'url' in image;
+};
+
 export const ProjectsComponent: React.FC<Props> = ({ 
   className,
-  _blockId,
   title,
   projects,
 }) => {
   if (!projects?.length) return null
 
   // Function to chunk projects into groups of 7 (3-2-2 pattern)
-  const chunkProjects = (projects: typeof projects) => {
-    const result: typeof projects[] = []
+  const chunkProjects = (projects: NonNullable<ProjectsBlockProps['projects']>) => {
+    const result: NonNullable<ProjectsBlockProps['projects']>[] = []
     let currentIndex = 0
 
     while (currentIndex < projects.length) {
@@ -76,9 +84,10 @@ export const ProjectsComponent: React.FC<Props> = ({
               >
                 {chunk.map((projectItem, index) => {
                   const project = projectItem.project
-                  if (!project || !project.media?.[0]?.image) return null
+                  if (!project || !isProject(project) || !project.media?.[0]?.image) return null
 
                   const firstImage = project.media[0].image
+                  if (!isMediaObject(firstImage) || !firstImage.url) return null
 
                   return (
                     <motion.div 

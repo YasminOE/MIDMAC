@@ -2,27 +2,34 @@
 
 import React from 'react'
 import Image from 'next/image'
-import type { HeroBlock as HeroBlockProps } from '@/payload-types'
+import type { HeroBlock as HeroBlockProps, Media } from '@/payload-types'
 import { motion } from 'motion/react'
-
 
 type Props = {
   className?: string
 } & HeroBlockProps
 
-export const HeroComponent: React.FC<Props> = ({ 
-  // className, 
-  images
-}) => {
+const isMediaObject = (image: string | Media): image is Media => {
+  return typeof image !== 'string' && 'url' in image;
+};
+
+export const HeroComponent: React.FC<Props> = ({ images }) => {
   if (!images?.backgroundImage || !images?.foregroundImage || !images?.foregroundImageMobile) {
     return null
   }
 
+  // Type guard checks
+  if (!isMediaObject(images.backgroundImage) ||
+      !isMediaObject(images.foregroundImage) ||
+      !isMediaObject(images.foregroundImageMobile) ||
+      !images.backgroundImage.url ||
+      !images.foregroundImage.url ||
+      !images.foregroundImageMobile.url) {
+    return null
+  }
+
   return (
-    <section    
-      id="hero" 
-      className="section w-full"
-    >
+    <section id="hero" className="section w-full">
       <div className="row no-wrap justify-center items-center w-full h-full">
         {/* Background Image */}
         <motion.div 
@@ -33,7 +40,7 @@ export const HeroComponent: React.FC<Props> = ({
         >
           <Image 
             src={images.backgroundImage.url}
-            alt={images.backgroundImage.alt}
+            alt={images.backgroundImage.alt || ''}
             fill
             priority
             className="object-cover object-center"
@@ -60,9 +67,9 @@ export const HeroComponent: React.FC<Props> = ({
           {/* Desktop Image */}
           <Image 
             src={images.foregroundImage.url}
-            alt={images.foregroundImage.alt}
-            width={images.foregroundImage.width * 100}
-            height={images.foregroundImage.height * 100}
+            alt={images.foregroundImage.alt || ''}
+            width={(images.foregroundImage.width || 0) * 100}
+            height={(images.foregroundImage.height || 0) * 100}
             priority
             className="w-auto hidden md:block"
           />
@@ -70,14 +77,12 @@ export const HeroComponent: React.FC<Props> = ({
           {/* Mobile Image */}
           <Image 
             src={images.foregroundImageMobile.url}
-            alt={images.foregroundImageMobile.alt}
-            width={images.foregroundImage.width * 100}
-            height={images.foregroundImage.height * 100}
+            alt={images.foregroundImageMobile.alt || ''}
+            width={(images.foregroundImage.width || 0) * 100}
+            height={(images.foregroundImage.height || 0) * 100}
             priority
             className="w-auto block md:hidden"
           />
-
-          
         </motion.div>
       </div>
     </section>

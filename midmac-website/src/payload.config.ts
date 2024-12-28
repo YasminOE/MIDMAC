@@ -21,9 +21,11 @@ const dirname = path.dirname(filename)
 export default buildConfig({
   admin: {
     user: Users.slug,
-    css: path.resolve(__dirname, '../src/app/(payload)/custom.scss'),
     importMap: {
       baseDir: path.resolve(dirname),
+    },
+    meta: {
+      titleSuffix: '- MIDMAC',
     },
   },
   collections: [

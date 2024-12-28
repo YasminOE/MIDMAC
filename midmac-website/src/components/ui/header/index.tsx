@@ -11,7 +11,6 @@ import ImageMenu from '@/assets/images/header-nav-icon.svg'
 
 type Props = {
   HeaderLinks: Header
-  lang?: 'en' | 'ar'
 }
 
 export function LanguageSwitch(){
@@ -26,7 +25,7 @@ export function LanguageSwitch(){
     )
 }
 
-const HeaderNav: React.FC<Props> = ({ HeaderLinks, _lang = 'en' }) => {
+const HeaderNav: React.FC<Props> = ({ HeaderLinks }) => {
   const [isOpen, setIsOpen] = useState(false)
   const menuRef = useRef<HTMLDivElement>(null)
   const buttonRef = useRef<HTMLButtonElement>(null)
@@ -132,9 +131,9 @@ const HeaderNav: React.FC<Props> = ({ HeaderLinks, _lang = 'en' }) => {
                   {HeaderLinks.links?.map((link, index) => (
                     <Link 
                       key={index}
-                      href={link.link.startsWith('#') ? `/index${link.link}` : link.link}
+                      href={link.link?.startsWith('#') ? `/index${link.link}` : link.link || '/'}
                       className="nav-link"
-                      onClick={() => handleNavClick(link.link)}
+                      onClick={() => handleNavClick(link.link || '/')}
                     >
                       {link.label}
                     </Link>

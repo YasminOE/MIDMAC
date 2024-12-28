@@ -11,13 +11,18 @@ type Props = {
   _className?: string
 } & AboutHeroBlockProps
 
+interface RichTextChild {
+  text?: string;
+  children?: RichTextChild[];
+}
+
 export const AboutHeroComponent: React.FC<Props> = ({ 
   title,
   description,
   _className
 }) => {
   // Extract text from the rich text description
-  const descriptionText = description?.root?.children?.[0]?.children?.[0]?.text || ''
+  const descriptionText = ((description?.root?.children as RichTextChild[])?.[0]?.children?.[0]?.text) || ''
 
   return (
     <section className="relative mx-auto h-full py-32 container large px-20">

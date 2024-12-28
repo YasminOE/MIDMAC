@@ -5,7 +5,10 @@ import React from 'react'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
 
-// TODO: Add a slide animation to the services image section
+type ServiceItem = {
+  children: Array<{ text: string }>;
+  type?: string;
+}
 
 type Props = {
   className?: string
@@ -19,7 +22,7 @@ export const ServicesComponent: React.FC<Props> = ({
 }) => {
   if (!servicesImage || !ServiceTypes?.services?.root?.children?.[0]?.children) return null
 
-  const serviceItems = ServiceTypes.services.root.children[0].children
+  const serviceItems = ServiceTypes.services.root.children[0].children as ServiceItem[]
 
   return (
     <section className={`section ${className || ''}`} id={blockId || 'services'}>
