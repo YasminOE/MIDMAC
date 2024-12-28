@@ -7,7 +7,17 @@ const nextConfig = {
     locales: ['en', 'ar'],
     defaultLocale: 'en',
     localeDetection: false,
-  }
+  },
+  webpack: (config, { isServer }) => {
+    if (!isServer) {
+      config.resolve.fallback = {
+        fs: false,
+        path: false,
+        crypto: false,
+      }
+    }
+    return config
+  },
 }
 if (process.env.NODE_ENV === 'development') {
   await setupDevPlatform();
