@@ -186,6 +186,14 @@ html [dir="rtl"] {
     background-color: #1E1E1E;
     color: #DAD2C2;
 }
+.dashboard__label{
+    font-family: 'Manchette', 'Montserrat' !important;
+    font-weight: 500 !important;
+    color: #DAD2C2 !important;
+    // border-bottom: 1px solid rgba(218, 210, 194, 0.52) !important;
+    // border-offset: 5px !important;
+    text-transform: uppercase !important;
+}
 
 
 // ------------------------------------------- /* Nav
@@ -313,6 +321,9 @@ ul.dashboard__card-list{
     // font-weight: 700 !important;
 }
 
+.collapsible__content{
+    background-color: #1E1E1E !important;
+}
 /* ------------------------------------------- /* Media Queries
 ------------------------------------------- */
 
