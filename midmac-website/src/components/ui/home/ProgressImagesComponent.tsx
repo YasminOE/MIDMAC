@@ -16,9 +16,8 @@ export const ProgressImagesComponent: React.FC<Props> = ({
   const controls = useAnimationControls()
   const containerRef = useRef<HTMLDivElement>(null)
 
-
-
   const imageArray = useMemo(() => {
+    if (!images) return []
     return [
       images.image1,
       images.image2,
@@ -28,11 +27,10 @@ export const ProgressImagesComponent: React.FC<Props> = ({
     ]
   }, [images])
 
-  if (!images) return null
-  
   useEffect(() => {
+    if (!images) return
+
     const animate = async () => {
-      // Wait for next frame to ensure component is mounted
       await new Promise(resolve => requestAnimationFrame(resolve))
       
       while (true) {
@@ -55,11 +53,12 @@ export const ProgressImagesComponent: React.FC<Props> = ({
     
     animate()
     
-    // Cleanup function
     return () => {
       controls.stop()
     }
-  }, [controls, imageArray])
+  }, [controls, imageArray, images])
+
+  if (!images) return null
 
   return (
     <section 
