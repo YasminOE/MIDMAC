@@ -7,6 +7,10 @@ const nextConfig = {
     defaultLocale: 'en',
     localeDetection: false,
   },
+  experimental: {
+    reactCompiler: false,
+    scrollRestoration: true,
+  }
 }
 
 export default withPayload(nextConfig)

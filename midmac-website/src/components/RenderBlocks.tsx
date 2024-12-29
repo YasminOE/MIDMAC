@@ -9,6 +9,7 @@ import { ProjectsComponent } from './ui/home/ProjectsComponent'
 import { AboutHeroComponent } from './ui/about-us/AboutHeroComponent'
 import { TeamMembersComponent } from './ui/about-us/TeamMembersComponent'
 import { Contacts } from './ui/home/ContactsComponent'
+import { toKebabCase } from '@/utilities/to-kebab-case'
 
 
 const blockComponents = {
@@ -34,11 +35,13 @@ export const RenderBlocks: React.FC<{
         {blocks.map((block, index) => {
           const { blockType } = block
 
+          const uniqueKey = `${blockType}-${index}`
+
           if (blockType && blockType in blockComponents) {
             const Block = blockComponents[blockType as keyof typeof blockComponents]
             if (Block) {
               return (
-                <div className="" key={index}>
+                <div key={uniqueKey}  id={toKebabCase(blockType)}>
                   <Block {...(block as any)} />
                 </div>
               )

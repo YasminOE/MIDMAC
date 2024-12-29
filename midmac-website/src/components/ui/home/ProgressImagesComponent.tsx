@@ -30,10 +30,12 @@ export const ProgressImagesComponent: React.FC<Props> = ({
   useEffect(() => {
     if (!images) return
 
+    let isComponentMounted = true
+
     const animate = async () => {
       await new Promise(resolve => requestAnimationFrame(resolve))
       
-      while (true) {
+      while (isComponentMounted) {
         try {
           await controls.start({
             x: [0, -100 * (imageArray.filter(Boolean).length - 1) + '%'],
@@ -51,9 +53,13 @@ export const ProgressImagesComponent: React.FC<Props> = ({
       }
     }
     
-    animate()
+    const timeoutId = setTimeout(() => {
+      animate()
+    }, 0)
     
     return () => {
+      isComponentMounted = false
+      clearTimeout(timeoutId)
       controls.stop()
     }
   }, [controls, imageArray, images])
