@@ -8,5 +8,6 @@ export const blocks = {
     "progressImages": ProgressImages,
     "aboutHero": AboutHero,
     "teamMembers": TeamMembers,
+    "contacts": Contacts,
     "text": Text,
 }

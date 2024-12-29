@@ -54,14 +54,14 @@ export const ServicesComponent: React.FC<Props> = ({
         >
           <div className="w-full">
             {ServiceTypes?.title && (
-              <h2 className="text-2xl font-light uppercase mb-16">
+              <h2 className="text-xl uppercase mb-9">
                 {ServiceTypes.title}
               </h2>
             )}
 
-            <div className="grid grid-cols-2 gap-x-6">
+            <div className="grid grid-cols-2 gap-x-4">
               {/* Left column - first two items */}
-              <ul className="space-y-12">
+              <ul className="space-y-6">
                 {serviceItems.slice(0, 2).map((item, index) => (
                   <motion.li 
                     key={index}
@@ -76,7 +76,7 @@ export const ServicesComponent: React.FC<Props> = ({
                     }}
                   >
                     <p className="text-base">•</p>
-                    <span className="text-xl font-light">
+                    <span className="text-sm">
                       {item.children[0].text}
                     </span>
                   </motion.li>
@@ -99,7 +99,7 @@ export const ServicesComponent: React.FC<Props> = ({
                     }}
                   >
                     <span className="text-base">•</span>
-                    <span className="text-xl font-light">
+                    <span className="text-sm">
                       {item.children[0].text}
                     </span>
                   </motion.li>

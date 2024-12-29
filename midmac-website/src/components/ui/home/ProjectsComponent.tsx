@@ -54,12 +54,12 @@ export const ProjectsComponent: React.FC<Props> = ({
   return (
     <section 
       id='projects'
-      className={`relative w-full py-20 bg-[#1C1C1C] max-w-[1400px] mx-auto ${className || ''}`}
+      className={`relative w-full py-20 max-w-[1400px] mx-auto ${className || ''}`}
     >
       <div className="container large mx-auto px-6">
         {title && (
           <motion.h2 
-            className="text-6xl font-light m-8"
+            className="text-5xl  m-8 uppercase"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}

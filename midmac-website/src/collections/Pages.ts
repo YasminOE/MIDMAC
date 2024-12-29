@@ -6,7 +6,7 @@ import type { CollectionConfig } from 'payload'
 import { Projects } from '@/blocks/Projects'
 import { AboutHero } from '@/blocks/AboutHero'
 import { TeamMembers } from '@/blocks/TeamMembers'
-
+import { Contacts } from '@/blocks/Contacts'
 export const Pages: CollectionConfig = {
     slug: 'pages',
     admin: {
@@ -48,6 +48,7 @@ export const Pages: CollectionConfig = {
                 Projects,
                 AboutHero,
                 TeamMembers,
+                Contacts,
             ],
         },
     ],

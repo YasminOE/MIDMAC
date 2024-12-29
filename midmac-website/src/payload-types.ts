@@ -34,9 +34,11 @@ export interface Config {
   };
   globals: {
     header: Header;
+    footer: Footer;
   };
   globalsSelect: {
     header: HeaderSelect<false> | HeaderSelect<true>;
+    footer: FooterSelect<false> | FooterSelect<true>;
   };
   locale: 'en' | 'ar';
   user: User & {
@@ -153,7 +155,15 @@ export interface Page {
   name: string;
   slug: string;
   layout?:
-    | (HeroBlock | ServicesBlock | ProgressImagesBlock | ProjectsBlock | AboutHeroBlock | TeamMembersBlock)[]
+    | (
+        | HeroBlock
+        | ServicesBlock
+        | ProgressImagesBlock
+        | ProjectsBlock
+        | AboutHeroBlock
+        | TeamMembersBlock
+        | ContactsBlock
+      )[]
     | null;
   updatedAt: string;
   createdAt: string;
@@ -289,6 +299,38 @@ export interface TeamMembersBlock {
   id?: string | null;
   blockName?: string | null;
   blockType: 'teamMembers';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ContactsBlock".
+ */
+export interface ContactsBlock {
+  /**
+   * Unique identifier for this section (e.g., "contacts", "contact-us")
+   */
+  blockId: string;
+  contactInfo: {
+    emailLabel: string;
+    email: string;
+    instagramLabel: string;
+    instagram: string;
+    phoneLabel: string;
+    phone: string;
+  };
+  rightContent: {
+    type: 'button' | 'text';
+    /**
+     * Text to display in button or as heading
+     */
+    content: string;
+    /**
+     * URL for the button (only if type is button)
+     */
+    buttonLink?: string | null;
+  };
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'contacts';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -434,6 +476,7 @@ export interface PagesSelect<T extends boolean = true> {
         projects?: T | ProjectsBlockSelect<T>;
         aboutHero?: T | AboutHeroBlockSelect<T>;
         teamMembers?: T | TeamMembersBlockSelect<T>;
+        contacts?: T | ContactsBlockSelect<T>;
       };
   updatedAt?: T;
   createdAt?: T;
@@ -544,6 +587,32 @@ export interface TeamMembersBlockSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ContactsBlock_select".
+ */
+export interface ContactsBlockSelect<T extends boolean = true> {
+  blockId?: T;
+  contactInfo?:
+    | T
+    | {
+        emailLabel?: T;
+        email?: T;
+        instagramLabel?: T;
+        instagram?: T;
+        phoneLabel?: T;
+        phone?: T;
+      };
+  rightContent?:
+    | T
+    | {
+        type?: T;
+        content?: T;
+        buttonLink?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents_select".
  */
 export interface PayloadLockedDocumentsSelect<T extends boolean = true> {
@@ -595,6 +664,30 @@ export interface Header {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "footer".
+ */
+export interface Footer {
+  id: string;
+  text: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "header_select".
  */
 export interface HeaderSelect<T extends boolean = true> {
@@ -607,6 +700,16 @@ export interface HeaderSelect<T extends boolean = true> {
         pageLink?: T;
         id?: T;
       };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "footer_select".
+ */
+export interface FooterSelect<T extends boolean = true> {
+  text?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;

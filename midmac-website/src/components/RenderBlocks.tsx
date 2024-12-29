@@ -8,6 +8,7 @@ import { ProgressImagesComponent } from '@/components/ui/home/ProgressImagesComp
 import { ProjectsComponent } from './ui/home/ProjectsComponent'
 import { AboutHeroComponent } from './ui/about-us/AboutHeroComponent'
 import { TeamMembersComponent } from './ui/about-us/TeamMembersComponent'
+import { Contacts } from './ui/home/ContactsComponent'
 
 
 const blockComponents = {
@@ -17,6 +18,7 @@ const blockComponents = {
     projects: ProjectsComponent,
     aboutHero: AboutHeroComponent,
     teamMembers: TeamMembersComponent,
+    contacts: Contacts,
 }
 
 export const RenderBlocks: React.FC<{

@@ -4,6 +4,7 @@ import { getPayload } from 'payload'
 import '../styles/globals.css'
 import Header from '@/components/ui/header'
 import { AnimatePresence } from "motion/react"
+import Footer from '@/components/ui/footer'
 
 
 export default async function RootLayout({
@@ -19,9 +20,9 @@ export default async function RootLayout({
       slug: 'header',
     })
 
-    // const footer = await payload.findGlobal({
-    //   slug: 'footer',
-    // })
+    const footer = await payload.findGlobal({
+      slug: 'footer',
+    })
 
     return (
       <html lang="en">
@@ -34,6 +35,7 @@ export default async function RootLayout({
               {children}
               {/* <p>footer</p> */}
             </AnimatePresence>
+            <Footer Footer={footer} />
             </div>
           </main>
         </body>

@@ -14,7 +14,7 @@ import { Media } from './collections/Media'
 import { Projects } from './collections/Projects'
 import { Pages } from './collections/Pages'
 import Header from './collections/general/Header'
-
+import Footer from './collections/general/Footer'
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
@@ -34,7 +34,7 @@ export default buildConfig({
     Projects,
     Pages,
   ],
-  globals: [Header],
+  globals: [Header, Footer],
   localization: {
     locales: [
       {
@@ -44,8 +44,6 @@ export default buildConfig({
       {
         label: 'Arabic',
         code: 'ar',
-        // opt-in to setting default text-alignment on Input fields to rtl (right-to-left)
-        // when current locale is rtl
         rtl: true,
       },
     ],

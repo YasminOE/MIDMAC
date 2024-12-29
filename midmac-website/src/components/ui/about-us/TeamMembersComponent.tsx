@@ -29,7 +29,7 @@ export const TeamMembersComponent: React.FC<Props> = ({
     <section className={` ${className || ''}`}>
       <div className="container large mx-auto px-20">
         <motion.h2 
-          className="text-[4rem] font-light mb-24 uppercase"
+          className="text-[4rem] font-light mb-24 uppercase text-to-right"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -39,7 +39,7 @@ export const TeamMembersComponent: React.FC<Props> = ({
         </motion.h2>
         
         {/* Founders Row - Centered */}
-        <div className="flex justify-center gap-8 mb-16">
+        <div className="flex justify-center gap-8 mb-16 text-to-right">
           {founders.map((member) => (
             <motion.div 
               key={member.id}

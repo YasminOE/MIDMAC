@@ -1,8 +1,8 @@
 'use client'
 
 import { Header } from '@/payload-types'
-import React,{ useEffect, useRef, useState } from 'react'
-import {useRouter} from 'next/router'
+import React, { useEffect, useRef, useState } from 'react'
+import { usePathname, useSearchParams } from 'next/navigation'
 import { motion } from "motion/react"
 import Image from 'next/image'
 import Link from 'next/link'
@@ -13,22 +13,40 @@ type Props = {
   HeaderLinks: Header
 }
 
-export function LanguageSwitch(){
-    const router = useRouter();
-    const currentLocale = router.locale;
+export function LanguageSwitch() {
+  const pathname = usePathname()
+  const searchParams = useSearchParams()
+  const currentLocale = searchParams.get('locale') || 'en'
 
-    return (
-        <div className="lang-switches">
-            <Link href={router.asPath} locale="ar" passHref className={`lang-switch ${currentLocale === "ar" ? "active" : ""}`}>A</Link>
-            <Link href={router.asPath} locale="en" passHref className={`lang-switch ${currentLocale === "en" ? "active" : ""}`}>E</Link>
-        </div>
-    )
+  const createLocaleUrl = (locale: string) => {
+    const params = new URLSearchParams(searchParams)
+    params.set('locale', locale)
+    return `${pathname}?${params.toString()}`
+  }
+
+  return (
+    <div className="lang-switches">
+      <Link
+        href={createLocaleUrl('ar')}
+        className={`lang-switch ${currentLocale === "ar" ? "active" : ""}`}
+      >
+        A
+      </Link>
+      <Link
+        href={createLocaleUrl('en')}
+        className={`lang-switch ${currentLocale === "en" ? "active" : ""}`}
+      >
+        E
+      </Link>
+    </div>
+  )
 }
 
 const HeaderNav: React.FC<Props> = ({ HeaderLinks }) => {
   const [isOpen, setIsOpen] = useState(false)
   const menuRef = useRef<HTMLDivElement>(null)
   const buttonRef = useRef<HTMLButtonElement>(null)
+  const pathname = usePathname()
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -85,7 +103,7 @@ const HeaderNav: React.FC<Props> = ({ HeaderLinks }) => {
       <header className="header">
         <div className="container large">
           <div className="header-left">
-            <Link href="index" className="logo">
+            <Link href="/" className="logo">
               <Image 
                 src={ImageLogo} 
                 alt="Midmac Logo" 
@@ -97,10 +115,7 @@ const HeaderNav: React.FC<Props> = ({ HeaderLinks }) => {
           </div>
 
           <div className="header-right">
-            <div className="lang-switches">
-              <Link href="/ar" className="lang-switch">A</Link>
-              <Link href="/en" className="lang-switch">E</Link>
-            </div>
+            <LanguageSwitch />
             <button 
               ref={buttonRef}
               className="menu-toggle" 
@@ -116,33 +131,31 @@ const HeaderNav: React.FC<Props> = ({ HeaderLinks }) => {
           </div>
         </div>
 
-        {/* <AnimatePresence mode="wait"> */}
-          {isOpen && (
-            <motion.div 
-              ref={menuRef}
-              className="menu"
-              variants={menuVars}
-              initial="initial"
-              animate="animate"
-              exit="exit"
-            >
-              <nav className="nav">
-                <div className="nav-links">
-                  {HeaderLinks.links?.map((link, index) => (
-                    <Link 
-                      key={index}
-                      href={link.link?.startsWith('#') ? `/index${link.link}` : link.link || '/'}
-                      className="nav-link"
-                      onClick={() => handleNavClick(link.link || '/')}
-                    >
-                      {link.label}
-                    </Link>
-                  ))}
-                </div>
-              </nav>
-            </motion.div>
-          )}
-        {/* </AnimatePresence> */}
+        {isOpen && (
+          <motion.div
+            ref={menuRef}
+            className="menu"
+            variants={menuVars}
+            initial="initial"
+            animate="animate"
+            exit="exit"
+          >
+            <nav className="nav">
+              <div className="nav-links">
+                {HeaderLinks.links?.map((link, index) => (
+                  <Link
+                    key={index}
+                    href={link.link?.startsWith('#') ? `/index${link.link}` : link.link || '/'}
+                    className="nav-link"
+                    onClick={() => handleNavClick(link.link || '/')}
+                  >
+                    {link.label}
+                  </Link>
+                ))}
+              </div>
+            </nav>
+          </motion.div>
+        )}
       </header>
     </>
   )

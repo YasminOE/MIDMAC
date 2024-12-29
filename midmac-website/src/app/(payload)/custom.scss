@@ -1,3 +1,5 @@
+// TODO: remove light mood from the website
+
 /* ------------------------------------------- /* Fonts
 ------------------------------------------- */
 @font-face {
@@ -420,8 +422,19 @@ html [dir="rtl"] {
     text-transform: uppercase !important;
 }
 
+.list-controls__wrap{
+    background-color: #1E1E1E !important;
+    // color: #DAD2C2 !important;
+}
 
 // ------------------------------------------- /* Nav
+.nav{
+    border: 0px !important;
+}
+
+.template-default{
+    background-color: #1E1E1E !important;
+}
 
 .nav__link-indicator{
     display: none !important;
@@ -438,6 +451,18 @@ html [dir="rtl"] {
 // button.nav-toggler {
 //     background-color: red;
 // }
+
+.login__brand svg.graphic-logo g{
+    display: none !important;
+}
+
+.login__brand svg.graphic-logo{
+    // display: none !important;
+    background: url('../../assets/images/header-logo.svg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
 
 .hamburger{
     background: url('../../assets/images/header-nav-icon.svg');
@@ -562,4 +587,24 @@ ul.dashboard__card-list{
     .template-default__nav-toggler-wrapper{
         padding: 40px !important;
     }
+}
+
+
+/* --- login --- */
+
+form>.form-submit .btn{
+    background-color: #DAD2C2 !important;
+    color: #1E1E1E !important;
+    font-family: 'Manchette', 'Montserrat' !important;
+    font-weight: 500 !important;
+}
+
+/* --- input fileds --- */
+
+.field-type.text:not(.has-many) input{
+    font-family: 'Manchette', 'Montserrat' !important;
+    font-weight: 400 !important;
+    background-color: #1E1E1E !important;
+    color: #DAD2C2 !important;
+    border: 0.5px solid #DAD2C2 !important;
 }

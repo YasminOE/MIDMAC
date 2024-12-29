@@ -30,7 +30,7 @@ export const AboutHeroComponent: React.FC<Props> = ({
         {/* Title Row - Top 50% */}
         <div className="w-full flex items-start justify-end">
           <motion.h1 
-              className="text-[2rem] md:text-[1.5rem] font-light  uppercase leading-none overflow-hidden"
+              className="text-[1.8rem] md:text-[1.5rem] font-light uppercase leading-none overflow-hidden h-[200px] text-to-right"
               initial={{ 
               opacity: 0,
                y: 20,
@@ -54,7 +54,7 @@ export const AboutHeroComponent: React.FC<Props> = ({
         {/* Description Row - Bottom 50% */}
         <div className="w-full flex items-end">
           <motion.div 
-            className="text-md leading-relaxed  max-w-[60%]"
+            className="text-[1.1rem] leading-relaxed  max-w-[60%]"
             initial={{ 
               opacity: 0,
                y: 20,
@@ -71,7 +71,7 @@ export const AboutHeroComponent: React.FC<Props> = ({
               ease: [0.63, 0, 0.17, 1]
             }}
           >
-            <p className="overflow-hidden">{descriptionText}</p>
+            <p className="overflow-hidden text-to-right">{descriptionText}</p>
           </motion.div>
         </div>
       </div>
