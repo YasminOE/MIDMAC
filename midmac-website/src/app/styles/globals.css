@@ -2289,6 +2289,44 @@ figure {
 /* -------------------------------------------  preloader 
 ------------------------------------------ */
 
+.loader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  z-index: 1500;
+  overflow: hidden;
+}
+
+.overlay {
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  transition: background-color 0.5s ease;
+}
+
+.no-scroll {
+  overflow: hidden;
+}
+
+/* Add these new styles */
+.logo-container {
+  position: relative;
+  width: 96px;
+  height: 96px;
+}
+
+.pre-loader-outline svg {
+  fill: #DAD2C2;
+stroke-width: 1px;
+stroke: #1E1E1E;
+}
+
+
 .introduction {
   overflow: hidden; /* hide scroll bar */
   height: 100vh;
@@ -2297,7 +2335,7 @@ figure {
   align-items: center;
   justify-content: center;
   position: fixed;
-  z-index: 99;
+  z-index: 1500;
   background-color: var(--color-blue);
   background-image: linear-gradient(#e1e1e11c 2px, transparent 2px),
     linear-gradient(90deg, #e1e1e11c 2px, transparent 2px),

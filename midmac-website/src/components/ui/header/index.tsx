@@ -8,6 +8,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import ImageLogo from '@/assets/images/header-logo.svg'
 import ImageMenu from '@/assets/images/header-nav-icon.svg'
+import { easeIn } from 'motion/react'
 
 type Props = {
   HeaderLinks: Header
@@ -98,12 +99,33 @@ const HeaderNav: React.FC<Props> = ({ HeaderLinks }) => {
     }
   }
 
+  const headerVariants = {
+    initial: {
+      y: -100,
+      opacity: 0
+    },
+    animate: {
+      y: 0,
+      opacity: 1,
+      transition: {
+        duration: 0.55,
+        easeIn: [0.61, 0.01, 0.39, 0.96],
+        delay: 4.3
+      }
+    }
+  }
+
   return (
     <>
-      <header className="header">
+      <motion.header
+        className="header"
+        initial="initial"
+        animate="animate"
+        variants={headerVariants}
+      >
         <div className="container large">
           <div className="header-left">
-            <Link href="/" className="logo">
+            <Link href="/index" className="logo">
               <Image 
                 src={ImageLogo} 
                 alt="Midmac Logo" 
@@ -156,7 +178,7 @@ const HeaderNav: React.FC<Props> = ({ HeaderLinks }) => {
             </nav>
           </motion.div>
         )}
-      </header>
+      </motion.header>
     </>
   )
 }

@@ -1,10 +1,10 @@
-
 import configPromise from '@payload-config'
 import { getPayload } from 'payload'
 import '../styles/globals.css'
 import Header from '@/components/ui/header'
 import { AnimatePresence } from "motion/react"
 import Footer from '@/components/ui/footer'
+import PreLoader from './preloader'
 
 
 export default async function RootLayout({
@@ -24,20 +24,21 @@ export default async function RootLayout({
       slug: 'footer',
     })
 
+
     return (
       <html lang="en">
         <body>
+              <AnimatePresence mode="wait">
+                <PreLoader/>
           <main>
             <div className="container no-padding">
-              <AnimatePresence>
-               <div className="fixed-lines"></div>
-              <Header HeaderLinks={header} />
-              {children}
-              {/* <p>footer</p> */}
-            </AnimatePresence>
-            <Footer Footer={footer} />
+                <div className="fixed-lines"></div>
+                <Header HeaderLinks={header} />
+                {children}
+              <Footer Footer={footer} />
             </div>
           </main>
+              </AnimatePresence>
         </body>
       </html>
     )

@@ -30,16 +30,14 @@ export async function generateStaticParams() {
   })
 }
 
-type Props = {
-  params: {
-    slug: string
-  }
-  searchParams: { [key: string]: string | string[] | undefined }
+interface Props {
+  params: Promise<{ slug: string }>
+  searchParams: Promise<{ locale?: string }>
 }
 
 export default async function Page({ params, searchParams }: Props) {
-  const slug = params.slug || 'index'
-  const locale = (searchParams?.locale as string) || 'en'
+  const { slug = 'index' } = await params
+  const { locale = 'en' } = await searchParams
 
   const page = await queryPageBySlug({
     slug,

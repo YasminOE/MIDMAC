@@ -45,6 +45,7 @@ export const HeroComponent: React.FC<Props> = ({ images }) => {
             priority
             className="object-cover object-center"
             sizes="100vw"
+            quality={100}
           />
         </motion.div>
 
@@ -54,9 +55,9 @@ export const HeroComponent: React.FC<Props> = ({ images }) => {
           initial={{ y: 100, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ 
-            duration: 1.2,
-            ease: [0.7, 0, 0.3, 1],
-            delay: 0.3 
+            duration: 0.55,
+            easeIn: [0.61, 0.01, 0.39, 0.96],
+            delay: 4.3
           }}
           style={{
             maxWidth: '90vw',
@@ -71,6 +72,7 @@ export const HeroComponent: React.FC<Props> = ({ images }) => {
             width={(images.foregroundImage.width || 0) * 100}
             height={(images.foregroundImage.height || 0) * 100}
             priority
+            quality={100}
             className="w-auto hidden md:block"
           />
           
@@ -81,6 +83,7 @@ export const HeroComponent: React.FC<Props> = ({ images }) => {
             width={(images.foregroundImage.width || 0) * 100}
             height={(images.foregroundImage.height || 0) * 100}
             priority
+            quality={100}
             className="w-auto block md:hidden"
           />
         </motion.div>

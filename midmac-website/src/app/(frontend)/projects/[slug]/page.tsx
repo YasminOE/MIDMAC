@@ -30,6 +30,7 @@ export default async function ProjectPage({ params: { slug } }: Props) {
 
   const project = projects[0] as Project
 
+
   if (!project) {
     notFound()
   }

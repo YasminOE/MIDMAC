@@ -28,8 +28,14 @@ export const ProjectsComponent: React.FC<Props> = ({
 }) => {
   if (!projects?.length) return null
 
-  // Function to chunk projects into groups of 7 (3-2-2 pattern)
+  // Function to chunk projects differently for mobile
   const chunkProjects = (projects: NonNullable<ProjectsBlockProps['projects']>) => {
+    if (typeof window !== 'undefined' && window.innerWidth < 768) {
+      // For mobile: all projects in a single column
+      return projects.map(project => [project])
+    }
+
+    // For desktop: keep the 3-2-2 pattern
     const result: NonNullable<ProjectsBlockProps['projects']>[] = []
     let currentIndex = 0
 
@@ -54,12 +60,12 @@ export const ProjectsComponent: React.FC<Props> = ({
   return (
     <section 
       id='projects'
-      className={`relative w-full py-20 max-w-[1400px] mx-auto ${className || ''}`}
+      className={`relative w-full py-20 mx-auto ${className || ''}`}
     >
-      <div className="container large mx-auto px-6">
+      <div className="container max-w-[2560px] mx-auto px-6 md:px-20">
         {title && (
           <motion.h2 
-            className="text-5xl  m-8 uppercase"
+            className="text-5xl 3xl:text-7xl m-8 ml-0 3xl:ml-0 uppercase"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -69,16 +75,19 @@ export const ProjectsComponent: React.FC<Props> = ({
           </motion.h2>
         )}
         
-        <div className="space-y-8 container large">
+        <div className="space-y-4 md:space-y-8 container">
           {projectChunks.map((chunk, chunkIndex) => {
-            const patternIndex = chunkIndex % 3 // 0 for first row, 1 for second, 2 for third
+            const patternIndex = chunkIndex % 3
 
             return (
               <div 
                 key={chunkIndex}
                 className={`
-                  relative grid gap-4 mx-auto max-w-[1400px]
-                  ${patternIndex === 0 ? 'grid-cols-1 md:grid-cols-3' : 'grid-cols-1 md:grid-cols-2 md:w-[66%]'}
+                  relative grid gap-4 mx-auto
+                  grid-cols-1
+                  ${patternIndex === 0
+                    ? 'md:grid-cols-3 max-w-[2560px]'
+                    : 'md:grid-cols-2 md:w-[66%] 2xl:w-[50%]'}
                   ${patternIndex !== 0 ? 'md:mx-auto' : ''} 
                 `}
               >

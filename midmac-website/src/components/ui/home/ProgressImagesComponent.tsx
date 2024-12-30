@@ -104,6 +104,7 @@ export const ProgressImagesComponent: React.FC<Props> = ({
                   fill
                   className="object-cover object-center"
                   sizes="(max-width: 768px) 90vw, 80vw"
+                  quality={100}
                   priority={index === 0}
                 />
               </motion.div>

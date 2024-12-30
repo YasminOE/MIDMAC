@@ -1,12 +1,13 @@
 import { Hero } from '@/blocks/Hero'
 import { Services } from '@/blocks/Services'
 import { ProgressImages } from '@/blocks/ProgressImages'
-import { authenticated } from '@/hooks/authenticated'
+import { authenticated, isAdminAuthenticated } from '../hooks/authenticated'
 import type { CollectionConfig } from 'payload'
 import { Projects } from '@/blocks/Projects'
 import { AboutHero } from '@/blocks/AboutHero'
 import { TeamMembers } from '@/blocks/TeamMembers'
 import { Contacts } from '@/blocks/Contacts'
+
 export const Pages: CollectionConfig = {
     slug: 'pages',
     admin: {
@@ -20,8 +21,8 @@ export const Pages: CollectionConfig = {
         read: () => true,
         create: authenticated,
         update: authenticated,
-        delete: authenticated,
-      },
+        delete: isAdminAuthenticated,
+    },
     fields: [
         {
             name: 'name',
@@ -54,10 +55,8 @@ export const Pages: CollectionConfig = {
     ],
     versions: {
         drafts: {
-          autosave: {
-            interval: 100, // We set this interval for optimal live preview
+          autosave: true
         },
+        maxPerDoc: 50,
     },
-    maxPerDoc: 50,
-  },
 }

@@ -8,6 +8,7 @@ import path from 'path'
 import { buildConfig } from 'payload'
 import { fileURLToPath } from 'url'
 import sharp from 'sharp'
+import { formBuilderPlugin } from '@payloadcms/plugin-form-builder'
 
 import { Users } from './collections/Users'
 import { Media } from './collections/Media'
@@ -15,6 +16,7 @@ import { Projects } from './collections/Projects'
 import { Pages } from './collections/Pages'
 import Header from './collections/general/Header'
 import Footer from './collections/general/Footer'
+
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
@@ -64,6 +66,22 @@ export default buildConfig({
   sharp,
   plugins: [
     payloadCloudPlugin(),
+    formBuilderPlugin({
+      defaultToEmail: 'elmahdijasmin@gmail.com',
+      formOverrides: {
+        fields: ({ defaultFields }) => [
+          ...defaultFields,
+        ],
+        admin: {
+         group: 'General',
+        },
+      },
+      formSubmissionOverrides: {
+        admin: {
+          group: 'General',
+        },
+      },
+    }),
     // storage-adapter-placeholder
   ],
 })
