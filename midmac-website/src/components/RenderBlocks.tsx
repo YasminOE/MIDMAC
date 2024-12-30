@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { Fragment } from 'react'
 
 import type { Page } from '@/payload-types'
@@ -41,7 +40,7 @@ export const RenderBlocks: React.FC<{
             const Block = blockComponents[blockType as keyof typeof blockComponents]
             if (Block) {
               return (
-                <div key={uniqueKey}  id={toKebabCase(blockType)}>
+                <div key={uniqueKey} >
                   <Block {...(block as any)} />
                 </div>
               )

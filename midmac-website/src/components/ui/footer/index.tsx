@@ -1,5 +1,3 @@
-'use client'
-
 import { Footer as FooterType } from '@/payload-types'
 import React from 'react'
 

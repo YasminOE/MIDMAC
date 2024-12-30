@@ -16,19 +16,21 @@ export const ProgressImagesComponent: React.FC<Props> = ({
   const controls = useAnimationControls()
   const containerRef = useRef<HTMLDivElement>(null)
 
+  const Images = JSON.parse(JSON.stringify(images))
+
   const imageArray = useMemo(() => {
-    if (!images) return []
+    if (!Images) return []
     return [
-      images.image1,
-      images.image2,
-      images.image3,
-      images.image4,
-      images.image5
+      Images.image1,
+      Images.image2,
+      Images.image3,
+      Images.image4,
+      Images.image5
     ]
-  }, [images])
+  }, [Images])
 
   useEffect(() => {
-    if (!images) return
+    if (!Images) return
 
     let isComponentMounted = true
 
@@ -62,9 +64,9 @@ export const ProgressImagesComponent: React.FC<Props> = ({
       clearTimeout(timeoutId)
       controls.stop()
     }
-  }, [controls, imageArray, images])
+  }, [controls, imageArray, Images])
 
-  if (!images) return null
+  if (!Images) return null
 
   return (
     <section 

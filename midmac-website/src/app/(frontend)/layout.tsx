@@ -4,7 +4,7 @@ import '../styles/globals.css'
 import Header from '@/components/ui/header'
 import { AnimatePresence } from "motion/react"
 import Footer from '@/components/ui/footer'
-import PreLoader from './preloader'
+import PreLoader from './preloader/Preloader'
 
 
 export default async function RootLayout({
@@ -28,7 +28,7 @@ export default async function RootLayout({
     return (
       <html lang="en">
         <body>
-              <AnimatePresence mode="wait">
+              <AnimatePresence mode="sync">
                 <PreLoader/>
           <main>
             <div className="container no-padding">

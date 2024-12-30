@@ -5,6 +5,7 @@ import { Project } from '@/payload-types'
 import { ProjectGallery } from '@/components/ui/projects/ProjectGallarey'
 import { ProjectPlans } from '@/components/ui/projects/ProjectPlans'
 import { Contact } from '@/components/ui/projects/Contacts'
+import { SerializedElementNode } from '@payloadcms/richtext-lexical/lexical'
 
 // TODO: fix on small and big screens, add the animation, change the slug to be kebab case
 
@@ -16,10 +17,10 @@ type Props = {
 }
 
 // Server component to fetch and display project data
-export default async function ProjectPage({ params: { slug } }: Props) {
+export default async function ProjectPage({ params }: Props) {
+  const { slug } = await params
   const payload = await getPayload({ config: configPromise })
 
-  // Fetch project by title (since we're using title as the slug in the URL)
   const { docs: projects } = await payload.find({
     collection: 'projects',
     where: {
@@ -29,30 +30,20 @@ export default async function ProjectPage({ params: { slug } }: Props) {
     },
   })
 
-  const project = projects[0] as Project
+  const project = JSON.parse(JSON.stringify(projects[0])) as Project
 
+  // console.log(project)
 
   if (!project) {
     notFound()
   }
 
-  // Helper function to extract text from content
-  const extractText = (content: any) => {
-    if (!content?.root?.children) return ''
-    
-    return content.root.children.map((paragraph: any) => {
-      if (!paragraph.children) return ''
-      
-      return paragraph.children.map((child: any) => {
-        if (child.type === 'text') {
-          return child.text
-        }
-        if (child.type === 'linebreak') {
-          return '\n'
-        }
-        return ''
-      }).join('')
-    }).join('\n\n')
+  const getFirstParagraphText = (content: any): string => {
+    try {
+      return (content.root as SerializedElementNode)?.children?.[0]?.children?.[0]?.text ?? '';
+    } catch {
+      return '';
+    }
   }
 
   return (
@@ -66,11 +57,9 @@ export default async function ProjectPage({ params: { slug } }: Props) {
             <h1 className="text-[4rem] font-light uppercase mb-12">{project.title}</h1>
             {project.content && (
               <div className="prose prose-invert max-w-none mb-20">
-                {extractText(project.content).split('\n').map((paragraph: string, index: number) => (
-                  <p key={index} className="text-[0.8rem] mb-4">
-                    {paragraph}
-                  </p>
-                ))}
+                <p className="text-[0.8rem] mb-4">
+                  {project.content && getFirstParagraphText(project.content)}
+                </p>
               </div>
             )}
 
@@ -99,13 +88,13 @@ export default async function ProjectPage({ params: { slug } }: Props) {
 
           {/* Right Column - Image Gallery */}
           <div className="col-span-8 h-full order-2">
-            {project.media && <ProjectGallery media={project.media} />}
+            {project.media && <ProjectGallery media={JSON.parse(JSON.stringify(project.media))} />}
           </div>
         </div>
 
         {/* Project Plans */}
         {project.plans && project.plans.length > 0 && (
-          <ProjectPlans plans={project.plans} />
+          <ProjectPlans plans={JSON.parse(JSON.stringify(project.plans))} />
         )}
 
         {/* Contact Section */}

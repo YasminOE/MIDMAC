@@ -12,16 +12,17 @@ type ProjectPlansProps = {
 }
 
 export const ProjectPlans = ({ plans }: ProjectPlansProps) => {
+  const plansFetched = JSON.parse(JSON.stringify(plans))
   const [currentIndex, setCurrentIndex] = useState(0)
 
-  if (!plans?.length) return null
+  if (!plansFetched?.length) return null
 
   const handleNext = () => {
-    setCurrentIndex((prev) => (prev + 1) % plans.length)
+    setCurrentIndex((prev) => (prev + 1) % plansFetched.length)
   }
 
   const handlePrevious = () => {
-    setCurrentIndex((prev) => (prev - 1 + plans.length) % plans.length)
+    setCurrentIndex((prev) => (prev - 1 + plansFetched.length) % plansFetched.length)
   }
 
   return (
@@ -30,7 +31,7 @@ export const ProjectPlans = ({ plans }: ProjectPlansProps) => {
         <div className="overflow-hidden">
           <div className="relative aspect-[2/1] w-full">
             <AnimatePresence initial={false}>
-              {typeof plans[currentIndex]?.plan !== 'string' && plans[currentIndex]?.plan?.url && (
+              {typeof plansFetched[currentIndex]?.plan !== 'string' && plansFetched[currentIndex]?.plan?.url && (
                 <motion.div
                   key={currentIndex}
                   initial={{ opacity: 0 }}
@@ -43,8 +44,8 @@ export const ProjectPlans = ({ plans }: ProjectPlansProps) => {
                   className="absolute inset-0"
                 >
                   <Image
-                    src={plans[currentIndex].plan.url}
-                    alt={plans[currentIndex].plan.alt || `Project plan ${currentIndex + 1}`}
+                    src={plansFetched[currentIndex].plan.url}
+                    alt={plansFetched[currentIndex].plan.alt || `Project plan ${currentIndex + 1}`}
                     fill
                     className="object-contain p-4"
                     quality={100}

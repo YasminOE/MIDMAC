@@ -18,13 +18,17 @@ export const HeroComponent: React.FC<Props> = ({ images }) => {
     return null
   }
 
+  const BackgroundImage = JSON.parse(JSON.stringify(images.backgroundImage))
+  const ForegroundImage = JSON.parse(JSON.stringify(images.foregroundImage))
+  const ForegroundImageMobile = JSON.parse(JSON.stringify(images.foregroundImageMobile))
+
   // Type guard checks
-  if (!isMediaObject(images.backgroundImage) ||
-      !isMediaObject(images.foregroundImage) ||
-      !isMediaObject(images.foregroundImageMobile) ||
-      !images.backgroundImage.url ||
-      !images.foregroundImage.url ||
-      !images.foregroundImageMobile.url) {
+  if (!isMediaObject(BackgroundImage) ||
+      !isMediaObject(ForegroundImage) ||
+      !isMediaObject(ForegroundImageMobile) ||
+      !BackgroundImage.url ||
+      !ForegroundImage.url ||
+      !ForegroundImageMobile.url) {
     return null
   }
 
@@ -39,8 +43,8 @@ export const HeroComponent: React.FC<Props> = ({ images }) => {
           transition={{ duration: 0.8, ease: [0.7, 0, 0.3, 1] }}
         >
           <Image 
-            src={images.backgroundImage.url}
-            alt={images.backgroundImage.alt || ''}
+            src={BackgroundImage.url}
+            alt={BackgroundImage.alt || ''}
             fill
             priority
             className="object-cover object-center"
@@ -67,10 +71,10 @@ export const HeroComponent: React.FC<Props> = ({ images }) => {
         >
           {/* Desktop Image */}
           <Image 
-            src={images.foregroundImage.url}
-            alt={images.foregroundImage.alt || ''}
-            width={(images.foregroundImage.width || 0) * 100}
-            height={(images.foregroundImage.height || 0) * 100}
+            src={ForegroundImage.url}
+            alt={ForegroundImage.alt || ''}
+            width={(ForegroundImage.width || 0) * 100}
+            height={(ForegroundImage.height || 0) * 100}
             priority
             quality={100}
             className="w-auto hidden md:block"
@@ -78,10 +82,10 @@ export const HeroComponent: React.FC<Props> = ({ images }) => {
           
           {/* Mobile Image */}
           <Image 
-            src={images.foregroundImageMobile.url}
-            alt={images.foregroundImageMobile.alt || ''}
-            width={(images.foregroundImage.width || 0) * 100}
-            height={(images.foregroundImage.height || 0) * 100}
+            src={ForegroundImageMobile.url}
+            alt={ForegroundImageMobile.alt || ''}
+            width={(ForegroundImageMobile.width || 0) * 100}
+            height={(ForegroundImageMobile.height || 0) * 100}
             priority
             quality={100}
             className="w-auto block md:hidden"

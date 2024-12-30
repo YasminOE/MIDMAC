@@ -8,7 +8,6 @@ import Image from 'next/image'
 import Link from 'next/link'
 import ImageLogo from '@/assets/images/header-logo.svg'
 import ImageMenu from '@/assets/images/header-nav-icon.svg'
-import { easeIn } from 'motion/react'
 
 type Props = {
   HeaderLinks: Header
@@ -44,6 +43,8 @@ export function LanguageSwitch() {
 }
 
 const HeaderNav: React.FC<Props> = ({ HeaderLinks }) => {
+  const headerLinksFetched = JSON.parse(JSON.stringify(HeaderLinks))
+
   const [isOpen, setIsOpen] = useState(false)
   const menuRef = useRef<HTMLDivElement>(null)
   const buttonRef = useRef<HTMLButtonElement>(null)
@@ -164,7 +165,7 @@ const HeaderNav: React.FC<Props> = ({ HeaderLinks }) => {
           >
             <nav className="nav">
               <div className="nav-links">
-                {HeaderLinks.links?.map((link, index) => (
+                {headerLinksFetched.links?.map((link: any, index: any) => (
                   <Link
                     key={index}
                     href={link.link?.startsWith('#') ? `/index${link.link}` : link.link || '/'}

@@ -10,6 +10,7 @@ const nextConfig = {
   experimental: {
     reactCompiler: false,
     scrollRestoration: true,
+    optimizeCss: true
   },
   webpack: (config) => {
     new DependencyCheckWebpackPlugin({})

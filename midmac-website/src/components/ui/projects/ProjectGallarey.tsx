@@ -11,12 +11,15 @@ type ProjectGalleryProps = {
   }[]
 }
 
+
+
 export const ProjectGallery = ({ media }: ProjectGalleryProps) => {
   const [selectedIndex, setSelectedIndex] = useState(0)
 
-  if (!media?.length) return null
+  const mediaFetched = JSON.parse(JSON.stringify(media))
+  if (!mediaFetched?.length) return null
 
-  const currentImage = media[selectedIndex]?.image
+  const currentImage = mediaFetched[selectedIndex]?.image
   if (typeof currentImage === 'string' || !currentImage?.url) return null
 
   return (
@@ -52,7 +55,7 @@ export const ProjectGallery = ({ media }: ProjectGalleryProps) => {
 
       {/* Thumbnails Column */}
       <div className="flex justify-between flex-col h-full gap-6 relative">
-        {media.map((mediaItem, index) => {
+        {mediaFetched.map((mediaItem: any, index: any) => {
           if (typeof mediaItem.image === 'string' || !mediaItem.image?.url) return null
           
           return (

@@ -6,6 +6,7 @@ import { notFound } from 'next/navigation'
 import type { Page as PageType } from '@/payload-types'
 import { RenderBlocks } from '@/components/RenderBlocks'
 
+
 export async function generateStaticParams() {
   const payload = await getPayload({ config: configPromise })
   const pages = await payload.find({
@@ -19,10 +20,13 @@ export async function generateStaticParams() {
       },
     },
   })
+ const pagesFetched = JSON.parse(JSON.stringify(pages)) as PageType
+ console.log("generateStaticParams",pagesFetched)
 
   const locales = ['en', 'ar']
 
-  return pages.docs.flatMap(({ slug }) => {
+  return pagesFetched.docs.flatMap(({ slug }) => {
+    console.log("slug",slug)
     return locales.map((locale) => ({
       slug: slug,
       locale: locale,
@@ -44,13 +48,15 @@ export default async function Page({ params, searchParams }: Props) {
     locale: locale as 'ar' | 'en' | 'all',
   })
 
-  if (!page) {
+  const pageFetched = JSON.parse(JSON.stringify(page)) as PageType
+  console.log("Page",pageFetched)
+  if (!pageFetched) {
     notFound()
   }
 
   return (
     <div className="container-wrapper">
-      {page.layout && <RenderBlocks blocks={page.layout} />}
+      {pageFetched.layout && <RenderBlocks blocks={pageFetched.layout} />}
     </div>
   )
 }
@@ -86,7 +92,9 @@ const queryPageBySlug = cache(async ({
       locale: locale as 'ar' | 'en' | 'all',
     })
 
-    return result.docs?.[0] || null
+    const page = JSON.parse(JSON.stringify(result.docs?.[0])) as PageType
+    console.log("queryPageBySlug",page)
+    return page || null
   } catch (error) {
     console.error('Error fetching page:', error)
     return null

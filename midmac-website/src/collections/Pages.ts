@@ -8,6 +8,7 @@ import { AboutHero } from '@/blocks/AboutHero'
 import { TeamMembers } from '@/blocks/TeamMembers'
 import { Contacts } from '@/blocks/Contacts'
 
+
 export const Pages: CollectionConfig = {
     slug: 'pages',
     admin: {

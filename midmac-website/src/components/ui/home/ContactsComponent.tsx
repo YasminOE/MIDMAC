@@ -13,6 +13,8 @@ export const Contacts: React.FC<Props> = ({
   contactInfo, 
   rightContent 
 }) => {
+    const ContactInfo = JSON.parse(JSON.stringify(contactInfo))
+    const RightContent = JSON.parse(JSON.stringify(rightContent))
   return (
     <section 
       id="contact" 
@@ -24,44 +26,44 @@ export const Contacts: React.FC<Props> = ({
         <div className="w-full md:w-1/2 3xl:max-w-[800px]">
           <div className="flex flex-col justify-between items-start md:items-center border-b border-[#DAD2C2] border-t border-[#DAD2C2] pb-2 md:pb-1 pt-2 md:pt-1 gap-2 md:flex-row">
             <span className="text-sm 3xl:text-2xl uppercase">
-              {contactInfo.emailLabel}
+              {ContactInfo.emailLabel}
             </span>
             <span className="text-[#DAD2C2] text-sm 3xl:text-xl">
-              {contactInfo.email}
+              {ContactInfo.email}
             </span>
           </div>
           
           <div className="flex flex-col justify-between items-start md:items-center border-b border-[#DAD2C2] pb-2 md:pb-1 mt-4 md:mt-2 gap-2 md:flex-row">
             <span className="text-sm 3xl:text-2xl uppercase">
-              {contactInfo.instagramLabel}
+              {ContactInfo.instagramLabel}
             </span>
             <span className="text-[#DAD2C2] text-sm 3xl:text-xl">
-              {contactInfo.instagram}
+              {ContactInfo.instagram}
             </span>
           </div>
           
           <div className="flex flex-col justify-between items-start md:items-center border-b border-[#DAD2C2] pb-2 md:pb-1 mt-4 md:mt-2 gap-2 md:flex-row">
             <span className="text-sm 3xl:text-2xl uppercase">
-              {contactInfo.phoneLabel}
+              {ContactInfo.phoneLabel}
             </span>
             <span className="text-[#DAD2C2] text-sm 3xl:text-2xl">
-              {contactInfo.phone}
+              {ContactInfo.phone}
             </span>
           </div>
         </div>
 
         {/* Right side - Dynamic Content */}
         <div className="w-full md:w-1/2 flex justify-center md:justify-end mb-6 md:mb-0">
-          {rightContent.type === 'button' ? (
+          {RightContent.type === 'button' ? (
             <a 
-              href={rightContent.buttonLink || '/'}
+              href={RightContent.buttonLink || '/'}
               className="bg-[#E5E0D9] text-[#1E1E1E] px-12 md:px-24 py-4 md:py-8 rounded-lg text-xl md:text-2xl 3xl:text-3xl uppercase inline-block hovered-btn w-full md:w-auto text-center"
             >
-              {rightContent.content}
+              {RightContent.content}
             </a>
           ) : (
             <h2 className="text-[#E5E0D9] text-2xl 3xl:text-3xl">
-              {rightContent.content}
+              {RightContent.content}
             </h2>
           )}
         </div>
