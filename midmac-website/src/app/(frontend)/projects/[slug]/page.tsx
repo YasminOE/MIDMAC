@@ -1,9 +1,10 @@
 import { notFound } from 'next/navigation'
-import Image from 'next/image'
 import configPromise from '@payload-config'
 import { getPayload } from 'payload'
 import { Project } from '@/payload-types'
 import { ProjectGallery } from '@/components/ui/projects/ProjectGallarey'
+import { ProjectPlans } from '@/components/ui/projects/ProjectPlans'
+import { Contact } from '@/components/ui/projects/Contacts'
 
 // TODO: fix on small and big screens, add the animation, change the slug to be kebab case
 
@@ -55,16 +56,14 @@ export default async function ProjectPage({ params: { slug } }: Props) {
   }
 
   return (
-    <main className="min-h-screen pt-24 max-w-[1400px] mx-auto">
-    {/* <main className="min-h-screen relative pt-24 max-w-[1400px] mx-auto"> */}
-      <div className="">
-
+    <main className="min-h-full pt-24 mx-auto ">
+      {/* <div className="relative h-full "> */}
+      <div className="px-16 h-full">
         <div className="grid grid-cols-12 gap-16">
-          
           {/* Left Column - Content and Details */}
-          <div className="col-span-4 flex justify-between flex-col h-full">
-              {/* Project Header */}
-        <h1 className="text-[4rem] font-light uppercase mb-12">{project.title}</h1>
+          <div className="col-span-4 flex justify-between flex-col h-full order-1">
+            {/* Project Header */}
+            <h1 className="text-[4rem] font-light uppercase mb-12">{project.title}</h1>
             {project.content && (
               <div className="prose prose-invert max-w-none mb-20">
                 {extractText(project.content).split('\n').map((paragraph: string, index: number) => (
@@ -99,33 +98,18 @@ export default async function ProjectPage({ params: { slug } }: Props) {
           </div>
 
           {/* Right Column - Image Gallery */}
-          <div className="col-span-8 h-full bg-red-500">
+          <div className="col-span-8 h-full order-2">
             {project.media && <ProjectGallery media={project.media} />}
           </div>
         </div>
 
         {/* Project Plans */}
         {project.plans && project.plans.length > 0 && (
-          <div className="mt-32 mb-16">
-            <div className="grid grid-cols-1 gap-8">
-              {project.plans.map((planItem, index) => {
-                if (typeof planItem.plan === 'string' || !planItem.plan?.url) return null
-                
-                return (
-                  <div key={index} className="relative aspect-[2/3]">
-                    <Image
-                      src={planItem.plan.url}
-                      alt={planItem.plan.alt || `Project plan ${index + 1}`}
-                      fill
-                      className="object-contain"
-                      sizes="100%"
-                    />
-                  </div>
-                )
-              })}
-            </div>
-          </div>
+          <ProjectPlans plans={project.plans} />
         )}
+
+        {/* Contact Section */}
+        <Contact />
       </div>
     </main>
   )

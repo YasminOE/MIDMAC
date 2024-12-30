@@ -581,7 +581,7 @@ h5.normal {
   gap: 0.5vh;
 }
 
-#hero, #services, #progress-images, #contact {
+#hero, #services, #progress-images{
   height: 100vh;
 }
 
@@ -613,7 +613,13 @@ h5.normal {
 #contact {
   grid-area: contact;
   display: block;
+  height: 70vh;
   background-color: none;
+}
+@media screen and (max-width: 768px) {
+  #contact {
+    height: 30vh;
+  }
 }
 
 .container {
@@ -3828,4 +3834,23 @@ Projects
   background: none;
   border: 1px solid #DAD2C2;
   color: #DAD2C2;
+}
+
+@media screen and (max-width: 768px) {
+  .hovered-btn {
+    background-color: none;
+    background: none;
+    border: 1px solid #DAD2C2;
+    color: #DAD2C2;
+    padding-top: 0.6rem;
+    padding-bottom: 0.6rem;
+    border-radius: 9px;
+    font-size: 1rem;
+  }
+
+  .hovered-btn:hover {
+    background: #DAD2C2;
+    border: 1px solid #DAD2C2;
+    color: #1E1E1E;
+  }
 }
