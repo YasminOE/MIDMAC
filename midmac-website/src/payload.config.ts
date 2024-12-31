@@ -4,6 +4,8 @@ import { payloadCloudPlugin } from '@payloadcms/payload-cloud'
 import { en } from '@payloadcms/translations/languages/en'
 import { ar } from '@payloadcms/translations/languages/ar'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
+import { s3Storage } from '@payloadcms/storage-s3'
+
 import path from 'path'
 import { buildConfig } from 'payload'
 import { fileURLToPath } from 'url'
@@ -19,6 +21,22 @@ import Footer from './collections/general/Footer'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
+
+if (!process.env.S3_BUCKET) {
+  throw new Error('S3_BUCKET environment variable is required');
+}
+
+if (!process.env.S3_ACCESS_KEY_ID) {
+  throw new Error('S3_ACCESS_KEY_ID environment variable is required');
+}
+
+if (!process.env.S3_SECRET_ACCESS_KEY) {
+  throw new Error('S3_SECRET_ACCESS_KEY environment variable is required');
+}
+
+if (!process.env.S3_REGION) {
+  throw new Error('S3_REGION environment variable is required');
+}
 
 export default buildConfig({
   admin: {
@@ -65,6 +83,24 @@ export default buildConfig({
   }),
   sharp,
   plugins: [
+      s3Storage({
+        collections: {
+          'media': {
+            prefix: 'media',
+          },
+        },
+        bucket: process.env.S3_BUCKET,
+        config: {
+          credentials: {
+            accessKeyId: process.env.S3_ACCESS_KEY_ID,
+            secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
+          },
+          region: process.env.S3_REGION,
+          endpoint: process.env.S3_ENDPOINT,
+          forcePathStyle: true,
+          // ... Other S3 configuration
+        },
+      }),
     payloadCloudPlugin(),
     formBuilderPlugin({
       defaultToEmail: 'elmahdijasmin@gmail.com',
