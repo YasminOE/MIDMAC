@@ -2,7 +2,7 @@
 
 import React, { useRef, useEffect, useMemo } from 'react'
 import Image from 'next/image'
-import { motion, useAnimationControls } from 'framer-motion'
+import { motion, useAnimationControls } from 'motion/react'
 import type { ProgressImagesBlock as ProgressImagesBlockProps } from '@/payload-types'
 
 type Props = {

@@ -2,13 +2,17 @@
 
 import { useState } from 'react'
 import Image from 'next/image'
-import { motion, AnimatePresence } from 'framer-motion'
-import type { Media } from '@/payload-types'
+import { motion, AnimatePresence } from 'motion/react'
+
+interface MediaItem {
+    image: {
+      url: string;
+      alt?: string;
+    }
+  }
 
 type ProjectGalleryProps = {
-  media: {
-    image: string | Media
-  }[]
+  media: MediaItem[]
 }
 
 
@@ -55,7 +59,7 @@ export const ProjectGallery = ({ media }: ProjectGalleryProps) => {
 
       {/* Thumbnails Column */}
       <div className="flex justify-between flex-col h-full gap-6 relative">
-        {mediaFetched.map((mediaItem: any, index: any) => {
+        {mediaFetched.map((mediaItem: MediaItem, index: number) => {
           if (typeof mediaItem.image === 'string' || !mediaItem.image?.url) return null
           
           return (

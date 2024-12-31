@@ -3,7 +3,7 @@
 import type { ServicesBlock as ServicesBlockProps } from '@/payload-types'
 import React from 'react'
 import Image from 'next/image'
-import { motion } from 'framer-motion'
+import { motion } from 'motion/react'
 
 type ServiceItem = {
   children: Array<{ text: string }>;

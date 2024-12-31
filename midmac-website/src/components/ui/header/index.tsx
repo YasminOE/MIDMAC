@@ -1,6 +1,6 @@
 'use client'
 
-import { Header } from '@/payload-types'
+
 import React, { useEffect, useRef, useState } from 'react'
 import { usePathname, useSearchParams } from 'next/navigation'
 import { motion } from "motion/react"
@@ -9,8 +9,13 @@ import Link from 'next/link'
 import ImageLogo from '@/assets/images/header-logo.svg'
 import ImageMenu from '@/assets/images/header-nav-icon.svg'
 
+interface HeaderLink {
+  label: string;
+  link?: string;
+}
+
 type Props = {
-  HeaderLinks: Header
+  HeaderLinks: HeaderLink[]
 }
 
 export function LanguageSwitch() {
@@ -48,7 +53,7 @@ const HeaderNav: React.FC<Props> = ({ HeaderLinks }) => {
   const [isOpen, setIsOpen] = useState(false)
   const menuRef = useRef<HTMLDivElement>(null)
   const buttonRef = useRef<HTMLButtonElement>(null)
-  const pathname = usePathname()
+  const _pathname = usePathname()
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -165,7 +170,7 @@ const HeaderNav: React.FC<Props> = ({ HeaderLinks }) => {
           >
             <nav className="nav">
               <div className="nav-links">
-                {headerLinksFetched.links?.map((link: any, index: any) => (
+              {headerLinksFetched.links?.map((link: HeaderLink, index: number) => (
                   <Link
                     key={index}
                     href={link.link?.startsWith('#') ? `/index${link.link}` : link.link || '/'}

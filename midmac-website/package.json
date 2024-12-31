@@ -20,6 +20,7 @@
     "@payloadcms/payload-cloud": "3.10.0",
     "@payloadcms/plugin-form-builder": "3.10.0",
     "@payloadcms/richtext-lexical": "3.10.0",
+    "critters": "^0.0.23",
     "cross-env": "^7.0.3",
     "graphql": "^16.8.1",
     "locomotive-scroll": "^4.1.4",

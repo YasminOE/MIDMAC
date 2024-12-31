@@ -6,6 +6,19 @@ import { notFound } from 'next/navigation'
 import type { Page as PageType } from '@/payload-types'
 import { RenderBlocks } from '@/components/RenderBlocks'
 
+// Define type for Payload response
+type PayloadPagesResponse = {
+  docs: Array<{ slug: string }>;
+  totalDocs: number;
+  limit: number;
+  totalPages: number;
+  page: number;
+  pagingCounter: number;
+  hasPrevPage: boolean;
+  hasNextPage: boolean;
+  prevPage: number | null;
+  nextPage: number | null;
+}
 
 export async function generateStaticParams() {
   const payload = await getPayload({ config: configPromise })
@@ -20,13 +33,13 @@ export async function generateStaticParams() {
       },
     },
   })
- const pagesFetched = JSON.parse(JSON.stringify(pages)) as PageType
- console.log("generateStaticParams",pagesFetched)
+  const pagesFetched = JSON.parse(JSON.stringify(pages)) as PayloadPagesResponse
+  console.log("generateStaticParams", pagesFetched)
 
   const locales = ['en', 'ar']
 
   return pagesFetched.docs.flatMap(({ slug }) => {
-    console.log("slug",slug)
+    console.log("slug", slug)
     return locales.map((locale) => ({
       slug: slug,
       locale: locale,

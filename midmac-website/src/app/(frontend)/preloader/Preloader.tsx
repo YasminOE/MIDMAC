@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import PreloaderLogo from "@/assets/images/preloader-2.svg";
 import PreloaderLogoOutline from "@/assets/images/preloader-2-outline.svg";
+import { slideDown } from "./anim";
 import Image from "next/image";
 
 export default function PreLoader() {
