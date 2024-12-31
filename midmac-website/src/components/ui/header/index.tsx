@@ -1,24 +1,28 @@
 'use client'
 
 
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState, Suspense } from 'react'
 import { usePathname, useSearchParams } from 'next/navigation'
 import { motion } from "motion/react"
 import Image from 'next/image'
 import Link from 'next/link'
 import ImageLogo from '@/assets/images/header-logo.svg'
 import ImageMenu from '@/assets/images/header-nav-icon.svg'
+import { Page } from '@/payload-types'
 
 interface HeaderLink {
   label: string;
-  link?: string;
+  linkType: 'section' | 'page';
+  link?: string | null;
+  pageLink?: string | Page | null;
+  id?: string | null;
 }
 
 type Props = {
   HeaderLinks: HeaderLink[]
 }
 
-export function LanguageSwitch() {
+function LanguageSwitchContent() {
   const pathname = usePathname()
   const searchParams = useSearchParams()
   const currentLocale = searchParams.get('locale') || 'en'
@@ -47,8 +51,17 @@ export function LanguageSwitch() {
   )
 }
 
+// Wrap with Suspense
+export function LanguageSwitch() {
+  return (
+    <Suspense fallback={<div className="lang-switches">Loading...</div>}>
+      <LanguageSwitchContent />
+    </Suspense>
+  )
+}
+
 const HeaderNav: React.FC<Props> = ({ HeaderLinks }) => {
-  const headerLinksFetched = JSON.parse(JSON.stringify(HeaderLinks))
+  console.log('HeaderLinks:', HeaderLinks)
 
   const [isOpen, setIsOpen] = useState(false)
   const menuRef = useRef<HTMLDivElement>(null)
@@ -170,7 +183,7 @@ const HeaderNav: React.FC<Props> = ({ HeaderLinks }) => {
           >
             <nav className="nav">
               <div className="nav-links">
-              {headerLinksFetched.links?.map((link: HeaderLink, index: number) => (
+                {HeaderLinks?.map((link: HeaderLink, index: number) => (
                   <Link
                     key={index}
                     href={link.link?.startsWith('#') ? `/index${link.link}` : link.link || '/'}

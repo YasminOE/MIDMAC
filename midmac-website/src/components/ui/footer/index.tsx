@@ -1,9 +1,16 @@
 import { Footer as FooterType } from '@/payload-types'
+import configPromise from '@payload-config'
+import { getPayload } from 'payload'
 import React from 'react'
 
 type Props = {
   Footer: FooterType
 }
+
+const payload = await getPayload({ config: configPromise })
+const footer = await payload.findGlobal({
+  slug: 'footer',
+})
 
 interface RichTextChild {
   text?: string;
