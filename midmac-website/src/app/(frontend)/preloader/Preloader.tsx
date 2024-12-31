@@ -1,13 +1,12 @@
 'use client'
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { opacity, slideDown } from "./anim";
 import PreloaderLogo from "@/assets/images/preloader-2.svg";
 import PreloaderLogoOutline from "@/assets/images/preloader-2-outline.svg";
 import Image from "next/image";
 
 export default function PreLoader() {
-  const [dimension, setDimension] = useState({ width: 0, height: 0 });
+  const [_dimension, setDimension] = useState({ width: 0, height: 0 });
   const [currentStage, setCurrentStage] = useState(0);
   const [isComplete, setIsComplete] = useState(false);
 
