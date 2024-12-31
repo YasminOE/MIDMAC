@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react'
 import type { Page } from '@/payload-types'
 import { HeroComponent } from '@/components/ui/home/HeroComponent'
-// import { ServicesComponent } from '@/components/ui/home/ServicesComponent'
+import { ServicesComponent } from '@/components/ui/home/ServicesComponent'
 // import { ProgressImagesComponent } from '@/components/ui/home/ProgressImagesComponent'
 // import { ProjectsComponent } from './ui/home/ProjectsComponent'
 // import { AboutHeroComponent } from './ui/about-us/AboutHeroComponent'
@@ -11,7 +11,7 @@ import { HeroComponent } from '@/components/ui/home/HeroComponent'
 // Define a type for the block components mapping
 const blockComponents = {
   hero: HeroComponent,
-  // services: ServicesComponent,
+  services: ServicesComponent,
   // progressImages: ProgressImagesComponent,
   // projects: ProjectsComponent,
   // aboutHero: AboutHeroComponent,
