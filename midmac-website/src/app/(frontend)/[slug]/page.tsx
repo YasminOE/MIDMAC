@@ -34,12 +34,12 @@ export async function generateStaticParams() {
     },
   })
   const pagesFetched = JSON.parse(JSON.stringify(pages)) as PayloadPagesResponse
-  console.log("generateStaticParams", pagesFetched)
+  // console.log("generateStaticParams", pagesFetched)
 
   const locales = ['en', 'ar']
 
   return pagesFetched.docs.flatMap(({ slug }) => {
-    console.log("slug", slug)
+    // console.log("slug", slug)
     return locales.map((locale) => ({
       slug: slug,
       locale: locale,
@@ -106,7 +106,7 @@ const queryPageBySlug = cache(async ({
     })
 
     const page = JSON.parse(JSON.stringify(result.docs?.[0])) as PageType
-    console.log("queryPageBySlug",page)
+    // console.log("queryPageBySlug",page)
     return page || null
   } catch (error) {
     console.error('Error fetching page:', error)

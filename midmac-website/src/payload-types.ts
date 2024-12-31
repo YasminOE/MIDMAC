@@ -166,9 +166,9 @@ export interface Page {
         | ServicesBlock
         | ProgressImagesBlock
         | ProjectsBlock
+        | ContactsBlock
         | AboutHeroBlock
         | TeamMembersBlock
-        | ContactsBlock
       )[]
     | null;
   updatedAt: string;
@@ -266,6 +266,38 @@ export interface ProjectsBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ContactsBlock".
+ */
+export interface ContactsBlock {
+  /**
+   * Unique identifier for this section (e.g., "contacts", "contact-us")
+   */
+  blockId: string;
+  contactInfo: {
+    emailLabel: string;
+    email: string;
+    instagramLabel: string;
+    instagram: string;
+    phoneLabel: string;
+    phone: string;
+  };
+  rightContent: {
+    type: 'button' | 'text';
+    /**
+     * Text to display in button or as heading
+     */
+    content: string;
+    /**
+     * URL for the button (only if type is button)
+     */
+    buttonLink?: string | null;
+  };
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'contacts';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "AboutHeroBlock".
  */
 export interface AboutHeroBlock {
@@ -305,38 +337,6 @@ export interface TeamMembersBlock {
   id?: string | null;
   blockName?: string | null;
   blockType: 'teamMembers';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "ContactsBlock".
- */
-export interface ContactsBlock {
-  /**
-   * Unique identifier for this section (e.g., "contacts", "contact-us")
-   */
-  blockId: string;
-  contactInfo: {
-    emailLabel: string;
-    email: string;
-    instagramLabel: string;
-    instagram: string;
-    phoneLabel: string;
-    phone: string;
-  };
-  rightContent: {
-    type: 'button' | 'text';
-    /**
-     * Text to display in button or as heading
-     */
-    content: string;
-    /**
-     * URL for the button (only if type is button)
-     */
-    buttonLink?: string | null;
-  };
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'contacts';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -680,9 +680,9 @@ export interface PagesSelect<T extends boolean = true> {
         services?: T | ServicesBlockSelect<T>;
         progressImages?: T | ProgressImagesBlockSelect<T>;
         projects?: T | ProjectsBlockSelect<T>;
+        contacts?: T | ContactsBlockSelect<T>;
         aboutHero?: T | AboutHeroBlockSelect<T>;
         teamMembers?: T | TeamMembersBlockSelect<T>;
-        contacts?: T | ContactsBlockSelect<T>;
       };
   updatedAt?: T;
   createdAt?: T;
@@ -765,6 +765,32 @@ export interface ProjectsBlockSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ContactsBlock_select".
+ */
+export interface ContactsBlockSelect<T extends boolean = true> {
+  blockId?: T;
+  contactInfo?:
+    | T
+    | {
+        emailLabel?: T;
+        email?: T;
+        instagramLabel?: T;
+        instagram?: T;
+        phoneLabel?: T;
+        phone?: T;
+      };
+  rightContent?:
+    | T
+    | {
+        type?: T;
+        content?: T;
+        buttonLink?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "AboutHeroBlock_select".
  */
 export interface AboutHeroBlockSelect<T extends boolean = true> {
@@ -787,32 +813,6 @@ export interface TeamMembersBlockSelect<T extends boolean = true> {
         position?: T;
         bio?: T;
         id?: T;
-      };
-  id?: T;
-  blockName?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "ContactsBlock_select".
- */
-export interface ContactsBlockSelect<T extends boolean = true> {
-  blockId?: T;
-  contactInfo?:
-    | T
-    | {
-        emailLabel?: T;
-        email?: T;
-        instagramLabel?: T;
-        instagram?: T;
-        phoneLabel?: T;
-        phone?: T;
-      };
-  rightContent?:
-    | T
-    | {
-        type?: T;
-        content?: T;
-        buttonLink?: T;
       };
   id?: T;
   blockName?: T;

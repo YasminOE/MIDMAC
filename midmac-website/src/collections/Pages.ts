@@ -1,12 +1,20 @@
 import { Hero } from '@/blocks/Hero'
-import { Services } from '@/blocks/Services'
 import { ProgressImages } from '@/blocks/ProgressImages'
-import { authenticated, isAdminAuthenticated } from '../hooks/authenticated'
-import type { CollectionConfig } from 'payload'
+import { Services } from '@/blocks/Services'
+import { CollectionConfig } from 'payload'
 import { Projects } from '@/blocks/Projects'
+import { Contacts } from '@/blocks/Contacts'
 import { AboutHero } from '@/blocks/AboutHero'
 import { TeamMembers } from '@/blocks/TeamMembers'
-import { Contacts } from '@/blocks/Contacts'
+
+// import { Hero } from '@/blocks/Hero'
+// import { Services } from '@/blocks/Services'
+// import { ProgressImages } from '@/blocks/ProgressImages'
+// import { authenticated, isAdminAuthenticated } from '../hooks/authenticated'
+// import { Projects } from '@/blocks/Projects'
+// import { AboutHero } from '@/blocks/AboutHero'
+// import { TeamMembers } from '@/blocks/TeamMembers'
+// import { Contacts } from '@/blocks/Contacts'
 
 
 export const Pages: CollectionConfig = {
@@ -20,9 +28,6 @@ export const Pages: CollectionConfig = {
     },
     access: {
         read: () => true,
-        create: authenticated,
-        update: authenticated,
-        delete: isAdminAuthenticated,
     },
     fields: [
         {
@@ -48,9 +53,9 @@ export const Pages: CollectionConfig = {
                 Services,
                 ProgressImages,
                 Projects,
+                Contacts,
                 AboutHero,
                 TeamMembers,
-                Contacts,
             ],
         },
     ],
