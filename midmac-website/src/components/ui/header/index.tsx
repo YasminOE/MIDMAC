@@ -144,7 +144,7 @@ const HeaderNav: React.FC<Props> = ({ HeaderLinks }) => {
       >
         <div className="container large">
           <div className="header-left">
-            <Link href="/index" className="logo">
+            <Link href="/" className="logo">
               <Image 
                 src={ImageLogo} 
                 alt="Midmac Logo" 

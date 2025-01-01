@@ -7,7 +7,7 @@ export default function ProjectPage() {
   )
 }
 
-// Original code commented out for reference
+// // Original code commented out for reference
 // import { notFound } from 'next/navigation'
 // import configPromise from '@payload-config'
 // import { getPayload } from 'payload'
@@ -38,12 +38,17 @@ export default function ProjectPage() {
 //   }
 // }
 
-// // Server component to fetch and display project data
+// // Add proper type for page props
+// type PageProps = {
+//   params: {
+//     slug: string
+//   }
+// }
+
+// // Update the function signature
 // export default async function ProjectPage({
 //   params,
-// }: {
-//   params: { slug: string }
-// }) {
+// }: PageProps) {
 //   const payload = await getPayload({ config: configPromise })
 
 //   const { docs: projects } = await payload.find({
@@ -54,6 +59,7 @@ export default function ProjectPage() {
 //       },
 //     },
 //   })
+
 
 //   const project = JSON.parse(JSON.stringify(projects[0])) as Project
 
