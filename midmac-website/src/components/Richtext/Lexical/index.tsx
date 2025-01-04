@@ -6,7 +6,7 @@ import {icons} from '@/utilities/icons'
 import {ShowBlocks} from '../../ShowBlocks'
 
 import escapeHTML from 'escape-html'
-import React, {Fragment, JSX} from 'react'
+import React, {JSX} from 'react'
 
 import {
     IS_BOLD,

@@ -30,6 +30,7 @@
     "cross-env": "^7.0.3",
     "fs": "0.0.1-security",
     "graphql": "^16.10.0",
+    "lexical": "0.20.0",
     "locomotive-scroll": "^4.1.4",
     "lucide-react": "^0.469.0",
     "motion": "^11.15.0",
