@@ -37,13 +37,13 @@ function LanguageSwitchContent() {
     <div className="lang-switches">
       <Link
         href={createLocaleUrl('ar')}
-        className={`lang-switch ${currentLocale === "ar" ? "active" : ""}`}
+        className={`lang-switch montserrat ${currentLocale === "ar" ? "active" : ""}`}
       >
         A
       </Link>
       <Link
         href={createLocaleUrl('en')}
-        className={`lang-switch ${currentLocale === "en" ? "active" : ""}`}
+        className={`lang-switch montserrat ${currentLocale === "en" ? "active" : ""}`}
       >
         E
       </Link>
@@ -61,7 +61,7 @@ export function LanguageSwitch() {
 }
 
 const HeaderNav: React.FC<Props> = ({ HeaderLinks }) => {
-  console.log('HeaderLinks:', HeaderLinks)
+  // console.log('HeaderLinks:', HeaderLinks)
 
   const [isOpen, setIsOpen] = useState(false)
   const menuRef = useRef<HTMLDivElement>(null)
@@ -159,7 +159,7 @@ const HeaderNav: React.FC<Props> = ({ HeaderLinks }) => {
             <LanguageSwitch />
             <button 
               ref={buttonRef}
-              className="menu-toggle" 
+              className="menu-toggle montserrat" 
               onClick={() => setIsOpen(!isOpen)}
             >
               <Image 

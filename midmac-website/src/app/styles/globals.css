@@ -445,7 +445,7 @@ body {
   /* cursor: wait; */
 }
 
-body[lang="ar"], html[dir="rtl"], html[lang="ar"], body[dir="rtl"] * {
+body[lang="ar"], html[lang="ar"] {
   font-family: 'Manchette';
   font-weight: normal;
   text-align: right !important;
@@ -455,6 +455,13 @@ html[dir="rtl"], html[lang="ar"] {
   font-family: 'Manchette';
   font-weight: normal;
   text-align: right !important;
+}
+
+
+/* always Montserrat text */
+.montserrat {
+  font-family: 'Montserrat';
+  font-weight: 400;
 }
 
 /* TODO: fix the to right alignment */
@@ -483,7 +490,9 @@ h2,
 h3,
 h4,
 h5 ,
-p{
+p,
+ul,
+li{
   margin-block: 0;
   font-family: "Montserrat", 'Manchette', sans-serif;
   font-weight: 400;
@@ -578,7 +587,7 @@ h5.normal {
     "services"
     "progress-images"
     "contact";
-  gap: 0.5vh;
+  /* gap: 0.5vh; */
 }
 
 #hero, #services, #progress-images{
@@ -3852,5 +3861,78 @@ Projects
     background: #DAD2C2;
     border: 1px solid #DAD2C2;
     color: #1E1E1E;
+  }
+}
+/* RTL specific layout adjustments */
+html[dir="rtl"] .container-wrapper,
+html[lang="ar"] .container-wrapper,
+body[lang="ar"] .container-wrapper,
+body[dir="rtl"] .container-wrapper {
+  direction: rtl;
+}
+
+html[dir="rtl"] .main-heading,
+html[lang="ar"] .main-heading,
+body[lang="ar"] .main-heading,
+body[dir="rtl"] .main-heading {
+  left: calc(clamp(-20vw, -38vw, -49vw) * 2.3);
+  right: auto;
+}
+
+html[dir="rtl"] .arrow,
+html[lang="ar"] .arrow,
+body[lang="ar"] .arrow,
+body[dir="rtl"] .arrow {
+  left: -20vw;
+  right: auto;
+  transform: scaleX(-1);
+}
+
+/* RTL media queries */
+@media screen and (max-width: 830px) {
+  html[dir="rtl"] .main-heading,
+  html[lang="ar"] .main-heading,
+  body[lang="ar"] .main-heading,
+  body[dir="rtl"] .main-heading {
+    left: -44vw;
+    right: auto;
+  }
+
+  html[dir="rtl"] .arrow,
+  html[lang="ar"] .arrow,
+  body[lang="ar"] .arrow,
+  body[dir="rtl"] .arrow {
+    left: -16vw;
+    right: auto;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  html[dir="rtl"] .main-heading,
+  html[lang="ar"] .main-heading,
+  body[lang="ar"] .main-heading,
+  body[dir="rtl"] .main-heading {
+    left: -35vw;
+    right: auto;
+  }
+}
+
+@media screen and (max-width: 660px) {
+  html[dir="rtl"] .main-heading,
+  html[lang="ar"] .main-heading,
+  body[lang="ar"] .main-heading,
+  body[dir="rtl"] .main-heading {
+    left: calc(clamp(-17vw, -38vw, -49vw) * 2.3);
+    right: auto;
+  }
+}
+
+@media screen and (max-width: 328px) {
+  html[dir="rtl"] .main-heading,
+  html[lang="ar"] .main-heading,
+  body[lang="ar"] .main-heading,
+  body[dir="rtl"] .main-heading {
+    left: -25vw;
+    right: auto;
   }
 }
