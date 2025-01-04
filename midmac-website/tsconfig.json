@@ -40,7 +40,7 @@
     "**/*.js",
     "**/*.jsx",
     "**/*.json"
-, "src/app/(frontend)/[slug]/page.tsx", "src/app/(frontend)/([[...slug]].jsx)"  ],
+, "src/app/(frontend)/[slug]/page.tsx", "src/app/(frontend)/([[...slug]].jsx)", "src/blocks/Forms/MediaBlock/config.tx"  ],
   "exclude": [
     "node_modules"
   ]

@@ -7,6 +7,8 @@ import { ProjectsComponent } from './ui/home/ProjectsComponent'
 import { AboutHeroComponent } from './ui/about-us/AboutHeroComponent'
 import { TeamMembersComponent } from './ui/about-us/TeamMembersComponent'
 import { Contacts } from './ui/home/ContactsComponent'
+import { DesignOrderTitleComponent } from './ui/design-order/OrderTitleCompmnent'
+import { DesignOrderFormComponent } from './ui/design-order/OrderFormCompmnent'
 
 // Define a type for the block components mapping
 const blockComponents = {
@@ -17,6 +19,8 @@ const blockComponents = {
   contacts: Contacts,
   aboutHero: AboutHeroComponent,
   teamMembers: TeamMembersComponent,
+  designOrderTitle: DesignOrderTitleComponent,
+  designOrderForm: DesignOrderFormComponent,
 }
 
 // Create a type for valid block types

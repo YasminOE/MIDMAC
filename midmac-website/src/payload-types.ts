@@ -169,6 +169,8 @@ export interface Page {
         | ContactsBlock
         | AboutHeroBlock
         | TeamMembersBlock
+        | DesignOrderTitleBlock
+        | DesignOrderFormBlock
       )[]
     | null;
   updatedAt: string;
@@ -337,6 +339,55 @@ export interface TeamMembersBlock {
   id?: string | null;
   blockName?: string | null;
   blockType: 'teamMembers';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "DesignOrderTitleBlock".
+ */
+export interface DesignOrderTitleBlock {
+  title: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  subTitle: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'designOrderTitle';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "DesignOrderFormBlock".
+ */
+export interface DesignOrderFormBlock {
+  'Design Order Form'?: (string | null) | Form;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'designOrderForm';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -683,6 +734,8 @@ export interface PagesSelect<T extends boolean = true> {
         contacts?: T | ContactsBlockSelect<T>;
         aboutHero?: T | AboutHeroBlockSelect<T>;
         teamMembers?: T | TeamMembersBlockSelect<T>;
+        designOrderTitle?: T | DesignOrderTitleBlockSelect<T>;
+        designOrderForm?: T | DesignOrderFormBlockSelect<T>;
       };
   updatedAt?: T;
   createdAt?: T;
@@ -814,6 +867,25 @@ export interface TeamMembersBlockSelect<T extends boolean = true> {
         bio?: T;
         id?: T;
       };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "DesignOrderTitleBlock_select".
+ */
+export interface DesignOrderTitleBlockSelect<T extends boolean = true> {
+  title?: T;
+  subTitle?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "DesignOrderFormBlock_select".
+ */
+export interface DesignOrderFormBlockSelect<T extends boolean = true> {
+  'Design Order Form'?: T;
   id?: T;
   blockName?: T;
 }

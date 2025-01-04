@@ -6,6 +6,8 @@ import { Projects } from '@/blocks/Projects'
 import { Contacts } from '@/blocks/Contacts'
 import { AboutHero } from '@/blocks/AboutHero'
 import { TeamMembers } from '@/blocks/TeamMembers'
+import { DesignOrderForm } from '@/blocks/DesginOrderForm'
+import { DesignOrderTitle } from '@/blocks/DesginOrderTitle'
 
 // import { Hero } from '@/blocks/Hero'
 // import { Services } from '@/blocks/Services'
@@ -56,6 +58,8 @@ export const Pages: CollectionConfig = {
                 Contacts,
                 AboutHero,
                 TeamMembers,
+                DesignOrderTitle,
+                DesignOrderForm,
             ],
         },
     ],
