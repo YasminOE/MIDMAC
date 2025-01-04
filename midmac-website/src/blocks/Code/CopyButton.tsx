@@ -1,6 +1,6 @@
 'use client'
 // import { Button } from '@/components/ui/button'
-import { CopyIcon } from '@payloadcms/ui/icons/Copy'
+import { Copy } from 'lucide-react'
 import { useState } from 'react'
 
 export function CopyButton({ code }: { code: string }) {
@@ -27,7 +27,7 @@ export function CopyButton({ code }: { code: string }) {
         }}
       >
         <p>{text}</p>
-        <CopyIcon />
+        <Copy className="h-4 w-4" />
       </button>
       {/* </Button> */}
     </div>
