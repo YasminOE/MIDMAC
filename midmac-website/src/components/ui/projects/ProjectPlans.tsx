@@ -14,22 +14,33 @@ type ProjectPlansProps = {
 export const ProjectPlans = ({ plans }: ProjectPlansProps) => {
   const plansFetched = JSON.parse(JSON.stringify(plans))
   const [currentIndex, setCurrentIndex] = useState(0)
+  const [direction, setDirection] = useState<'forward' | 'backward'>('forward')
 
   if (!plansFetched?.length) return null
 
   const handleNext = () => {
-    setCurrentIndex((prev) => (prev + 1) % plansFetched.length)
+    if (currentIndex < plansFetched.length - 1) {
+      setDirection('forward')
+      setCurrentIndex((prev) => prev + 1)
+    }
   }
 
   const handlePrevious = () => {
-    setCurrentIndex((prev) => (prev - 1 + plansFetched.length) % plansFetched.length)
+    if (currentIndex > 0) {
+      setDirection('backward')
+      setCurrentIndex((prev) => prev - 1)
+    }
   }
+
+  const isFirstImage = currentIndex === 0
+  const isLastImage = currentIndex === plansFetched.length - 1
+  const hasNextImage = currentIndex < plansFetched.length - 1
 
   return (
     <div className="mb-2">
-      <div className="relative px-14">
+      <div className="relative px-4">
         <div className="overflow-hidden">
-          <div className="relative aspect-[2/1] w-full">
+          <div className="relative aspect-[3/2] md:aspect-[2/1] w-full">
             <AnimatePresence initial={false}>
               {typeof plansFetched[currentIndex]?.plan !== 'string' && plansFetched[currentIndex]?.plan?.url && (
                 <motion.div
@@ -47,7 +58,7 @@ export const ProjectPlans = ({ plans }: ProjectPlansProps) => {
                     src={plansFetched[currentIndex].plan.url}
                     alt={plansFetched[currentIndex].plan.alt || `Project plan ${currentIndex + 1}`}
                     fill
-                    className="object-contain p-4"
+                    className="object-contain p-2 md:p-4"
                     quality={100}
                     sizes="100%"
                   />
@@ -61,18 +72,25 @@ export const ProjectPlans = ({ plans }: ProjectPlansProps) => {
         <div className="flex justify-center gap-2 mt-2">
           <button 
             onClick={handlePrevious}
-            className="p-2 pr-0 hover:opacity-75 transition-opacity"
+            disabled={isFirstImage}
+            className={`p-2 pr-0 transition-opacity ${
+              isFirstImage ? 'opacity-30' : 'hover:opacity-75'
+            }`}
           >
             <Image
-              src={GoBackward}
+              src={GoForward}
               alt="Previous"
               width={24}
               height={24}
+              className="rotate-180"
             />
           </button>
           <button 
             onClick={handleNext}
-            className="p-2 pl-0 hover:opacity-75 transition-opacity"
+            disabled={isLastImage}
+            className={`p-2 pl-0 transition-opacity ${
+              !hasNextImage ? 'opacity-30' : 'opacity-100'
+            }`}
           >
             <Image
               src={GoForward}

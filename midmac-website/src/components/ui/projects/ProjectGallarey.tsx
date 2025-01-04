@@ -27,21 +27,20 @@ export const ProjectGallery = ({ media }: ProjectGalleryProps) => {
   if (typeof currentImage === 'string' || !currentImage?.url) return null
 
   return (
-    <div className="grid grid-cols-[1fr,80px] gap-6 h-full">
+    <div className="grid grid-cols-[1fr,60px] md:grid-cols-[1fr,80px] gap-4 h-auto md:h-full px-4">
       {/* Main Preview Image */}
-      <div className="relative aspect-[4/3] h-full max-h-full w-full overflow-hidden">
-        <AnimatePresence mode="sync">
+      <div className="relative h-[400px] md:aspect-auto md:h-full w-full overflow-hidden">
+        <AnimatePresence mode="wait">
           <motion.div
             key={selectedIndex}
             initial={{ opacity: 0.1 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0.1 }}
             transition={{
-              duration: 1.2,
-              easeIn: [0.56, 0, 0.17, 0.1],
+              duration: 0.5,
+              ease: [0.54, 0, 0.2, 1],
               type: "tween"
             }}
-            style={{ position: 'absolute', inset: 0 }}
             className="relative w-full h-full"
           >
             <Image
@@ -58,32 +57,34 @@ export const ProjectGallery = ({ media }: ProjectGalleryProps) => {
       </div>
 
       {/* Thumbnails Column */}
-      <div className="flex justify-between flex-col h-full gap-6 relative">
-        {mediaFetched.map((mediaItem: MediaItem, index: number) => {
-          if (typeof mediaItem.image === 'string' || !mediaItem.image?.url) return null
-          
-          return (
-            <button
-              key={index}
-              onClick={() => setSelectedIndex(index)}
-              className="relative aspect-[3/4] mb-8 w-full group"
-            >
-              <Image
-                src={mediaItem.image.url}
-                alt={mediaItem.image.alt || `Project thumbnail ${index + 1}`}
-                fill
-                className="object-cover"
-                sizes="(max-width: 1024px) 100vw, 66vw"
-                quality={100}
-              />
-              <div className={`absolute inset-0 transition-opacity ${
-                selectedIndex === index
-                  ? 'bg-[rgba(30,30,30,0.7)]'
-                  : 'bg-transparent group-hover:bg-[rgba(30,30,30,0.7)]'
-              }`} />
-            </button>
-          )
-        })}
+      <div className="flex flex-col h-[400px] md:h-full">
+        <div className="grid grid-cols-1 gap-4 md:gap-6 h-full">
+          {mediaFetched.map((mediaItem: MediaItem, index: number) => {
+            if (typeof mediaItem.image === 'string' || !mediaItem.image?.url) return null
+            
+            return (
+              <button
+                key={index}
+                onClick={() => setSelectedIndex(index)}
+                className="relative w-full group"
+              >
+                <Image
+                  src={mediaItem.image.url}
+                  alt={mediaItem.image.alt || `Project thumbnail ${index + 1}`}
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 768px) 60px, 80px"
+                  quality={100}
+                />
+                <div className={`absolute inset-0 transition-opacity ${
+                  selectedIndex === index
+                    ? 'bg-[rgba(30,30,30,0.7)]'
+                    : 'bg-transparent group-hover:bg-[rgba(30,30,30,0.7)]'
+                }`} />
+              </button>
+            )
+          })}
+        </div>
       </div>
     </div>
   )
