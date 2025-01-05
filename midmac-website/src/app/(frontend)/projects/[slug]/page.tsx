@@ -6,6 +6,7 @@ import { ProjectGallery } from '@/components/ui/projects/ProjectGallarey'
 import { ProjectPlans } from '@/components/ui/projects/ProjectPlans'
 import { Contact } from '@/components/ui/projects/Contacts'
 import RtlText from '@/components/ui/RtlText'
+import { Suspense } from 'react'
 
 // Generate static params for all projects
 export async function generateStaticParams() {
@@ -64,7 +65,9 @@ const ProjectPage = async ({ params }: Props) => {
       <div className="px-4 md:px-10 h-full">
         {/* Project Header for Mobile */}
         <h1 className="text-[2rem] md:text-[4rem] font-light uppercase mb-4 md:mb-12 md:hidden px-4">
-          <RtlText>{project.title}</RtlText>
+          <Suspense fallback={project.title}>
+            <RtlText>{project.title}</RtlText>
+          </Suspense>
         </h1>
 
         <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-16">
@@ -72,13 +75,17 @@ const ProjectPage = async ({ params }: Props) => {
           <div className="md:col-span-4 flex justify-between flex-col h-full order-2 md:order-1 px-4">
             {/* Project Header for Desktop */}
             <h1 className="hidden md:block text-[4rem] font-light uppercase mb-12">
-              <RtlText>{project.title}</RtlText>
+              <Suspense fallback={project.title}>
+                <RtlText>{project.title}</RtlText>
+              </Suspense>
             </h1>
             
             {project.content && (
               <div className="prose prose-invert max-w-none mb-8 md:mb-20">
                 <p className="text-[0.7rem] md:text-[0.8rem] mb-4">
-                  <RtlText>{project.content && getFirstParagraphText(project.content)}</RtlText>
+                  <Suspense fallback={project.content && getFirstParagraphText(project.content)}>
+                    <RtlText>{project.content && getFirstParagraphText(project.content)}</RtlText>
+                  </Suspense>
                 </p>
               </div>
             )}
@@ -89,7 +96,9 @@ const ProjectPage = async ({ params }: Props) => {
                 <div className="flex justify-between border-t-[0.5px] border-[#DAD2C2] py-2">
                   <h3 className="uppercase text-[0.8rem] md:text-[1.1rem] tracking-wider">City</h3>
                   <p className="text-[0.8rem] md:text-[1.1rem]">
-                    <RtlText>{project.projectDetails.city}</RtlText>
+                    <Suspense fallback={project.projectDetails.city}>
+                      <RtlText>{project.projectDetails.city}</RtlText>
+                    </Suspense>
                   </p>
                 </div>
               )}
@@ -97,7 +106,9 @@ const ProjectPage = async ({ params }: Props) => {
                 <div className="flex justify-between border-t-[0.5px] border-[#DAD2C2] py-2">
                   <h3 className="uppercase text-[0.8rem] md:text-[1.1rem] tracking-wider">Size</h3>
                   <p className="text-[0.8rem] md:text-[1.1rem]">
-                    <RtlText>{project.projectDetails.size}</RtlText>
+                    <Suspense fallback={project.projectDetails.size}>
+                      <RtlText>{project.projectDetails.size}</RtlText>
+                    </Suspense>
                   </p>
                 </div>
               )}
@@ -105,7 +116,9 @@ const ProjectPage = async ({ params }: Props) => {
                 <div className="flex justify-between border-t-[0.5px] border-b-[0.5px] border-[#DAD2C2] py-2">
                   <h3 className="uppercase text-[0.8rem] md:text-[1.1rem] tracking-wider">Year</h3>
                   <p className="text-[0.8rem] md:text-[1.1rem]">
-                    <RtlText>{project.projectDetails.year}</RtlText>
+                    <Suspense fallback={project.projectDetails.year}>
+                      <RtlText>{project.projectDetails.year}</RtlText>
+                    </Suspense>
                   </p>
                 </div>
               )}
