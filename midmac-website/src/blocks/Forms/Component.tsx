@@ -147,7 +147,7 @@ export const FormBlock: React.FC<
 
   return (
     <div className="">
-      <div className="bg-[#1E1E1E] rounded min-h-[300px] relative">
+      <div className="bg-[#1E1E1E] rounded min-h-[300px] relative px-8 md:px-0">
         <FormProvider {...formMethods}>
           {/* Confirmation Modal Overlay */}
           {!isLoading && hasSubmitted && confirmationType === 'message' && (
@@ -157,7 +157,7 @@ export const FormBlock: React.FC<
                   THANK YOU FOR CONTACTING US
                 </h2>
                 <p className="text-xs md:text-sm text-[#DAD2C2]">
-                  PLEASE WAITH UNTIL WE CONTACT YOU
+                  PLEASE WAIT UNTIL WE CONTACT YOU
                 </p>
               </div>
             </div>
@@ -180,7 +180,7 @@ export const FormBlock: React.FC<
           )}
 
           {/* Form */}
-          <form id={formID} onSubmit={handleSubmit(onSubmit)} className="px-4 py-12">
+          <form id={formID} onSubmit={handleSubmit(onSubmit)} className="px-4 py-4 md:py-12">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 lg:gap-8">
               {/* First row - Name, Phone, Email */}
               <div className="space-y-2">
@@ -188,7 +188,7 @@ export const FormBlock: React.FC<
                 <input
                   type="text"
                   {...register('name')}
-                  className="w-full h-10 bg-[#1E1E1E] border-[0.5px] border-[#DAD2C2] text-[#DAD2C2] rounded px-3 text-sm focus:outline-none"
+                  className="w-full h-10 bg-[#1E1E1E] border-[0.5px] border-[#DAD2C2] text-[#DAD2C2] rounded-lg px-3 text-sm focus:outline-none"
                 />
               </div>
               <div className="space-y-2">
@@ -196,7 +196,7 @@ export const FormBlock: React.FC<
                 <input
                   type="tel"
                   {...register('phone')}
-                  className="w-full h-10 bg-[#1E1E1E] border-[0.5px] border-[#DAD2C2] text-[#DAD2C2] rounded px-3 text-sm focus:outline-none"
+                  className="w-full h-10 bg-[#1E1E1E] border-[0.5px] border-[#DAD2C2] text-[#DAD2C2] rounded-lg px-3 text-sm focus:outline-none"
                 />
               </div>
               <div className="space-y-2">
@@ -204,7 +204,7 @@ export const FormBlock: React.FC<
                 <input
                   type="email"
                   {...register('email')}
-                  className="w-full h-10 bg-[#1E1E1E] border-[0.5px] border-[#DAD2C2] text-[#DAD2C2] rounded px-3 text-sm focus:outline-none"
+                  className="w-full h-10 bg-[#1E1E1E] border-[0.5px] border-[#DAD2C2] text-[#DAD2C2] rounded-lg px-3 text-sm focus:outline-none"
                 />
               </div>
 
@@ -214,7 +214,7 @@ export const FormBlock: React.FC<
                 <input
                   type="text"
                   {...register('location')}
-                  className="w-full h-10 bg-[#1E1E1E] border-[0.5px] border-[#DAD2C2] text-[#DAD2C2] rounded px-3 text-sm focus:outline-none"
+                  className="w-full h-10 bg-[#1E1E1E] border-[0.5px] border-[#DAD2C2] text-[#DAD2C2] rounded-lg px-3 text-sm focus:outline-none"
                 />
               </div>
               <div className="space-y-2">
@@ -222,7 +222,7 @@ export const FormBlock: React.FC<
                 <input
                   type="text"
                   {...register('spaceSize')}
-                  className="w-full h-10 bg-[#1E1E1E] border-[0.5px] border-[#DAD2C2] text-[#DAD2C2] rounded px-3 text-sm focus:outline-none"
+                  className="w-full h-10 bg-[#1E1E1E] border-[0.5px] border-[#DAD2C2] text-[#DAD2C2] rounded-lg px-3 text-sm focus:outline-none"
                 />
               </div>
               <div className="space-y-2">
@@ -230,7 +230,7 @@ export const FormBlock: React.FC<
                 <input
                   type="text"
                   {...register('projectName')}
-                  className="w-full h-10 bg-[#1E1E1E] border-[0.5px] border-[#DAD2C2] text-[#DAD2C2] rounded px-3 text-sm focus:outline-none"
+                  className="w-full h-10 bg-[#1E1E1E] border-[0.5px] border-[#DAD2C2] text-[#DAD2C2] rounded-lg px-3 text-sm focus:outline-none"
                 />
               </div>
 
@@ -244,7 +244,7 @@ export const FormBlock: React.FC<
                       type="button"
                       onClick={() => setValue('projectType', type.toLowerCase())}
                       className={cn(
-                        'h-9 px-4 rounded text-sm transition-colors whitespace-nowrap',
+                        'h-9 px-4 rounded-lg text-sm transition-colors whitespace-nowrap',
                         watch('projectType') === type.toLowerCase()
                           ? 'bg-[#1E1E1E] border-[0.5px] border-[#DAD2C2] text-[#DAD2C2]'
                           : 'bg-[#DAD2C2] text-black hover:bg-[#DAD2C2]/90'
@@ -258,7 +258,7 @@ export const FormBlock: React.FC<
                   <input
                     type="text"
                     {...register('otherProjectType')}
-                    className="w-full h-10 bg-[#1E1E1E] border-[0.5px] border-[#DAD2C2] text-[#DAD2C2] rounded px-3 text-sm focus:outline-none mt-2"
+                    className="w-full h-10 bg-[#1E1E1E] border-[0.5px] border-[#DAD2C2] text-[#DAD2C2] rounded-lg px-3 text-sm focus:outline-none mt-2"
                   />
                 )}
               </div>
@@ -272,7 +272,7 @@ export const FormBlock: React.FC<
                       type="button"
                       onClick={() => setValue('hasBrandDesign', option.toLowerCase())}
                       className={cn(
-                        'h-9 px-6 rounded text-sm transition-colors flex-1 md:flex-none',
+                        'h-9 px-6 rounded-lg text-sm transition-colors flex-1 md:flex-none',
                         watch('hasBrandDesign') === option.toLowerCase()
                           ? 'bg-[#DAD2C2] text-black hover:bg-[#DAD2C2]/90'
                           : 'bg-[#1E1E1E] border-[0.5px] border-[#DAD2C2] text-[#DAD2C2] hover:bg-[#1E1E1E]/90'
@@ -287,7 +287,7 @@ export const FormBlock: React.FC<
                     type="text"
                     placeholder="Add Google drive link please.."
                     {...register('driveLink')}
-                    className="w-full h-10 bg-[#1E1E1E] border-[0.5px] border-[#DAD2C2] text-[#DAD2C2] rounded px-3 text-sm focus:outline-none mt-4"
+                    className="w-full h-10 bg-[#1E1E1E] border-[0.5px] border-[#DAD2C2] text-[#DAD2C2] rounded-lg px-3 text-sm focus:outline-none mt-4"
                   />
                 )}
               </div>
@@ -298,7 +298,7 @@ export const FormBlock: React.FC<
                 <textarea
                   placeholder="WRITE HERE...."
                   {...register('description')}
-                  className="w-full min-h-[150px] md:min-h-[200px] bg-[#1E1E1E] border-[0.5px] border-[#DAD2C2] text-[#DAD2C2] rounded px-3 py-2 text-sm focus:outline-none placeholder:text-[#666666]"
+                  className="w-full min-h-[150px] md:min-h-[200px] bg-[#1E1E1E] border-[0.5px] border-[#DAD2C2] text-[#DAD2C2] rounded-lg px-3 py-2 text-sm focus:outline-none placeholder:text-[#666666]"
                 />
               </div>
             </div>
@@ -306,7 +306,7 @@ export const FormBlock: React.FC<
             <div className="mt-8">
               <button
                 type="submit"
-                className="w-full bg-[#DAD2C2] text-black py-2 md:py-2 rounded text-sm md:text-base hover:bg-[#DAD2C2]/90 transition-colors"
+                className="w-full bg-[#DAD2C2] text-black py-2 md:py-2 rounded-lg text-sm md:text-base hover:bg-[#DAD2C2]/90 transition-colors"
               >
                 SUBMIT
               </button>

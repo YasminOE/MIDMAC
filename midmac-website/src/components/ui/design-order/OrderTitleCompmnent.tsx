@@ -27,12 +27,12 @@ export const DesignOrderTitleComponent: React.FC<Props> = ({ className, title, s
   return (
     <div className={`w-full flex flex-col items-center justify-center pt-24 ${className}`}>
       <motion.div 
-        className="max-w-4xl mx-auto"
+        className="max-w-4xl mx-auto px-8 md:px-0"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
       >
-        <h1 className="text-[4rem] font-light uppercase mb-2">
+        <h1 className="text-[2.5rem] md:text-[4rem] font-light uppercase mb-2">
           {title && getTextContent(title)}
         </h1>
         <motion.div
@@ -40,7 +40,7 @@ export const DesignOrderTitleComponent: React.FC<Props> = ({ className, title, s
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
         >
-          <p className="text-[1.5rem] uppercase">
+          <p className="text-[1.2rem] md:text-[1.5rem] uppercase">
             {subTitle && getTextContent(subTitle)}
           </p>
         </motion.div>
