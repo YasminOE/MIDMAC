@@ -46,8 +46,8 @@ export default buildConfig({
     },
     meta: {
       titleSuffix: '- MIDMAC',
-      favicon: './favicon.ico',
-      ogImage: './favicon.ico',
+      // favicon: './favicon.ico',
+      // ogImage: './favicon.ico',
       icons: [
         {
           url: './favicon-16x16.png',

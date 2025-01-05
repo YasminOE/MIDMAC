@@ -537,7 +537,8 @@ html[data-theme=light] .multi-value.rs__multi-value, html[data-theme=dark] .mult
 }
 
 .nav-group__label {
-    color: #DAD2C2 !important
+    color: #DAD2C2 !important;
+    font-weight: 500 !important;
   }
 
 .hamburger-icon {
