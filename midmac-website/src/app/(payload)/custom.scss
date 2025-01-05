@@ -452,6 +452,42 @@ html [dir="rtl"] {
 //     background-color: red;
 // }
 
+.card{
+    background-color: #1E1E1E !important;
+    color: #DAD2C2 !important;
+    border: 0.5px solid #DAD2C2 !important;
+}
+.auth-fields.collection-edit__auth{
+       background-color: #1E1E1E !important; 
+       color: #DAD2C2 !important;
+}
+
+.auth-fields__controls button{
+    border: 1px solid #DAD2C2 !important;
+    color: #DAD2C2 !important;
+}
+
+.field-type__wrap input, .css-cp01gg-control{
+    background-color: #1E1E1E !important;
+    color: #DAD2C2 !important;
+}
+html[data-theme=light] .multi-value.rs__multi-value, html[data-theme=dark] .multi-value.rs__multi-value{
+    background-color: #1E1E1E !important;
+    color: #DAD2C2 !important;
+}
+
+.step-nav__home svg{
+    display: none !important;
+}
+
+.step-nav__home {
+    // background-color: red !important;
+    background: url('../../assets/images/header-nav-icon.svg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
 .login__brand svg.graphic-logo g{
     display: none !important;
 }
