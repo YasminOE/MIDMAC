@@ -173,7 +173,7 @@ export const FormBlock: React.FC<
           {/* Error Message */}
           {error && (
             <div className="absolute top-4 left-1/2 -translate-x-1/2 z-10">
-              <div className="bg-red-500/10 border border-red-500 rounded-lg px-4 py-2">
+              <div className="bg-red-500/10 border border-red-900 rounded-lg px-4 py-2 text-[#DAD2C2]">
                 {`${error.status || '500'}: ${error.message || ''}`}
               </div>
             </div>

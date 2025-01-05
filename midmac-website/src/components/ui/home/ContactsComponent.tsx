@@ -2,6 +2,8 @@
 
 import React from 'react'
 import { ContactsBlock as ContactsBlockProps } from '@/payload-types'
+import { useSearchParams } from 'next/navigation'
+import RtlText from '../RtlText'
 
 // TODO: Fix the contact info section on both mobile and desktop
 
@@ -15,6 +17,9 @@ export const Contacts: React.FC<Props> = ({
 }) => {
     const ContactInfo = JSON.parse(JSON.stringify(contactInfo))
     const RightContent = JSON.parse(JSON.stringify(rightContent))
+    const searchParams = useSearchParams();
+    const isArabic = searchParams?.get('locale') === 'ar';
+
   return (
     <section 
       id="contact" 
@@ -23,14 +28,14 @@ export const Contacts: React.FC<Props> = ({
       <div className="w-full h-full max-w-[2690px] mx-auto px-[--container-padding] flex flex-col-reverse md:flex-row justify-start md:justify-between items-center gap-6 md:gap-12">
 
         {/* Left side - Contact Information */}
-        <div className="w-full md:w-1/2 3xl:max-w-[800px]">
+        <div className="w-full md:w-1/2 3xl:max-w-[800px]" dir={isArabic ? 'rtl' : 'ltr'}>
           <div className="flex justify-between items-start md:items-center border-[#DAD2C2] border-b border-t pb-2 md:pb-1 pt-2 md:pt-1 gap-2 md:flex-row">
             <span className="text-sm 3xl:text-2xl uppercase">
-              {ContactInfo.emailLabel}
+              <RtlText>{ContactInfo.emailLabel}</RtlText>
             </span>
             <a 
               href={`mailto:${ContactInfo.email}`}
-              className="text-[#DAD2C2] text-sm 3xl:text-xl  transition-colors"
+              className="text-[#DAD2C2] text-sm 3xl:text-xl transition-colors montserrat"
             >
               {ContactInfo.email}
             </a>
@@ -38,13 +43,13 @@ export const Contacts: React.FC<Props> = ({
           
           <div className="flex justify-between items-start md:items-center border-b border-[#DAD2C2] pb-2 md:pb-1 mt-4 md:mt-2 gap-2 md:flex-row">
             <span className="text-sm 3xl:text-2xl uppercase">
-              {ContactInfo.instagramLabel}
+              <RtlText>{ContactInfo.instagramLabel}</RtlText>
             </span>
             <a 
               href="https://www.instagram.com/midmac.design/"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-[#DAD2C2] text-sm 3xl:text-xl transition-colors"
+              className="text-[#DAD2C2] text-sm 3xl:text-xl transition-colors montserrat"
             >
               {ContactInfo.instagram}
             </a>
@@ -52,13 +57,14 @@ export const Contacts: React.FC<Props> = ({
           
           <div className="flex justify-between items-start md:items-center border-b border-[#DAD2C2] pb-2 md:pb-1 mt-4 md:mt-2 gap-2 md:flex-row">
             <span className="text-sm 3xl:text-2xl uppercase">
-              {ContactInfo.phoneLabel}
+              <RtlText>{ContactInfo.phoneLabel}</RtlText>
             </span>
             <a 
               href={`https://wa.me/${ContactInfo.phone.replace(/[^0-9]/g, '')}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-[#DAD2C2] text-sm 3xl:text-xl transition-colors"
+              className="text-[#DAD2C2] text-sm 3xl:text-xl transition-colors montserrat"
+              dir="ltr"
             >
               {ContactInfo.phone}
             </a>
@@ -71,12 +77,15 @@ export const Contacts: React.FC<Props> = ({
             <a 
               href={RightContent.buttonLink || '/'}
               className="bg-[#E5E0D9] text-[#1E1E1E] px-12 md:px-24 py-4 md:py-8 rounded-lg text-xl md:text-2xl 3xl:text-3xl uppercase inline-block hovered-btn w-full md:w-auto text-center"
+              style={{ textAlign: 'center' }}
             >
-              {RightContent.content}
+              <span className="block text-center" dir="auto">
+                {RightContent.content}
+              </span>
             </a>
           ) : (
             <h2 className="text-[#E5E0D9] text-2xl 3xl:text-3xl">
-              {RightContent.content}
+              <RtlText>{RightContent.content}</RtlText>
             </h2>
           )}
         </div>

@@ -81,6 +81,7 @@ import React from 'react'
 import Image from 'next/image'
 import { motion } from 'motion/react'
 import type { TeamMembersBlock as TeamMembersBlockProps, Media } from '@/payload-types'
+import RtlText from '../RtlText'
 
 // TODO: Fix on small screens
 type Props = {
@@ -112,7 +113,7 @@ export const TeamMembersComponent: React.FC<Props> = ({
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
         >
-          {title}
+          <RtlText>{title}</RtlText>
         </motion.h2>
         
         {/* Founders Row - Centered */}
@@ -136,9 +137,15 @@ export const TeamMembersComponent: React.FC<Props> = ({
                   />
                 )}
               </div>
-              <h3 className="text-xl mb-1">{member.name}</h3>
-              <p className="text-sm mb-4">{member.position}</p>
-              <p className="text-sm leading-relaxed">{member.bio}</p>
+              <h3 className="text-xl mb-1">
+                <RtlText>{member.name}</RtlText>
+              </h3>
+              <p className="text-sm mb-4">
+                <RtlText>{member.position}</RtlText>
+              </p>
+              <p className="text-sm leading-relaxed">
+                <RtlText>{member.bio}</RtlText>
+              </p>
             </motion.div>
           ))}
         </div>
@@ -163,9 +170,15 @@ export const TeamMembersComponent: React.FC<Props> = ({
                   />
                 )}
               </div>
-              <h3 className="text-xl mb-1">{member.name}</h3>
-              <p className=" text-sm mb-4">{member.position}</p>
-              <p className="text-sm leading-relaxed">{member.bio}</p>
+              <h3 className="text-xl mb-1">
+                <RtlText>{member.name}</RtlText>
+              </h3>
+              <p className=" text-sm mb-4">
+                <RtlText>{member.position}</RtlText>
+              </p>
+              <p className="text-sm leading-relaxed">
+                <RtlText>{member.bio}</RtlText>
+              </p>
             </motion.div>
           ))}
         </div>

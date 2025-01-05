@@ -145,6 +145,7 @@ export const ProgressImagesComponent: React.FC<Props> = ({
         w-full 
         h-screen 
         overflow-hidden
+        dir-ltr
         ${className || ''}
       `} 
       id='progress-images'

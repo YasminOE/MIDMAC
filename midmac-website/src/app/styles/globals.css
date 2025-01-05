@@ -460,7 +460,7 @@ html[dir="rtl"], html[lang="ar"] {
 
 /* always Montserrat text */
 .montserrat {
-  font-family: 'Montserrat';
+  font-family: 'Montserrat' !important;
   font-weight: 400;
 }
 
@@ -3935,4 +3935,58 @@ body[dir="rtl"] .arrow {
     left: -25vw;
     right: auto;
   }
+}
+
+/* RTL text alignment for Arabic */
+[lang="ar"],
+[dir="rtl"] {
+  font-family: 'Manchette';
+  font-weight: normal;
+}
+
+/* Remove global right alignment */
+[lang="ar"] *,
+[dir="rtl"] * {
+  font-family: inherit;
+}
+
+/* Class for elements that should be right-aligned in Arabic */
+.rtl-text {
+  text-align: inherit;
+}
+
+[lang="ar"] .rtl-text,
+[dir="rtl"] .rtl-text,
+html[lang="ar"] .rtl-text,
+body[lang="ar"] .rtl-text {
+  text-align: right !important;
+  /* direction: rtl !important; */
+}
+
+/* Specific overrides for form inputs and text areas */
+[lang="ar"] input.rtl-text,
+[lang="ar"] textarea.rtl-text,
+[dir="rtl"] input.rtl-text,
+[dir="rtl"] textarea.rtl-text {
+  text-align: right;
+  /* direction: rtl; */
+}
+
+/* Ensure only specific paragraphs and headings are right aligned in RTL */
+[lang="ar"] p.rtl-text,
+[lang="ar"] h1.rtl-text,
+[lang="ar"] h2.rtl-text,
+[lang="ar"] h3.rtl-text,
+[lang="ar"] h4.rtl-text,
+[lang="ar"] h5.rtl-text,
+[lang="ar"] h6.rtl-text,
+[dir="rtl"] p.rtl-text,
+[dir="rtl"] h1.rtl-text,
+[dir="rtl"] h2.rtl-text,
+[dir="rtl"] h3.rtl-text,
+[dir="rtl"] h4.rtl-text,
+[dir="rtl"] h5.rtl-text,
+[dir="rtl"] h6.rtl-text {
+  text-align: right;
+  /* direction: rtl; */
 }

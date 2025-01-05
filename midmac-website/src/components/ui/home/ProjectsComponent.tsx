@@ -5,6 +5,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { motion } from 'motion/react'
 import type { ProjectsBlock as ProjectsBlockProps, Project, Media } from '@/payload-types'
+import { RtlText } from '../RtlText'
 
 // TODO: change the projects block on mobile screen
 
@@ -87,7 +88,7 @@ export const ProjectsComponent: React.FC<Props> = ({
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
           >
-            {title}
+            <RtlText>{title}</RtlText>
           </motion.h2>
         )}
         
