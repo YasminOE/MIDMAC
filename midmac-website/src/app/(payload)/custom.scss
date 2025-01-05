@@ -455,7 +455,7 @@ html [dir="rtl"] {
 .card{
     background-color: #1E1E1E !important;
     color: #DAD2C2 !important;
-    border: 0.5px solid #DAD2C2 !important;
+    border: 0.5px solid rgba(218, 210, 194, 0.52) !important;
 }
 .auth-fields.collection-edit__auth{
        background-color: #1E1E1E !important; 
@@ -554,7 +554,7 @@ ul.dashboard__card-list{
     background-color: none !important;
     // background-color: #1E1E1E !important;
     color: #DAD2C2 !important;
-    border: 0px 0px 0px 1px solid #DAD2C2 !important;
+    border: 0px 0px 0px 1px solid rgba(218, 210, 194, 0.52)  !important;
 }
 
 .doc-controls__wrapper, .gutter--left, .gutter--right, .doc-controls{

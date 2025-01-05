@@ -1,4 +1,9 @@
-import type { CollectionConfig } from 'payload'
+import { Access, CollectionConfig } from 'payload'
+
+const isAdminOrUser: Access = ({ req }) => {
+  const user = req.user
+  return Boolean(user?.roles?.includes('admin') || user?.roles?.includes('user'))
+}
 
 export const Projects: CollectionConfig = {
     slug: 'projects',
@@ -8,6 +13,12 @@ export const Projects: CollectionConfig = {
     },
     access: {
         read: () => true,
+        create: isAdminOrUser,
+        update: isAdminOrUser,
+        delete: ({ req }) => {
+          const user = req.user
+          return Boolean(user?.roles?.includes('admin'))
+        },
     },
     admin: {
         useAsTitle: 'title',
