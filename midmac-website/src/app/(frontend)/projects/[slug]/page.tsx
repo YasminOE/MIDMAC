@@ -5,6 +5,7 @@ import { Project } from '@/payload-types'
 import { ProjectGallery } from '@/components/ui/projects/ProjectGallarey'
 import { ProjectPlans } from '@/components/ui/projects/ProjectPlans'
 import { Contact } from '@/components/ui/projects/Contacts'
+import RtlText from '@/components/ui/RtlText'
 
 // Generate static params for all projects
 export async function generateStaticParams() {
@@ -63,7 +64,7 @@ const ProjectPage = async ({ params }: Props) => {
       <div className="px-4 md:px-10 h-full">
         {/* Project Header for Mobile */}
         <h1 className="text-[2rem] md:text-[4rem] font-light uppercase mb-4 md:mb-12 md:hidden px-4">
-          {project.title}
+          <RtlText>{project.title}</RtlText>
         </h1>
 
         <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-16">
@@ -71,13 +72,13 @@ const ProjectPage = async ({ params }: Props) => {
           <div className="md:col-span-4 flex justify-between flex-col h-full order-2 md:order-1 px-4">
             {/* Project Header for Desktop */}
             <h1 className="hidden md:block text-[4rem] font-light uppercase mb-12">
-              {project.title}
+              <RtlText>{project.title}</RtlText>
             </h1>
             
             {project.content && (
               <div className="prose prose-invert max-w-none mb-8 md:mb-20">
                 <p className="text-[0.7rem] md:text-[0.8rem] mb-4">
-                  {project.content && getFirstParagraphText(project.content)}
+                  <RtlText>{project.content && getFirstParagraphText(project.content)}</RtlText>
                 </p>
               </div>
             )}
@@ -87,19 +88,25 @@ const ProjectPage = async ({ params }: Props) => {
               {project.projectDetails?.city && (
                 <div className="flex justify-between border-t-[0.5px] border-[#DAD2C2] py-2">
                   <h3 className="uppercase text-[0.8rem] md:text-[1.1rem] tracking-wider">City</h3>
-                  <p className="text-[0.8rem] md:text-[1.1rem]">{project.projectDetails.city}</p>
+                  <p className="text-[0.8rem] md:text-[1.1rem]">
+                    <RtlText>{project.projectDetails.city}</RtlText>
+                  </p>
                 </div>
               )}
               {project.projectDetails?.size && (
                 <div className="flex justify-between border-t-[0.5px] border-[#DAD2C2] py-2">
                   <h3 className="uppercase text-[0.8rem] md:text-[1.1rem] tracking-wider">Size</h3>
-                  <p className="text-[0.8rem] md:text-[1.1rem]">{project.projectDetails.size}</p>
+                  <p className="text-[0.8rem] md:text-[1.1rem]">
+                    <RtlText>{project.projectDetails.size}</RtlText>
+                  </p>
                 </div>
               )}
               {project.projectDetails?.year && (
                 <div className="flex justify-between border-t-[0.5px] border-b-[0.5px] border-[#DAD2C2] py-2">
                   <h3 className="uppercase text-[0.8rem] md:text-[1.1rem] tracking-wider">Year</h3>
-                  <p className="text-[0.8rem] md:text-[1.1rem]">{project.projectDetails.year}</p>
+                  <p className="text-[0.8rem] md:text-[1.1rem]">
+                    <RtlText>{project.projectDetails.year}</RtlText>
+                  </p>
                 </div>
               )}
             </div>

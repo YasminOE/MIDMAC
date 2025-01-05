@@ -1,23 +1,12 @@
 'use client'
 import type { Form as FormType } from '@payloadcms/plugin-form-builder/types'
-
 import { useRouter } from 'next/navigation'
 import React, { useCallback, useState } from 'react'
 import { useForm, FormProvider } from 'react-hook-form'
-// import RichText from '@/components/Richtext'
-import { SerializeLexical } from '@/components/Richtext/Lexical'
-// import { Button } from '@/components/ui/form/button'
+import { useSearchParams } from 'next/navigation'
 import type { SerializedEditorState } from '@payloadcms/richtext-lexical/lexical'
-
-// import { buildInitialFormState } from './buildInitialFormState'
-// import { fields } from './fields'
 import { getClientSideURL } from '@/utilities/getURL'
 import { cn } from '@/utilities/cn'
-
-// import type {
-//     SerializedTextNode,
-
-//   } from '@payloadcms/richtext-lexical'
 
 export type Value = unknown
 
@@ -63,6 +52,36 @@ export const FormBlock: React.FC<
     introContent,
   } = props
 
+  const searchParams = useSearchParams();
+  const isArabic = searchParams?.get('locale') === 'ar';
+
+  const translations = {
+    name: isArabic ? 'الاسم' : 'Name',
+    phone: isArabic ? 'رقم الجوال' : 'Phone Number',
+    email: isArabic ? 'الايميل' : 'Email',
+    location: isArabic ? 'موقع المشروع' : 'Location',
+    spaceSize: isArabic ? 'المساحة' : 'Space Size',
+    projectName: isArabic ? 'اسم المشروع' : 'Project Name',
+    projectType: isArabic ? 'نوع المشروع' : 'Project Type',
+    projectTypes: {
+      coffee: isArabic ? 'قهوة' : 'COFFEE',
+      restaurant: isArabic ? 'مطعم' : 'RESTAURANT',
+      office: isArabic ? 'مكتب' : 'OFFICE',
+      spa: isArabic ? 'سبا' : 'SPA',
+      other: isArabic ? 'أخرى..' : 'OTHER..'
+    },
+    hasBrandDesign: isArabic ? 'هل لديك هوية تصميمية للمشروع؟' : 'Do you have brand design?',
+    yes: isArabic ? 'نعم' : 'YES',
+    no: isArabic ? 'لا' : 'NO',
+    driveLinkPlaceholder: isArabic ? 'أضف رابط قوقل درايف من فضلك..' : 'Add Google drive link please..',
+    describeProject: isArabic ? 'نبذة عن المشروع' : 'DESCRIBE YOUR PROJECT',
+    writePlaceholder: isArabic ? 'اكتب هنا....' : 'WRITE HERE....',
+    submit: isArabic ? 'إرسال' : 'SUBMIT',
+    thankYou: isArabic ? 'شكراً لتواصلك معنا' : 'THANK YOU FOR CONTACTING US',
+    pleaseWait: isArabic ? 'يرجى الانتظار حتى نتواصل معك' : 'PLEASE WAIT UNTIL WE CONTACT YOU',
+    loading: isArabic ? 'جاري التحميل، يرجى الانتظار...' : 'Loading, please wait...'
+  };
+
   const formMethods = useForm<FormData>()
   const {
     control,
@@ -89,7 +108,6 @@ export const FormBlock: React.FC<
           value: value || '',
         }))
 
-        // delay loading indicator by 1s
         loadingTimerID = setTimeout(() => {
           setIsLoading(true)
         }, 1000)
@@ -112,12 +130,10 @@ export const FormBlock: React.FC<
 
           if (req.status >= 400) {
             setIsLoading(false)
-
             setError({
               message: res.errors?.[0]?.message || 'Internal Server Error',
               status: res.status,
             })
-
             return
           }
 
@@ -126,9 +142,7 @@ export const FormBlock: React.FC<
 
           if (confirmationType === 'redirect' && redirect) {
             const { url } = redirect
-
             const redirectUrl = url
-
             if (redirectUrl) router.push(redirectUrl)
           }
         } catch (err) {
@@ -151,13 +165,25 @@ export const FormBlock: React.FC<
         <FormProvider {...formMethods}>
           {/* Confirmation Modal Overlay */}
           {!isLoading && hasSubmitted && confirmationType === 'message' && (
-            <div className="fixed inset-0 backdrop-blur-[2px] z-50 flex items-center justify-center">
-              <div className="bg-[#1E1E1E] border border-[#DAD2C2]/20 rounded-lg p-6 max-w-md mx-4 text-center">
-                <h2 className="text-lg md:text-xl uppercase mb-2">
-                  THANK YOU FOR CONTACTING US
+            <div className="fixed inset-0 backdrop-blur-[2px] z-50 flex items-center justify-center px-4">
+              <div className={`bg-[#1E1E1E] border border-[#DAD2C2]/20 rounded-[24px] ${
+                isArabic 
+                  ? 'py-8 md:py-10 px-6 md:px-8 w-[80%] md:w-[450px] max-w-[450px]' 
+                  : 'py-8 md:py-10 px-6 md:px-8 w-[80%] md:w-[450px] max-w-[450px]'
+              } mx-auto text-center`}>
+                <h2 className={`${
+                  isArabic 
+                    ? 'text-xl md:text-2xl mb-2 md:mb-2 font-light' 
+                    : 'text-lg md:text-xl mb-2'
+                }`}>
+                  {translations.thankYou}
                 </h2>
-                <p className="text-xs md:text-sm text-[#DAD2C2]">
-                  PLEASE WAIT UNTIL WE CONTACT YOU
+                <p className={`${
+                  isArabic 
+                    ? 'text-sm md:text-base text-[#DAD2C2]/80' 
+                    : 'text-xs md:text-sm text-[#DAD2C2]'
+                }`}>
+                  {translations.pleaseWait}
                 </p>
               </div>
             </div>
@@ -166,7 +192,7 @@ export const FormBlock: React.FC<
           {/* Loading Overlay */}
           {isLoading && !hasSubmitted && (
             <div className="fixed inset-0 backdrop-blur-[2px] z-50 flex items-center justify-center">
-              <p className="text-center text-[#DAD2C2]">Loading, please wait...</p>
+              <p className="text-center text-[#DAD2C2]">{translations.loading}</p>
             </div>
           )}
 
@@ -180,11 +206,11 @@ export const FormBlock: React.FC<
           )}
 
           {/* Form */}
-          <form id={formID} onSubmit={handleSubmit(onSubmit)} className="px-4 py-4 md:py-12">
+          <form id={formID} onSubmit={handleSubmit(onSubmit)} className="px-4 py-4 md:py-12" dir={isArabic ? 'rtl' : 'ltr'}>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 lg:gap-8">
               {/* First row - Name, Phone, Email */}
               <div className="space-y-2">
-                <label className="text-sm text-[#DAD2C2] uppercase">Name</label>
+                <label className="text-sm text-[#DAD2C2] uppercase">{translations.name}</label>
                 <input
                   type="text"
                   {...register('name')}
@@ -192,25 +218,27 @@ export const FormBlock: React.FC<
                 />
               </div>
               <div className="space-y-2">
-                <label className="text-sm text-[#DAD2C2] uppercase">Phone Number</label>
+                <label className="text-sm text-[#DAD2C2] uppercase">{translations.phone}</label>
                 <input
                   type="tel"
                   {...register('phone')}
                   className="w-full h-10 bg-[#1E1E1E] border-[0.5px] border-[#DAD2C2] text-[#DAD2C2] rounded-lg px-3 text-sm focus:outline-none"
+                  dir="ltr"
                 />
               </div>
               <div className="space-y-2">
-                <label className="text-sm text-[#DAD2C2] uppercase">Email</label>
+                <label className="text-sm text-[#DAD2C2] uppercase">{translations.email}</label>
                 <input
                   type="email"
                   {...register('email')}
                   className="w-full h-10 bg-[#1E1E1E] border-[0.5px] border-[#DAD2C2] text-[#DAD2C2] rounded-lg px-3 text-sm focus:outline-none"
+                  dir="ltr"
                 />
               </div>
 
               {/* Second row - Location, Space Size, Project Name */}
               <div className="space-y-2">
-                <label className="text-sm text-[#DAD2C2] uppercase">Location</label>
+                <label className="text-sm text-[#DAD2C2] uppercase">{translations.location}</label>
                 <input
                   type="text"
                   {...register('location')}
@@ -218,7 +246,7 @@ export const FormBlock: React.FC<
                 />
               </div>
               <div className="space-y-2">
-                <label className="text-sm text-[#DAD2C2] uppercase">Space Size</label>
+                <label className="text-sm text-[#DAD2C2] uppercase">{translations.spaceSize}</label>
                 <input
                   type="text"
                   {...register('spaceSize')}
@@ -226,7 +254,7 @@ export const FormBlock: React.FC<
                 />
               </div>
               <div className="space-y-2">
-                <label className="text-sm text-[#DAD2C2] uppercase">Project Name</label>
+                <label className="text-sm text-[#DAD2C2] uppercase">{translations.projectName}</label>
                 <input
                   type="text"
                   {...register('projectName')}
@@ -236,9 +264,15 @@ export const FormBlock: React.FC<
 
               {/* Third row - Project Type and Brand Design */}
               <div className="col-span-1 md:col-span-2 space-y-2">
-                <label className="text-sm text-[#DAD2C2] uppercase">Project Type</label>
+                <label className="text-sm text-[#DAD2C2] uppercase">{translations.projectType}</label>
                 <div className="flex flex-wrap gap-2 md:gap-3">
-                  {['COFFEE', 'RESTAURANT', 'OFFICE', 'SPA', 'OTHER..'].map((type) => (
+                  {[
+                    translations.projectTypes.coffee,
+                    translations.projectTypes.restaurant,
+                    translations.projectTypes.office,
+                    translations.projectTypes.spa,
+                    translations.projectTypes.other
+                  ].map((type) => (
                     <button
                       key={type}
                       type="button"
@@ -254,7 +288,7 @@ export const FormBlock: React.FC<
                     </button>
                   ))}
                 </div>
-                {watch('projectType') === 'other..' && (
+                {watch('projectType') === translations.projectTypes.other.toLowerCase() && (
                   <input
                     type="text"
                     {...register('otherProjectType')}
@@ -264,9 +298,9 @@ export const FormBlock: React.FC<
               </div>
 
               <div className="col-span-1 space-y-2">
-                <label className="text-sm text-[#DAD2C2] uppercase">Do you have brand design?</label>
+                <label className="text-sm text-[#DAD2C2] uppercase">{translations.hasBrandDesign}</label>
                 <div className="flex gap-2 md:gap-3">
-                  {['YES', 'NO'].map((option) => (
+                  {[translations.yes, translations.no].map((option) => (
                     <button
                       key={option}
                       type="button"
@@ -282,23 +316,24 @@ export const FormBlock: React.FC<
                     </button>
                   ))}
                 </div>
-                {watch('hasBrandDesign') === 'yes' && (
+                {watch('hasBrandDesign') === translations.yes.toLowerCase() && (
                   <input
                     type="text"
-                    placeholder="Add Google drive link please.."
+                    placeholder={translations.driveLinkPlaceholder}
                     {...register('driveLink')}
                     className="w-full h-10 bg-[#1E1E1E] border-[0.5px] border-[#DAD2C2] text-[#DAD2C2] rounded-lg px-3 text-sm focus:outline-none mt-4"
+                    dir="ltr"
                   />
                 )}
               </div>
 
               {/* Project Description */}
               <div className="col-span-1 md:col-span-full mt-2 md:mt-2">
-                <h2 className="text-sm text-[#DAD2C2] mb-4">DESCRIBE YOUR PROJECT</h2>
+                <h2 className="text-sm text-[#DAD2C2] mb-4">{translations.describeProject}</h2>
                 <textarea
-                  placeholder="WRITE HERE...."
+                  placeholder={translations.writePlaceholder}
                   {...register('description')}
-                  className="w-full min-h-[150px] md:min-h-[200px] bg-[#1E1E1E] border-[0.5px] border-[#DAD2C2] text-[#DAD2C2] rounded-lg px-3 py-2 text-sm focus:outline-none placeholder:text-[#666666]"
+                  className={`w-full min-h-[150px] md:min-h-[200px] bg-[#1E1E1E] border-[0.5px] border-[#DAD2C2] text-[#DAD2C2] rounded-lg px-3 py-2 text-sm focus:outline-none placeholder:text-[#666666] ${isArabic ? 'placeholder:text-right' : ''}`}
                 />
               </div>
             </div>
@@ -308,7 +343,7 @@ export const FormBlock: React.FC<
                 type="submit"
                 className="w-full bg-[#DAD2C2] text-black py-2 md:py-2 rounded-lg text-sm md:text-base hover:bg-[#DAD2C2]/90 transition-colors"
               >
-                SUBMIT
+                {translations.submit}
               </button>
             </div>
           </form>
