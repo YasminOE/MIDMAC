@@ -21,7 +21,7 @@ const isAdminOrUserForProjectsBlock: Access = ({ req, data }) => {
     // Allow users to update only if they're modifying the Projects block
     if (user?.roles?.includes('user') && data?.layout) {
         // Check if all changes are related to the Projects block
-        const hasOnlyProjectsChanges = data.layout.every(block => {
+        const hasOnlyProjectsChanges = data.layout.every((block: { blockType: string }) => {
             // Allow both existing Projects blocks and new ones
             return block.blockType === 'Projects'
         })
