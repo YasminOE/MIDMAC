@@ -11,10 +11,10 @@ export interface Config {
     users: UserAuthOperations;
   };
   collections: {
-    users: User;
-    media: Media;
-    projects: Project;
     pages: Page;
+    projects: Project;
+    media: Media;
+    users: User;
     forms: Form;
     'form-submissions': FormSubmission;
     'payload-locked-documents': PayloadLockedDocument;
@@ -23,10 +23,10 @@ export interface Config {
   };
   collectionsJoins: {};
   collectionsSelect: {
-    users: UsersSelect<false> | UsersSelect<true>;
-    media: MediaSelect<false> | MediaSelect<true>;
-    projects: ProjectsSelect<false> | ProjectsSelect<true>;
     pages: PagesSelect<false> | PagesSelect<true>;
+    projects: ProjectsSelect<false> | ProjectsSelect<true>;
+    media: MediaSelect<false> | MediaSelect<true>;
+    users: UsersSelect<false> | UsersSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
@@ -73,87 +73,6 @@ export interface UserAuthOperations {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "users".
- */
-export interface User {
-  id: string;
-  roles?: ('admin' | 'user')[] | null;
-  updatedAt: string;
-  createdAt: string;
-  email: string;
-  resetPasswordToken?: string | null;
-  resetPasswordExpiration?: string | null;
-  salt?: string | null;
-  hash?: string | null;
-  loginAttempts?: number | null;
-  lockUntil?: string | null;
-  password?: string | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "media".
- */
-export interface Media {
-  id: string;
-  alt: string;
-  prefix?: string | null;
-  updatedAt: string;
-  createdAt: string;
-  url?: string | null;
-  thumbnailURL?: string | null;
-  filename?: string | null;
-  mimeType?: string | null;
-  filesize?: number | null;
-  width?: number | null;
-  height?: number | null;
-  focalX?: number | null;
-  focalY?: number | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "projects".
- */
-export interface Project {
-  id: string;
-  title: string;
-  titleAr?: string | null;
-  content?: {
-    root: {
-      type: string;
-      children: {
-        type: string;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
-  projectDetails?: {
-    city?: string | null;
-    size?: string | null;
-    year?: string | null;
-  };
-  media?:
-    | {
-        image: string | Media;
-        id?: string | null;
-      }[]
-    | null;
-  plans?:
-    | {
-        plan: string | Media;
-        id?: string | null;
-      }[]
-    | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "pages".
  */
 export interface Page {
@@ -194,6 +113,26 @@ export interface HeroBlock {
   id?: string | null;
   blockName?: string | null;
   blockType: 'hero';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "media".
+ */
+export interface Media {
+  id: string;
+  alt: string;
+  prefix?: string | null;
+  updatedAt: string;
+  createdAt: string;
+  url?: string | null;
+  thumbnailURL?: string | null;
+  filename?: string | null;
+  mimeType?: string | null;
+  filesize?: number | null;
+  width?: number | null;
+  height?: number | null;
+  focalX?: number | null;
+  focalY?: number | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -258,6 +197,9 @@ export interface ProjectsBlock {
   title: string;
   projects?:
     | {
+        /**
+         * Select or create a project to add to this section
+         */
         project: string | Project;
         id?: string | null;
       }[]
@@ -265,6 +207,49 @@ export interface ProjectsBlock {
   id?: string | null;
   blockName?: string | null;
   blockType: 'projects';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "projects".
+ */
+export interface Project {
+  id: string;
+  title: string;
+  titleAr?: string | null;
+  content?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  projectDetails?: {
+    city?: string | null;
+    size?: string | null;
+    year?: string | null;
+  };
+  media?:
+    | {
+        image: string | Media;
+        id?: string | null;
+      }[]
+    | null;
+  plans?:
+    | {
+        plan: string | Media;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -564,6 +549,25 @@ export interface Form {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "users".
+ */
+export interface User {
+  id: string;
+  roles?: ('admin' | 'user')[] | null;
+  canEditProjects?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+  email: string;
+  resetPasswordToken?: string | null;
+  resetPasswordExpiration?: string | null;
+  salt?: string | null;
+  hash?: string | null;
+  loginAttempts?: number | null;
+  lockUntil?: string | null;
+  password?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "form-submissions".
  */
 export interface FormSubmission {
@@ -587,20 +591,20 @@ export interface PayloadLockedDocument {
   id: string;
   document?:
     | ({
-        relationTo: 'users';
-        value: string | User;
-      } | null)
-    | ({
-        relationTo: 'media';
-        value: string | Media;
+        relationTo: 'pages';
+        value: string | Page;
       } | null)
     | ({
         relationTo: 'projects';
         value: string | Project;
       } | null)
     | ({
-        relationTo: 'pages';
-        value: string | Page;
+        relationTo: 'media';
+        value: string | Media;
+      } | null)
+    | ({
+        relationTo: 'users';
+        value: string | User;
       } | null)
     | ({
         relationTo: 'forms';
@@ -651,71 +655,6 @@ export interface PayloadMigration {
   batch?: number | null;
   updatedAt: string;
   createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "users_select".
- */
-export interface UsersSelect<T extends boolean = true> {
-  roles?: T;
-  updatedAt?: T;
-  createdAt?: T;
-  email?: T;
-  resetPasswordToken?: T;
-  resetPasswordExpiration?: T;
-  salt?: T;
-  hash?: T;
-  loginAttempts?: T;
-  lockUntil?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "media_select".
- */
-export interface MediaSelect<T extends boolean = true> {
-  alt?: T;
-  prefix?: T;
-  updatedAt?: T;
-  createdAt?: T;
-  url?: T;
-  thumbnailURL?: T;
-  filename?: T;
-  mimeType?: T;
-  filesize?: T;
-  width?: T;
-  height?: T;
-  focalX?: T;
-  focalY?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "projects_select".
- */
-export interface ProjectsSelect<T extends boolean = true> {
-  title?: T;
-  titleAr?: T;
-  content?: T;
-  projectDetails?:
-    | T
-    | {
-        city?: T;
-        size?: T;
-        year?: T;
-      };
-  media?:
-    | T
-    | {
-        image?: T;
-        id?: T;
-      };
-  plans?:
-    | T
-    | {
-        plan?: T;
-        id?: T;
-      };
-  updatedAt?: T;
-  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -888,6 +827,72 @@ export interface DesignOrderFormBlockSelect<T extends boolean = true> {
   'Design Order Form'?: T;
   id?: T;
   blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "projects_select".
+ */
+export interface ProjectsSelect<T extends boolean = true> {
+  title?: T;
+  titleAr?: T;
+  content?: T;
+  projectDetails?:
+    | T
+    | {
+        city?: T;
+        size?: T;
+        year?: T;
+      };
+  media?:
+    | T
+    | {
+        image?: T;
+        id?: T;
+      };
+  plans?:
+    | T
+    | {
+        plan?: T;
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "media_select".
+ */
+export interface MediaSelect<T extends boolean = true> {
+  alt?: T;
+  prefix?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  url?: T;
+  thumbnailURL?: T;
+  filename?: T;
+  mimeType?: T;
+  filesize?: T;
+  width?: T;
+  height?: T;
+  focalX?: T;
+  focalY?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "users_select".
+ */
+export interface UsersSelect<T extends boolean = true> {
+  roles?: T;
+  canEditProjects?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  email?: T;
+  resetPasswordToken?: T;
+  resetPasswordExpiration?: T;
+  salt?: T;
+  hash?: T;
+  loginAttempts?: T;
+  lockUntil?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

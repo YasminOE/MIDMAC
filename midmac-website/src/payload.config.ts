@@ -56,12 +56,13 @@ export default buildConfig({
         },
       ],
     },
+    theme: 'dark',
   },
   collections: [
-    Users,
-    Media,
-    Projects,
     Pages,
+    Projects,
+    Media,
+    Users,
   ],
   globals: [Header, Footer],
   localization: {

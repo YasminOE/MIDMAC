@@ -23,7 +23,7 @@ const isAdminOrUserForProjectsBlock: Access = ({ req, data }) => {
         // Check if all changes are related to the Projects block
         const hasOnlyProjectsChanges = data.layout.every((block: { blockType: string }) => {
             // Allow both existing Projects blocks and new ones
-            return block.blockType === 'Projects'
+            return block.blockType === 'projects'
         })
         return hasOnlyProjectsChanges
     }
@@ -87,7 +87,7 @@ export const Pages: CollectionConfig = {
                     if (user?.roles?.includes('admin')) return true
                     if (user?.roles?.includes('user')) {
                         // Allow users to update and create Projects blocks
-                        return data?.blockType === 'Projects'
+                        return data?.blockType === 'projects'
                     }
                     return false
                 }

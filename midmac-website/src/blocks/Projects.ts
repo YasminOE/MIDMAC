@@ -1,4 +1,11 @@
 import { Block } from 'payload'
+import { User } from '@/payload-types'
+
+type AccessArgs = {
+  req: {
+    user: User | null;
+  };
+};
 
 export const Projects: Block = {
   slug: 'projects',
@@ -27,10 +34,22 @@ export const Projects: Block = {
       type: 'array',
       label: 'Projects',
       minRows: 1,
-      maxRows: 12,
       labels: {
         singular: 'Project',
         plural: 'Projects',
+      },
+      admin: {
+        initCollapsed: false,
+      },
+      access: {
+        create: ({ req }: AccessArgs) => {
+          const user = req.user as User | null
+          return Boolean(user?.roles?.includes('admin') || user?.roles?.includes('user'))
+        },
+        update: ({ req }: AccessArgs) => {
+          const user = req.user as User | null
+          return Boolean(user?.roles?.includes('admin') || user?.roles?.includes('user'))
+        },
       },
       fields: [
         {
@@ -39,6 +58,10 @@ export const Projects: Block = {
           relationTo: 'projects',
           required: true,
           hasMany: false,
+          admin: {
+            allowCreate: true,
+            description: 'Select or create a project to add to this section',
+          },
         }
       ]
     }

@@ -75,7 +75,7 @@ export const Projects: CollectionConfig = {
             name: 'media',
             type: 'array',
             label: 'Media',
-            maxRows: 5,
+            maxRows: 10,
             fields: [
                 {
                     name: 'image',

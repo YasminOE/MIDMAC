@@ -1,4 +1,10 @@
-import { GlobalConfig  } from 'payload'
+import { Access, GlobalConfig  } from 'payload'
+
+
+const isAdmin: Access = ({ req }) => {
+  const user = req.user
+  return Boolean(user?.roles?.includes('admin'))
+}
 
 const Footer: GlobalConfig = {
   slug: 'footer',
@@ -7,6 +13,7 @@ const Footer: GlobalConfig = {
   },
   access: {
     read: () => true,
+    update: isAdmin,
   },
   fields: [
     {

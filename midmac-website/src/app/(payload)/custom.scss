@@ -463,8 +463,18 @@ html [dir="rtl"] {
 }
 
 .auth-fields__controls button{
-    border: 1px solid #DAD2C2 !important;
+    // border: 0.5px solid rgba(218, 210, 194, 0.52) !important;
     color: #DAD2C2 !important;
+}
+
+.btn--style-secondary{
+    --box-shadow: inset 0 0 0 1px rgba(218, 210, 194, 0.52);
+    --hover-color: rgba(218, 210, 194, 0.52);
+    --hover-box-shadow: inset 0 0 0 1px rgba(218, 210, 194, 0.52);
+}
+
+.payload-settings h3{
+    display: none !important;
 }
 
 .field-type__wrap input, .css-cp01gg-control{
