@@ -30,7 +30,7 @@ export const DesignOrderTitleComponent: React.FC<Props> = ({ className, title, s
   }
 
   return (
-    <div className={`w-full flex flex-col items-center justify-center pt-24 ${className}`}>
+    <div className={`w-full flex flex-col items-center justify-center pt-32 ${className}`}>
       <motion.div 
         className="max-w-4xl mx-auto px-8 md:px-0"
         initial={{ opacity: 0, y: 20 }}

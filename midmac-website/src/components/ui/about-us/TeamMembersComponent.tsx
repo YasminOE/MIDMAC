@@ -32,9 +32,9 @@ export const TeamMembersComponent: React.FC<Props> = ({
 
   return (
     <section className={` ${className || ''}`}>
-      <div className="container large mx-auto md:px-0 px-2">
+      <div className="container large mx-auto md:px-28 px-2">
         <motion.h2 
-          className="text-[4rem] font-light mb-24 uppercase text-to-right"
+          className="text-[3rem] font-light mb-24 uppercase text-to-right"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -68,9 +68,9 @@ export const TeamMembersComponent: React.FC<Props> = ({
                 )}
               </div>
               <div className="text-to-right">
-                <h3 className="text-sm md:text-xl mb-1">{member.name}</h3>
-                <p className="text-xs md:text-sm mb-2 md:mb-4">{member.position}</p>
-                <p className="text-[0.5rem] md:text-sm leading-relaxed">{member.bio}</p>
+                <h3 className="text-sm md:text-lg mb-1">{member.name}</h3>
+                <p className="text-xs mb-2 md:mb-4">{member.position}</p>
+                <p className="text-[0.5rem] md:text-xs leading-relaxed">{member.bio}</p>
               </div>
             </motion.div>
           ))}
@@ -98,9 +98,9 @@ export const TeamMembersComponent: React.FC<Props> = ({
                 )}
               </div>
               <div>
-                <h3 className="text-sm md:text-xl mb-1">{member.name}</h3>
-                <p className="text-xs md:text-sm mb-2 md:mb-4">{member.position}</p>
-                <p className="text-[0.5rem] md:text-sm leading-relaxed">{member.bio}</p>
+                <h3 className="text-sm md:text-lg mb-1">{member.name}</h3>
+                <p className="text-xs mb-2 md:mb-4">{member.position}</p>
+                <p className="text-[0.5rem] md:text-xs leading-relaxed">{member.bio}</p>
               </div>
             </motion.div>
           ))}

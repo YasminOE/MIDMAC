@@ -206,7 +206,7 @@ export const FormBlock: React.FC<
           )}
 
           {/* Form */}
-          <form id={formID} onSubmit={handleSubmit(onSubmit)} className="px-4 py-4 md:py-12" dir={isArabic ? 'rtl' : 'ltr'}>
+          <form id={formID} onSubmit={handleSubmit(onSubmit)} className="px-4 py-4 md:py-12 md:px-0" dir={isArabic ? 'rtl' : 'ltr'}>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 lg:gap-8">
               {/* First row - Name, Phone, Email */}
               <div className="space-y-2">

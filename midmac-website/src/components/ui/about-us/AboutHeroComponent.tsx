@@ -16,12 +16,12 @@ export const AboutHeroComponent: React.FC<Props> = ({
   _className
 }) => {
   return (
-    <section className="relative mx-auto h-full py-32 container large px-20">
+    <section className="relative mx-auto h-full py-32 container large px-20 md:px-32">
       <div className="grid grid-rows-2 h-[75vh]">
         {/* Title Row - Top 50% */}
         <div className="w-full flex items-start justify-end">
           <motion.h1 
-              className="text-[1.8rem] md:text-[1.5rem] font-light uppercase leading-none overflow-hidden h-[200px]"
+              className="text-[1.5rem] md:text-[1.1rem] font-light uppercase leading-none overflow-hidden h-[200px]"
               initial={{ 
               opacity: 0,
                y: 20,
@@ -45,7 +45,7 @@ export const AboutHeroComponent: React.FC<Props> = ({
         {/* Description Row - Bottom 50% */}
         <div className="w-full flex items-end">
           <motion.div 
-            className="text-[1.1rem] leading-relaxed max-w-[60%]"
+            className="text-[0.9rem] leading-relaxed max-w-[50%]"
             initial={{ 
               opacity: 0,
                y: 20,
