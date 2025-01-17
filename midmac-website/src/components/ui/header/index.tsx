@@ -40,7 +40,11 @@ function LanguageSwitchContent() {
   }
 
   const handleLocaleChange = (locale: string) => {
-    window.location.href = createLocaleUrl(locale)
+    const url = new URL(window.location.origin + pathname)
+    const params = new URLSearchParams(searchParams.toString())
+    params.set('locale', locale)
+    url.search = params.toString()
+    window.location.replace(url.toString())
   }
 
   return (
@@ -80,6 +84,7 @@ export function LanguageSwitch() {
 const HeaderNav: React.FC<Props> = ({ HeaderLinks }) => {
   const [isOpen, setIsOpen] = useState(false)
   const [isAnimating, setIsAnimating] = useState(false)
+  const [showPreloader, setShowPreloader] = useState(false)
   const menuRef = useRef<HTMLDivElement>(null)
   const buttonRef = useRef<HTMLButtonElement>(null)
   const _pathname = usePathname()
@@ -147,15 +152,21 @@ const HeaderNav: React.FC<Props> = ({ HeaderLinks }) => {
     if (linkType === 'section') {
       const sectionId = link.replace('#', '')
 
-      // Start exit animation
+      // Start exit animation for menu only
       setIsOpen(false)
       setIsAnimating(true)
       // Wait for animation to complete
       await new Promise(resolve => setTimeout(resolve, 500))
       if (_pathname !== '/' && _pathname !== '/index') {
-        window.location.href = `/?locale=${currentLocale}&section=${sectionId}`
+        // Navigate to home with section parameter without triggering preloader
+        const url = new URL(window.location.href)
+        url.pathname = '/'
+        url.searchParams.set('locale', currentLocale)
+        url.searchParams.set('section', sectionId)
+        window.location.replace(url.toString())
         return
       }
+      // Direct scroll when already on home page
       const element = document.querySelector(`#${sectionId}`)
       if (element) {
         element.scrollIntoView({ behavior: 'smooth' })
@@ -181,6 +192,20 @@ const HeaderNav: React.FC<Props> = ({ HeaderLinks }) => {
     }
   }
 
+  const handleLogoClick = (e: React.MouseEvent) => {
+    e.preventDefault()
+    // Only show preloader if not already on home page
+    if (_pathname !== '/' && _pathname !== '/index') {
+      setShowPreloader(true)
+      setTimeout(() => {
+        window.location.href = `/?locale=${currentLocale}`
+      }, 2000)
+    } else {
+      // If already on home, just scroll to top smoothly
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+    }
+  }
+
   return (
     <>
       <motion.header
@@ -191,7 +216,7 @@ const HeaderNav: React.FC<Props> = ({ HeaderLinks }) => {
       >
         <div className="container large">
           <div className="header-left">
-            <Link href={`/?locale=${currentLocale}`} className="logo">
+            <Link href={`/?locale=${currentLocale}`} className="logo" onClick={handleLogoClick}>
               <Image 
                 src={ImageLogo} 
                 alt="Midmac Logo" 
@@ -239,7 +264,7 @@ const HeaderNav: React.FC<Props> = ({ HeaderLinks }) => {
                         ? `#${sectionId}`
                         : `/?locale=${currentLocale}&section=${sectionId}`
                       : `${link.link || '/'}?locale=${currentLocale}`
-                    
+
                     return (
                       <RtlText key={index}>
                         <Link

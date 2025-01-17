@@ -130,8 +130,7 @@ export const ProjectsComponent: React.FC<Props> = ({
                   // Get localized title and details
                   const projectTitle = isArabic ? project.titleAr || project.title : project.title
                   const details = project.projectDetails as ProjectDetails
-                  
-                  const projectYear = typeof details?.year === 'object' 
+                  const projectYear = typeof details?.year === 'object'
                     ? details.year[currentLocale as keyof LocalizedField]
                     : details?.year
 
