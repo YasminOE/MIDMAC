@@ -21,6 +21,15 @@ const isMediaObject = (image: string | Media): image is Media => {
   return typeof image !== 'string' && 'url' in image;
 };
 
+interface LocalizedField {
+  en: string;
+  ar: string;
+}
+
+interface ProjectDetails {
+  year: LocalizedField | string;
+}
+
 export const ProjectsComponent: React.FC<Props> = ({ 
   className,
   title,
@@ -120,8 +129,11 @@ export const ProjectsComponent: React.FC<Props> = ({
 
                   // Get localized title and details
                   const projectTitle = isArabic ? project.titleAr || project.title : project.title
-                  const projectYear = project.projectDetails?.year?.[currentLocale] || project.projectDetails?.year
-                  const projectCity = project.projectDetails?.city?.[currentLocale] || project.projectDetails?.city
+                  const details = project.projectDetails as ProjectDetails
+                  
+                  const projectYear = typeof details?.year === 'object' 
+                    ? details.year[currentLocale as keyof LocalizedField]
+                    : details?.year
 
                   return (
                     <motion.div 
@@ -130,10 +142,7 @@ export const ProjectsComponent: React.FC<Props> = ({
                       initial={{ opacity: 0, y: 20 }}
                       whileInView={{ opacity: 1, y: 0 }}
                       viewport={{ once: true }}
-                      transition={{ 
-                        duration: 0.8,
-                        delay: index * 0.1
-                      }}
+                      transition={{ duration: 0.8, delay: index * 0.1 }}
                     >
                       <Link href={`/projects/${project.title}?locale=${currentLocale}`} className="block w-full h-full">
                         <div className="relative w-full h-full flex items-center justify-center overflow-hidden">
@@ -152,9 +161,9 @@ export const ProjectsComponent: React.FC<Props> = ({
                               <h3 className="text-xl uppercase">
                                 {projectTitle}
                               </h3>
-                              {(projectYear) && (
+                              {projectYear && (
                                 <p className="text-sm">
-                                    {projectYear}
+                                  {projectYear}
                                 </p>
                               )}
                             </div>
