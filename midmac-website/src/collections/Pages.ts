@@ -14,21 +14,9 @@ const isAdmin: Access = ({ req }) => {
     return Boolean(user?.roles?.includes('admin'))
 }
 
-const isAdminOrUserForProjectsBlock: Access = ({ req, data }) => {
+const isAdminOrUser: Access = ({ req }) => {
     const user = req.user
-    if (user?.roles?.includes('admin')) return true
-    
-    // Allow users to update only if they're modifying the Projects block
-    if (user?.roles?.includes('user') && data?.layout) {
-        // Check if all changes are related to the Projects block
-        const hasOnlyProjectsChanges = data.layout.every((block: { blockType: string }) => {
-            // Allow both existing Projects blocks and new ones
-            return block.blockType === 'projects'
-        })
-        return hasOnlyProjectsChanges
-    }
-    
-    return false
+    return Boolean(user?.roles?.includes('admin') || user?.roles?.includes('user'))
 }
 
 export const Pages: CollectionConfig = {
@@ -43,7 +31,7 @@ export const Pages: CollectionConfig = {
     access: {
         read: () => true,
         create: isAdmin,
-        update: isAdminOrUserForProjectsBlock,
+        update: isAdminOrUser,
         delete: isAdmin,
     },
     fields: [
@@ -76,22 +64,6 @@ export const Pages: CollectionConfig = {
                 DesignOrderTitle,
                 DesignOrderForm,
             ],
-            access: {
-                create: ({ req }) => {
-                    const user = req.user
-                    // Allow both admins and users to create Projects blocks
-                    return Boolean(user?.roles?.includes('admin') || user?.roles?.includes('user'))
-                },
-                update: ({ req, data }) => {
-                    const user = req.user
-                    if (user?.roles?.includes('admin')) return true
-                    if (user?.roles?.includes('user')) {
-                        // Allow users to update and create Projects blocks
-                        return data?.blockType === 'projects'
-                    }
-                    return false
-                }
-            }
         },
     ],
     versions: {
