@@ -1,17 +1,20 @@
 'use client'
 
-
 import React, { useEffect, useRef, useState, Suspense } from 'react'
 import { usePathname, useSearchParams } from 'next/navigation'
-import { motion } from "motion/react"
+import { motion, AnimatePresence } from "motion/react"
 import Image from 'next/image'
 import Link from 'next/link'
 import ImageLogo from '@/assets/images/header-logo.svg'
 import ImageMenu from '@/assets/images/header-nav-icon.svg'
 import { Page } from '@/payload-types'
+import RtlText from '../RtlText'
 
 interface HeaderLink {
-  label: string;
+  label: {
+    en: string;
+    ar: string;
+  };
   linkType: 'section' | 'page';
   link?: string | null;
   pageLink?: string | Page | null;
@@ -28,9 +31,16 @@ function LanguageSwitchContent() {
   const currentLocale = searchParams.get('locale') || 'en'
 
   const createLocaleUrl = (locale: string) => {
-    const params = new URLSearchParams(searchParams)
+    const params = new URLSearchParams(searchParams.toString())
     params.set('locale', locale)
+    if (pathname === '/' || pathname === '/index') {
+      return `/?${params.toString()}`
+    }
     return `${pathname}?${params.toString()}`
+  }
+
+  const handleLocaleChange = (locale: string) => {
+    window.location.href = createLocaleUrl(locale)
   }
 
   return (
@@ -38,12 +48,20 @@ function LanguageSwitchContent() {
       <Link
         href={createLocaleUrl('ar')}
         className={`lang-switch montserrat ${currentLocale === "ar" ? "active" : ""}`}
+        onClick={(e) => {
+          e.preventDefault()
+          handleLocaleChange('ar')
+        }}
       >
         A
       </Link>
       <Link
         href={createLocaleUrl('en')}
         className={`lang-switch montserrat ${currentLocale === "en" ? "active" : ""}`}
+        onClick={(e) => {
+          e.preventDefault()
+          handleLocaleChange('en')
+        }}
       >
         E
       </Link>
@@ -51,7 +69,6 @@ function LanguageSwitchContent() {
   )
 }
 
-// Wrap with Suspense
 export function LanguageSwitch() {
   return (
     <Suspense fallback={<div className="lang-switches">Loading...</div>}>
@@ -61,12 +78,13 @@ export function LanguageSwitch() {
 }
 
 const HeaderNav: React.FC<Props> = ({ HeaderLinks }) => {
-  // console.log('HeaderLinks:', HeaderLinks)
-
   const [isOpen, setIsOpen] = useState(false)
+  const [isAnimating, setIsAnimating] = useState(false)
   const menuRef = useRef<HTMLDivElement>(null)
   const buttonRef = useRef<HTMLButtonElement>(null)
   const _pathname = usePathname()
+  const searchParams = useSearchParams()
+  const currentLocale = (searchParams.get('locale') || 'en') as 'en' | 'ar'
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -86,6 +104,21 @@ const HeaderNav: React.FC<Props> = ({ HeaderLinks }) => {
       document.removeEventListener('mousedown', handleClickOutside)
     }
   }, [isOpen])
+
+  // Handle scroll to section after page load
+  useEffect(() => {
+    if (_pathname === '/' || _pathname === '/index') {
+      const sectionId = searchParams.get('section')
+      if (sectionId) {
+        const element = document.querySelector(`#${sectionId}`)
+        if (element) {
+          setTimeout(() => {
+            element.scrollIntoView({ behavior: 'smooth' })
+          }, 100) // Small delay to ensure page is ready
+        }
+      }
+    }
+  }, [_pathname, searchParams])
 
   const menuVars = {
     initial: {
@@ -110,11 +143,25 @@ const HeaderNav: React.FC<Props> = ({ HeaderLinks }) => {
     },
   }
 
-  const handleNavClick = (link: string) => {
-    setIsOpen(false)
-    if (link.startsWith('#')) {
-      // If it's a hash link, redirect to index page with hash
-      window.location.href = `/index${link}`
+  const handleNavClick = async (link: string, linkType: 'section' | 'page') => {
+    if (linkType === 'section') {
+      const sectionId = link.replace('#', '')
+
+      // Start exit animation
+      setIsOpen(false)
+      setIsAnimating(true)
+      // Wait for animation to complete
+      await new Promise(resolve => setTimeout(resolve, 500))
+      if (_pathname !== '/' && _pathname !== '/index') {
+        window.location.href = `/?locale=${currentLocale}&section=${sectionId}`
+        return
+      }
+      const element = document.querySelector(`#${sectionId}`)
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' })
+      }
+    } else {
+      setIsOpen(false)
     }
   }
 
@@ -144,7 +191,7 @@ const HeaderNav: React.FC<Props> = ({ HeaderLinks }) => {
       >
         <div className="container large">
           <div className="header-left">
-            <Link href="/" className="logo">
+            <Link href={`/?locale=${currentLocale}`} className="logo">
               <Image 
                 src={ImageLogo} 
                 alt="Midmac Logo" 
@@ -172,31 +219,49 @@ const HeaderNav: React.FC<Props> = ({ HeaderLinks }) => {
           </div>
         </div>
 
-        {isOpen && (
-          <motion.div
-            ref={menuRef}
-            className="menu"
-            variants={menuVars}
-            initial="initial"
-            animate="animate"
-            exit="exit"
-          >
-            <nav className="nav">
-              <div className="nav-links">
-                {HeaderLinks?.map((link: HeaderLink, index: number) => (
-                  <Link
-                    key={index}
-                    href={link.link?.startsWith('#') ? `/index${link.link}` : link.link || '/'}
-                    className="nav-link"
-                    onClick={() => handleNavClick(link.link || '/')}
-                  >
-                    {link.label}
-                  </Link>
-                ))}
-              </div>
-            </nav>
-          </motion.div>
-        )}
+        <AnimatePresence mode="wait">
+          {isOpen && (
+            <motion.div
+              ref={menuRef}
+              className="menu"
+              variants={menuVars}
+              initial="initial"
+              animate="animate"
+              exit="exit"
+              onAnimationComplete={() => setIsAnimating(false)}
+            >
+              <nav className="nav">
+                <div className="nav-links">
+                  {HeaderLinks?.map((link: HeaderLink, index: number) => {
+                    const sectionId = link.link?.replace('#', '')
+                    const href = link.linkType === 'section'
+                      ? (_pathname === '/' || _pathname === '/index')
+                        ? `#${sectionId}`
+                        : `/?locale=${currentLocale}&section=${sectionId}`
+                      : `${link.link || '/'}?locale=${currentLocale}`
+                    
+                    return (
+                      <RtlText key={index}>
+                        <Link
+                          href={href}
+                          className="nav-link"
+                          onClick={(e) => {
+                            if (link.linkType === 'section' && (_pathname === '/' || _pathname === '/index')) {
+                              e.preventDefault()
+                            }
+                            handleNavClick(link.link || '/', link.linkType)
+                          }}
+                        >
+                          {link.label[currentLocale]}
+                        </Link>
+                      </RtlText>
+                    )
+                  })}
+                </div>
+              </nav>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </motion.header>
     </>
   )

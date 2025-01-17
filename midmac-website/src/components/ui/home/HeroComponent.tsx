@@ -49,7 +49,7 @@ export const HeroComponent: React.FC<Props> = ({ images }) => {
             priority
             className="object-cover object-center"
             sizes="100vw"
-            quality={100}
+            // quality={100}
           />
         </motion.div>
 
@@ -75,8 +75,8 @@ export const HeroComponent: React.FC<Props> = ({ images }) => {
             alt={ForegroundImage.alt || ''}
             width={(ForegroundImage.width || 0) * 100}
             height={(ForegroundImage.height || 0) * 100}
-            priority
-            quality={100}
+            // priority
+            // quality={100}
             className="w-auto hidden md:block"
           />
           
@@ -86,8 +86,8 @@ export const HeroComponent: React.FC<Props> = ({ images }) => {
             alt={ForegroundImageMobile.alt || ''}
             width={(ForegroundImageMobile.width || 0) * 100}
             height={(ForegroundImageMobile.height || 0) * 100}
-            priority
-            quality={100}
+            // priority
+            // quality={100}
             className="w-auto block md:hidden"
           />
         </motion.div>

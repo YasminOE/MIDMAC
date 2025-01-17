@@ -1,4 +1,4 @@
-import { Access, GlobalConfig  } from 'payload'
+import { Access, GlobalConfig } from 'payload'
 
 const isAdmin: Access = ({ req }) => {
   const user = req.user
@@ -22,9 +22,24 @@ const Header: GlobalConfig = {
       fields: [
         {
           name: 'label',
-          type: 'text',
-          required: true,
-          localized: true,
+          type: 'group',
+          admin: {
+            description: 'Enter the label text for each language',
+          },
+          fields: [
+            {
+              name: 'en',
+              type: 'text',
+              required: true,
+              label: 'English Label',
+            },
+            {
+              name: 'ar',
+              type: 'text',
+              required: true,
+              label: 'Arabic Label',
+            },
+          ],
         },
         {
           name: 'linkType',
@@ -34,12 +49,10 @@ const Header: GlobalConfig = {
             {
               label: 'Page Link',
               value: 'page',
-            //   relationTo: 'pages', 
             },
             {
               label: 'Section Link',
               value: 'section',
-            //   relationTo: 'sections',
             }
           ],
         },

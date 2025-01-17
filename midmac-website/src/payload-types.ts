@@ -1081,7 +1081,13 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
 export interface Header {
   id: string;
   links: {
-    label: string;
+    /**
+     * Enter the label text for each language
+     */
+    label: {
+      en: string;
+      ar: string;
+    };
     linkType: 'page' | 'section';
     /**
      * Enter the section ID (e.g., #services, #about-us)
@@ -1125,7 +1131,12 @@ export interface HeaderSelect<T extends boolean = true> {
   links?:
     | T
     | {
-        label?: T;
+        label?:
+          | T
+          | {
+              en?: T;
+              ar?: T;
+            };
         linkType?: T;
         link?: T;
         pageLink?: T;

@@ -6,8 +6,7 @@ import Link from 'next/link'
 import { motion } from 'motion/react'
 import type { ProjectsBlock as ProjectsBlockProps, Project, Media } from '@/payload-types'
 import { RtlText } from '../RtlText'
-
-// TODO: change the projects block on mobile screen
+import { useSearchParams } from 'next/navigation'
 
 type Props = {
   className?: string
@@ -27,6 +26,10 @@ export const ProjectsComponent: React.FC<Props> = ({
   title,
   projects,
 }) => {
+  const searchParams = useSearchParams()
+  const currentLocale = searchParams.get('locale') || 'en'
+  const isArabic = currentLocale === 'ar'
+
   if (!projects?.length) return null
 
   // Function to chunk projects differently for mobile
@@ -115,6 +118,11 @@ export const ProjectsComponent: React.FC<Props> = ({
                   const firstImage = project.media[0].image
                   if (!isMediaObject(firstImage) || !firstImage.url) return null
 
+                  // Get localized title and details
+                  const projectTitle = isArabic ? project.titleAr || project.title : project.title
+                  const projectYear = project.projectDetails?.year?.[currentLocale] || project.projectDetails?.year
+                  const projectCity = project.projectDetails?.city?.[currentLocale] || project.projectDetails?.city
+
                   return (
                     <motion.div 
                       key={project.id}
@@ -127,11 +135,11 @@ export const ProjectsComponent: React.FC<Props> = ({
                         delay: index * 0.1
                       }}
                     >
-                      <Link href={`/projects/${project.title}`} className="block w-full h-full">
+                      <Link href={`/projects/${project.title}?locale=${currentLocale}`} className="block w-full h-full">
                         <div className="relative w-full h-full flex items-center justify-center overflow-hidden">
                           <Image
                             src={firstImage.url}
-                            alt={firstImage.alt || project.title}
+                            alt={firstImage.alt || projectTitle}
                             fill
                             className="object-cover transition-transform duration-500 group-hover:scale-110"
                             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
@@ -141,12 +149,12 @@ export const ProjectsComponent: React.FC<Props> = ({
                           {/* Project details overlay */}
                           <div className="absolute inset-0 flex flex-col justify-center items-center text-center opacity-0 group-hover:opacity-100 transition-opacity duration-500">
                             <div className="px-2">
-                              <h3 className="text-xl uppercase tracking-wider">
-                                {project.title}
+                              <h3 className="text-xl uppercase">
+                                {projectTitle}
                               </h3>
-                              {project.projectDetails?.year && (
+                              {(projectYear) && (
                                 <p className="text-sm">
-                                  {project.projectDetails.year}
+                                    {projectYear}
                                 </p>
                               )}
                             </div>
