@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import Image from 'next/image'
 import { motion, AnimatePresence } from 'motion/react'
 
@@ -9,18 +9,18 @@ interface MediaItem {
       url: string;
       alt?: string;
     }
-  }
+}
 
 type ProjectGalleryProps = {
   media: MediaItem[]
 }
 
-
-
 export const ProjectGallery = ({ media }: ProjectGalleryProps) => {
   const [selectedIndex, setSelectedIndex] = useState(0)
-
-  const mediaFetched = JSON.parse(JSON.stringify(media))
+  
+  // Memoize the parsed media to prevent unnecessary re-parsing
+  const mediaFetched = useMemo(() => JSON.parse(JSON.stringify(media)), [media])
+  
   if (!mediaFetched?.length) return null
 
   const currentImage = mediaFetched[selectedIndex]?.image
@@ -33,13 +33,12 @@ export const ProjectGallery = ({ media }: ProjectGalleryProps) => {
         <AnimatePresence mode="wait">
           <motion.div
             key={selectedIndex}
-            initial={{ opacity: 0.1 }}
+            initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            exit={{ opacity: 0.1 }}
+            exit={{ opacity: 0 }}
             transition={{
-              duration: 0.5,
-              ease: [0.54, 0, 0.2, 1],
-              type: "tween"
+              duration: 0.3,
+              ease: "easeOut"
             }}
             className="relative w-full h-full"
           >
@@ -48,9 +47,9 @@ export const ProjectGallery = ({ media }: ProjectGalleryProps) => {
               alt={currentImage.alt || 'Project image'}
               fill
               className="object-cover"
-              priority
-              quality={100}
-              sizes="(max-width: 1024px) 100vw, 66vw"
+              priority={selectedIndex === 0}
+              quality={85}
+              sizes="(max-width: 768px) 100vw, (max-width: 1024px) 100vw, 66vw"
             />
           </motion.div>
         </AnimatePresence>
@@ -66,21 +65,24 @@ export const ProjectGallery = ({ media }: ProjectGalleryProps) => {
               <button
                 key={index}
                 onClick={() => setSelectedIndex(index)}
-                className="relative w-full group"
+                className="relative w-full aspect-square group"
               >
                 <Image
                   src={mediaItem.image.url}
                   alt={mediaItem.image.alt || `Project thumbnail ${index + 1}`}
                   fill
                   className="object-cover"
-                  sizes="(max-width: 768px) 60px, 80px"
-                  quality={100}
+                  sizes="80px"
+                  quality={60}
+                  loading="eager"
                 />
-                <div className={`absolute inset-0 transition-opacity ${
-                  selectedIndex === index
-                    ? 'bg-[rgba(30,30,30,0.7)]'
-                    : 'bg-transparent group-hover:bg-[rgba(30,30,30,0.7)]'
-                }`} />
+                <div 
+                  className={`absolute inset-0 transition-opacity ${
+                    selectedIndex === index
+                      ? 'bg-[rgba(30,30,30,0.7)]'
+                      : 'bg-transparent group-hover:bg-[rgba(30,30,30,0.7)]'
+                  }`} 
+                />
               </button>
             )
           })}

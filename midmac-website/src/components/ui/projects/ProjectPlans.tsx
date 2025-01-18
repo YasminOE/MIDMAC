@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import Image from 'next/image'
 import { motion, AnimatePresence } from 'motion/react'
 import { Project } from '@/payload-types'
@@ -12,7 +12,8 @@ type ProjectPlansProps = {
 }
 
 export const ProjectPlans = ({ plans }: ProjectPlansProps) => {
-  const plansFetched = JSON.parse(JSON.stringify(plans))
+  // Memoize the parsed plans to prevent unnecessary re-parsing
+  const plansFetched = useMemo(() => JSON.parse(JSON.stringify(plans)), [plans])
   const [currentIndex, setCurrentIndex] = useState(0)
   const [direction, setDirection] = useState<'forward' | 'backward'>('forward')
 
@@ -37,31 +38,34 @@ export const ProjectPlans = ({ plans }: ProjectPlansProps) => {
   const hasNextImage = currentIndex < plansFetched.length - 1
 
   return (
-    <div className="mb-2">
+    <div className="mb-2 max-w-[1200px] mx-auto">
       <div className="relative px-4">
-        <div className="overflow-hidden">
-          <div className="relative aspect-[3/2] md:aspect-[2/1] w-full">
+        <div className="overflow-hidden rounded-lg">
+          <div className="relative w-full h-[250px] md:h-[400px] lg:h-[500px]">
             <AnimatePresence initial={false}>
               {typeof plansFetched[currentIndex]?.plan !== 'string' && plansFetched[currentIndex]?.plan?.url && (
                 <motion.div
                   key={currentIndex}
-                  initial={{ opacity: 0 }}
+                  initial={{ opacity: 0.2 }}
                   animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
+                  exit={{ opacity: 0.2 }}
                   transition={{
-                    duration: 0.8,
+                    duration: 0.3,
                     ease: "easeOut"
                   }}
-                  className="absolute inset-0"
+                  className="absolute inset-0 flex items-center justify-center p-4"
                 >
-                  <Image
-                    src={plansFetched[currentIndex].plan.url}
-                    alt={plansFetched[currentIndex].plan.alt || `Project plan ${currentIndex + 1}`}
-                    fill
-                    className="object-contain p-2 md:p-4"
-                    quality={100}
-                    sizes="100%"
-                  />
+                  <div className="relative w-full h-full" style={{ maxWidth: '900px' }}>
+                    <Image
+                      src={plansFetched[currentIndex].plan.url}
+                      alt={plansFetched[currentIndex].plan.alt || `Project plan ${currentIndex + 1}`}
+                      fill
+                      className="object-contain"
+                      quality={85}
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 90vw, 900px"
+                      priority={currentIndex === 0}
+                    />
+                  </div>
                 </motion.div>
               )}
             </AnimatePresence>
@@ -69,13 +73,14 @@ export const ProjectPlans = ({ plans }: ProjectPlansProps) => {
         </div>
         
         {/* Navigation Buttons */}
-        <div className="flex justify-center gap-2 mt-2">
+        <div className="flex justify-center gap-2 mt-4">
           <button 
             onClick={handlePrevious}
             disabled={isFirstImage}
             className={`p-2 pr-0 transition-opacity ${
-              isFirstImage ? 'opacity-30' : 'hover:opacity-75'
+              isFirstImage ? 'opacity-30 cursor-not-allowed' : 'hover:opacity-75'
             }`}
+            aria-label="Previous plan"
           >
             <Image
               src={GoForward}
@@ -83,20 +88,23 @@ export const ProjectPlans = ({ plans }: ProjectPlansProps) => {
               width={24}
               height={24}
               className="rotate-180"
+              loading="eager"
             />
           </button>
           <button 
             onClick={handleNext}
             disabled={isLastImage}
             className={`p-2 pl-0 transition-opacity ${
-              !hasNextImage ? 'opacity-30' : 'opacity-100'
+              !hasNextImage ? 'opacity-30 cursor-not-allowed' : 'hover:opacity-75'
             }`}
+            aria-label="Next plan"
           >
             <Image
               src={GoForward}
               alt="Next"
               width={24}
               height={24}
+              loading="eager"
             />
           </button>
         </div>

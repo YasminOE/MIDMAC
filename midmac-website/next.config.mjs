@@ -15,7 +15,10 @@ const nextConfig = {
     reactCompiler: false,
     scrollRestoration: true,
     optimizeCss: true,
-    serverActions: true,
+    serverActions: {
+      bodySizeLimit: '2mb',
+      allowedOrigins: ['localhost:3000'] || ['midmac.design']
+    },
     optimizePackageImports: ['@payloadcms/richtext-lexical', 'lucide-react'],
   },
   compiler: {
