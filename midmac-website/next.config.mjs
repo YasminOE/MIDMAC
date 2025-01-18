@@ -7,10 +7,19 @@ const nextConfig = {
     defaultLocale: 'en',
     localeDetection: false,
   },
+  images: {
+    minimumCacheTTL: 60,
+    formats: ['image/webp'],
+  },
   experimental: {
     reactCompiler: false,
     scrollRestoration: true,
-    optimizeCss: true
+    optimizeCss: true,
+    serverActions: true,
+    optimizePackageImports: ['@payloadcms/richtext-lexical', 'lucide-react'],
+  },
+  compiler: {
+    removeConsole: process.env.NODE_ENV === 'production',
   },
   webpack: (config) => {
     new DependencyCheckWebpackPlugin({})
@@ -24,6 +33,14 @@ const nextConfig = {
         '.mjs': ['.mts', '.mjs'],
       },
     }
+    
+    // Add module concatenation optimization
+    configCopy.optimization = {
+      ...configCopy.optimization,
+      moduleIds: 'deterministic',
+      concatenateModules: true,
+    }
+    
     return configCopy
   },
 }
