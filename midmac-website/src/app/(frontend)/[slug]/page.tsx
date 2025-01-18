@@ -5,6 +5,7 @@ import React, { cache } from 'react'
 import { notFound } from 'next/navigation'
 import type { Page as PageType } from '@/payload-types'
 import { RenderBlocks } from '@/components/RenderBlocks'
+import { Metadata } from 'next'
 
 // Define type for Payload response
 type PayloadPagesResponse = {
@@ -105,7 +106,11 @@ const queryPageBySlug = cache(async ({
       locale: locale as 'ar' | 'en' | 'all',
     })
 
-    const page = JSON.parse(JSON.stringify(result.docs?.[0])) as PageType
+    if (!result.docs?.[0]) {
+      return null
+    }
+
+    const page = JSON.parse(JSON.stringify(result.docs[0])) as PageType
     // console.log("queryPageBySlug",page)
     return page || null
   } catch (error) {
@@ -113,3 +118,18 @@ const queryPageBySlug = cache(async ({
     return null
   }
 })
+
+export async function generateMetadata({ params, searchParams }: Props): Promise<Metadata> {
+  const { slug = 'index' } = await params
+  const { locale = 'en' } = await searchParams
+
+  const page = await queryPageBySlug({
+    slug,
+    locale: locale as 'ar' | 'en' | 'all',
+  })
+
+  return {
+    title: page?.name || 'MIDMAC',
+    description: 'MIDMAC - Modern Interior Design & Manufacturing Architectural Company',
+  }
+}

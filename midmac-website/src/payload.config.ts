@@ -48,13 +48,25 @@ export default buildConfig({
       titleSuffix: '- MIDMAC',
       // favicon: './favicon.ico',
       // ogImage: './favicon.ico',
+      // icons: [
+      //   {
+      //     url: './favicon-16x16.png',
+      //     fetchPriority: 'high',
+      //     sizes: '16x16',
+      //   },
+      // ],
+      description: 'This is a custom meta description',
       icons: [
         {
-          url: './favicon-16x16.png',
+          url: '/favicon.png',
           fetchPriority: 'high',
           sizes: '16x16',
         },
       ],
+      openGraph: {
+        description: 'This is a custom OG description',
+        title: 'MIDMAC',
+      },
     },
     theme: 'dark',
   },
