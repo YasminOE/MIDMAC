@@ -117,7 +117,7 @@ export default async function Page({ params, searchParams }: PageParams) {
 
         <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-16">
           {/* Left Column - Content and Details */}
-          <div className="md:col-span-4 order-2 md:order-1 px-4 flex flex-col md:block h-[calc(100vh-400px)] min-h-[400px]">
+          <div className="md:col-span-4 order-2 md:order-1 px-4 flex flex-col md:block h-[calc(100vh-400px)] min-h-[400px] relative">
             {/* Project Header for Desktop */}
             <h1 className="hidden md:block text-[4rem] font-light uppercase mb-12">
               <Suspense fallback={projectTitle}>
@@ -125,9 +125,9 @@ export default async function Page({ params, searchParams }: PageParams) {
               </Suspense>
             </h1>
 
-            {/* Content */}
+            {/* Content - Now with scrolling */}
             {contentParagraphs.length > 0 && (
-              <div className="prose prose-invert max-w-none md:h-[calc(100%-250px)]">
+              <div className="prose prose-invert max-w-none md:h-[calc(100%-350px)] md:overflow-y-auto">
                 {contentParagraphs.map((paragraph, index) => (
                   <p
                     key={index}
@@ -140,8 +140,8 @@ export default async function Page({ params, searchParams }: PageParams) {
               </div>
             )}
 
-            {/* Project Details */}
-            <div className="mt-auto md:absolute md:bottom-0 md:left-4 md:right-4">
+            {/* Project Details - Fixed position */}
+            <div className="mt-auto md:absolute md:bottom-0 md:left-4 md:right-4 md:bg-[#1E1E1E]">
               <div className="grid grid-cols-1 gap-1">
                 {projectDetails?.city && (
                   <div className={`flex justify-between border-t-[0.5px] border-[#DAD2C2] py-2 ${isArabic ? 'flex-row-reverse' : ''}`}>
