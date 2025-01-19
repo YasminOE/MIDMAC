@@ -73,7 +73,6 @@ export const ProjectGallery = ({ media }: ProjectGalleryProps) => {
                     fill
                     className="object-cover"
                     sizes="(max-width: 768px) 80px, (max-width: 1024px) 100px, (max-width: 1280px) 120px, 140px, (max-width: 1536px) 160px, (max-width: 1920px) 180px, (max-width: 2560px) 320px, 340px"
-                    quality={60}
                     loading="eager"
                   />
                   <div

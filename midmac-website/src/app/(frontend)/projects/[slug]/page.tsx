@@ -127,7 +127,7 @@ export default async function Page({ params, searchParams }: PageParams) {
 
             {/* Content - Now with scrolling */}
             {contentParagraphs.length > 0 && (
-              <div className="prose prose-invert max-w-none md:h-[calc(100%-350px)] md:overflow-y-auto">
+              <div className="prose prose-invert mb-2 max-w-none md:h-[calc(100%-250px)] md:overflow-y-auto">
                 {contentParagraphs.map((paragraph, index) => (
                   <p
                     key={index}
@@ -142,13 +142,13 @@ export default async function Page({ params, searchParams }: PageParams) {
 
             {/* Project Details - Fixed position */}
             <div className="mt-auto md:absolute md:bottom-0 md:left-4 md:right-4 md:bg-[#1E1E1E]">
-              <div className="grid grid-cols-1 gap-1">
+              <div className="grid grid-cols-1 gap-2">
                 {projectDetails?.city && (
-                  <div className={`flex justify-between border-t-[0.5px] border-[#DAD2C2] py-2 ${isArabic ? 'flex-row-reverse' : ''}`}>
-                    <h3 className="uppercase text-[0.8rem] md:text-[1.1rem] tracking-wider">
+                  <div className={`flex justify-between border-t-[0.5px] border-[#DAD2C2] py-1 ${isArabic ? 'flex-row-reverse' : ''}`}>
+                    <h3 className="uppercase text-[0.8rem] md:text-[0.9rem]">
                       <RtlText>{cityLabel}</RtlText>
                     </h3>
-                    <p className="text-[0.8rem] md:text-[1.1rem]">
+                    <p className="text-[0.8rem] md:text-[0.9rem]">
                       <Suspense fallback={projectDetails.city}>
                         <RtlText>{projectDetails.city}</RtlText>
                       </Suspense>
@@ -156,11 +156,11 @@ export default async function Page({ params, searchParams }: PageParams) {
                   </div>
                 )}
                 {projectDetails?.size && (
-                  <div className={`flex justify-between border-t-[0.5px] border-[#DAD2C2] py-2 ${isArabic ? 'flex-row-reverse' : ''}`}>
-                    <h3 className="uppercase text-[0.8rem] md:text-[1.1rem] tracking-wider">
+                  <div className={`flex justify-between border-t-[0.5px] border-[#DAD2C2] py-1 ${isArabic ? 'flex-row-reverse' : ''}`}>
+                    <h3 className="uppercase text-[0.8rem] md:text-[0.9rem]">
                       <RtlText>{sizeLabel}</RtlText>
                     </h3>
-                    <p className="text-[0.8rem] md:text-[1.1rem]">
+                    <p className="text-[0.8rem] md:text-[0.9rem]">
                       <Suspense fallback={projectDetails.size}>
                         <RtlText>{projectDetails.size}</RtlText>
                       </Suspense>
@@ -168,11 +168,11 @@ export default async function Page({ params, searchParams }: PageParams) {
                   </div>
                 )}
                 {projectDetails?.year && (
-                  <div className={`flex justify-between border-t-[0.5px] border-b-[0.5px] border-[#DAD2C2] py-2 ${isArabic ? 'flex-row-reverse' : ''}`}>
-                    <h3 className="uppercase text-[0.8rem] md:text-[1.1rem] tracking-wider">
+                  <div className={`flex justify-between border-t-[0.5px] border-b-[0.5px] border-[#DAD2C2] py-1 ${isArabic ? 'flex-row-reverse' : ''}`}>
+                    <h3 className="uppercase text-[0.8rem] md:text-[0.9rem]">
                       <RtlText>{yearLabel}</RtlText>
                     </h3>
-                    <p className="text-[0.8rem] md:text-[1.1rem]">
+                    <p className="text-[0.8rem] md:text-[0.9rem]">
                       <Suspense fallback={projectDetails.year}>
                         <RtlText>{projectDetails.year}</RtlText>
                       </Suspense>
