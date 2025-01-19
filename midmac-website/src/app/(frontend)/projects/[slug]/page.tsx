@@ -9,6 +9,8 @@ import RtlText from '@/components/ui/RtlText'
 import { Suspense } from 'react'
 import type { Metadata, ResolvingMetadata } from 'next'
 
+// TODO: Fix on medium to small screens
+
 export const dynamic = 'force-dynamic'
 export const dynamicParams = true
 
@@ -113,69 +115,71 @@ export default async function Page({ params, searchParams }: PageParams) {
           </Suspense>
         </h1>
 
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-16 mb-20">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-16">
           {/* Left Column - Content and Details */}
-          <div className="md:col-span-4 flex flex-col justify-between h-full order-2 md:order-1 px-4">
-            <div className="flex flex-col flex-grow">
-              {/* Project Header for Desktop */}
-              <h1 className="hidden md:block text-[4rem] font-light uppercase mb-12">
-                <Suspense fallback={projectTitle}>
-                  <RtlText>{projectTitle}</RtlText>
-                </Suspense>
-              </h1>
-              {contentParagraphs.length > 0 && (
-                <div className="prose prose-invert max-w-none mb-8 md:mb-auto">
-                  {contentParagraphs.map((paragraph, index) => (
-                    <p
-                      key={index}
-                      className={`mb-4 ${paragraph.direction === 'rtl' ? 'text-[0.85rem] md:text-[0.95rem]' : 'text-[0.7rem] md:text-[0.8rem]'}`}
-                      dir={paragraph.direction}
-                    >
-                      <RtlText>{paragraph.text}</RtlText>
-                    </p>
-                  ))}
-                </div>
-              )}
-            </div>
+          <div className="md:col-span-4 order-2 md:order-1 px-4 flex flex-col md:block h-[calc(100vh-400px)] min-h-[400px]">
+            {/* Project Header for Desktop */}
+            <h1 className="hidden md:block text-[4rem] font-light uppercase mb-12">
+              <Suspense fallback={projectTitle}>
+                <RtlText>{projectTitle}</RtlText>
+              </Suspense>
+            </h1>
 
-            {/* Project Details - Now in its own flex container */}
-            <div className="grid grid-cols-1 gap-1 mt-auto">
-              {projectDetails?.city && (
-                <div className={`flex justify-between border-t-[0.5px] border-[#DAD2C2] py-2 ${isArabic ? 'flex-row-reverse' : ''}`}>
-                  <h3 className="uppercase text-[0.8rem] md:text-[1.1rem] tracking-wider">
-                    <RtlText>{cityLabel}</RtlText>
-                  </h3>
-                  <p className="text-[0.8rem] md:text-[1.1rem]">
-                    <Suspense fallback={projectDetails.city}>
-                      <RtlText>{projectDetails.city}</RtlText>
-                    </Suspense>
+            {/* Content */}
+            {contentParagraphs.length > 0 && (
+              <div className="prose prose-invert max-w-none md:h-[calc(100%-250px)]">
+                {contentParagraphs.map((paragraph, index) => (
+                  <p
+                    key={index}
+                    className={`mb-4 ${paragraph.direction === 'rtl' ? 'text-[0.85rem] md:text-[0.95rem]' : 'text-[0.7rem] md:text-[0.8rem]'}`}
+                    dir={paragraph.direction}
+                  >
+                    <RtlText>{paragraph.text}</RtlText>
                   </p>
-                </div>
-              )}
-              {projectDetails?.size && (
-                <div className={`flex justify-between border-t-[0.5px] border-[#DAD2C2] py-2 ${isArabic ? 'flex-row-reverse' : ''}`}>
-                  <h3 className="uppercase text-[0.8rem] md:text-[1.1rem] tracking-wider">
-                    <RtlText>{sizeLabel}</RtlText>
-                  </h3>
-                  <p className="text-[0.8rem] md:text-[1.1rem]">
-                    <Suspense fallback={projectDetails.size}>
-                      <RtlText>{projectDetails.size}</RtlText>
-                    </Suspense>
-                  </p>
-                </div>
-              )}
-              {projectDetails?.year && (
-                <div className={`flex justify-between border-t-[0.5px] border-b-[0.5px] border-[#DAD2C2] py-2 ${isArabic ? 'flex-row-reverse' : ''}`}>
-                  <h3 className="uppercase text-[0.8rem] md:text-[1.1rem] tracking-wider">
-                    <RtlText>{yearLabel}</RtlText>
-                  </h3>
-                  <p className="text-[0.8rem] md:text-[1.1rem]">
-                    <Suspense fallback={projectDetails.year}>
-                      <RtlText>{projectDetails.year}</RtlText>
-                    </Suspense>
-                  </p>
-                </div>
-              )}
+                ))}
+              </div>
+            )}
+
+            {/* Project Details */}
+            <div className="mt-auto md:absolute md:bottom-0 md:left-4 md:right-4">
+              <div className="grid grid-cols-1 gap-1">
+                {projectDetails?.city && (
+                  <div className={`flex justify-between border-t-[0.5px] border-[#DAD2C2] py-2 ${isArabic ? 'flex-row-reverse' : ''}`}>
+                    <h3 className="uppercase text-[0.8rem] md:text-[1.1rem] tracking-wider">
+                      <RtlText>{cityLabel}</RtlText>
+                    </h3>
+                    <p className="text-[0.8rem] md:text-[1.1rem]">
+                      <Suspense fallback={projectDetails.city}>
+                        <RtlText>{projectDetails.city}</RtlText>
+                      </Suspense>
+                    </p>
+                  </div>
+                )}
+                {projectDetails?.size && (
+                  <div className={`flex justify-between border-t-[0.5px] border-[#DAD2C2] py-2 ${isArabic ? 'flex-row-reverse' : ''}`}>
+                    <h3 className="uppercase text-[0.8rem] md:text-[1.1rem] tracking-wider">
+                      <RtlText>{sizeLabel}</RtlText>
+                    </h3>
+                    <p className="text-[0.8rem] md:text-[1.1rem]">
+                      <Suspense fallback={projectDetails.size}>
+                        <RtlText>{projectDetails.size}</RtlText>
+                      </Suspense>
+                    </p>
+                  </div>
+                )}
+                {projectDetails?.year && (
+                  <div className={`flex justify-between border-t-[0.5px] border-b-[0.5px] border-[#DAD2C2] py-2 ${isArabic ? 'flex-row-reverse' : ''}`}>
+                    <h3 className="uppercase text-[0.8rem] md:text-[1.1rem] tracking-wider">
+                      <RtlText>{yearLabel}</RtlText>
+                    </h3>
+                    <p className="text-[0.8rem] md:text-[1.1rem]">
+                      <Suspense fallback={projectDetails.year}>
+                        <RtlText>{projectDetails.year}</RtlText>
+                      </Suspense>
+                    </p>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
 
