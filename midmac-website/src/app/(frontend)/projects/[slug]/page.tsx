@@ -70,7 +70,7 @@ const ProjectPage = async ({ params }: Props) => {
           </Suspense>
         </h1>
 
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-16">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-16 mb-20">
           {/* Left Column - Content and Details */}
           <div className="md:col-span-4 flex justify-between flex-col h-full order-2 md:order-1 px-4">
             {/* Project Header for Desktop */}
@@ -133,13 +133,13 @@ const ProjectPage = async ({ params }: Props) => {
 
         {/* Project Plans */}
         {project.plans && project.plans.length > 0 && (
-          <div className="px-4">
+          <div className="mt-8 md:mt-16">
             <ProjectPlans plans={JSON.parse(JSON.stringify(project.plans))} />
           </div>
         )}
 
         {/* Contact Section */}
-        <div className="px-4">
+        <div className="mt-20">
           <Contact />
         </div>
       </div>
