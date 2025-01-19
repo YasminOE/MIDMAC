@@ -7,7 +7,20 @@ import { ProjectPlans } from '@/components/ui/projects/ProjectPlans'
 import { Contact } from '@/components/ui/projects/Contacts'
 import RtlText from '@/components/ui/RtlText'
 import { Suspense } from 'react'
-import { headers } from 'next/headers'
+import type { Metadata, ResolvingMetadata } from 'next'
+
+export const dynamic = 'force-dynamic'
+export const dynamicParams = true
+
+export async function generateMetadata(
+  { params }: { params: Promise<{ slug: string }> },
+  parent: ResolvingMetadata
+): Promise<Metadata> {
+  const resolvedParams = await params
+  return {
+    title: resolvedParams.slug,
+  }
+}
 
 // Generate static params for all projects
 export async function generateStaticParams() {
@@ -31,16 +44,17 @@ interface ContentChild {
   direction?: string;
 }
 
-type PageProps = {
-  params: { slug: string };
-  searchParams: { [key: string]: string | string[] | undefined };
+interface PageParams {
+  params: Promise<{ slug: string }>;
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }
 
-// Update the function signature to use Next.js types
-const ProjectPage = async ({ params, searchParams }: PageProps) => {
-  const { slug = 'index' } = params
-  const locale = searchParams?.locale?.toString() || 'en'
-  const isArabic = locale === 'ar'
+export default async function Page({ params, searchParams }: PageParams) {
+  const resolvedParams = await params
+  const resolvedSearchParams = await searchParams
+  const { slug = 'index' } = resolvedParams
+  const searchParamsLocale = typeof resolvedSearchParams?.locale === 'string' ? resolvedSearchParams.locale : 'en'
+  const isArabic = searchParamsLocale === 'ar'
   const payload = await getPayload({ config: configPromise })
 
   const { docs: projects } = await payload.find({
@@ -186,5 +200,3 @@ const ProjectPage = async ({ params, searchParams }: PageProps) => {
     </main>
   )
 }
-
-export default ProjectPage
