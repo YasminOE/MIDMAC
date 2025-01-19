@@ -38,10 +38,11 @@ export const ProjectPlans = ({ plans }: ProjectPlansProps) => {
   const hasNextImage = currentIndex < plansFetched.length - 1
 
   return (
-    <div className="mb-2 max-w-[1200px] mx-auto">
-      <div className="relative px-4">
-        <div className="overflow-hidden rounded-lg">
-          <div className="relative w-full h-[250px] md:h-[400px] lg:h-[500px]">
+    <div className="container large mx-auto px-4">
+      <div className="relative max-w-[1600px] 3xl:max-w-[2000px] mx-auto">
+        <div className="overflow-hidden bg-[#1E1E1E]">
+          {/* Fixed aspect ratio container */}
+          <div className="relative w-full" style={{ aspectRatio: '16/9' }}>
             <AnimatePresence initial={false}>
               {typeof plansFetched[currentIndex]?.plan !== 'string' && plansFetched[currentIndex]?.plan?.url && (
                 <motion.div
@@ -53,16 +54,15 @@ export const ProjectPlans = ({ plans }: ProjectPlansProps) => {
                     duration: 0.3,
                     ease: "easeOut"
                   }}
-                  className="absolute inset-0 flex items-center justify-center p-4"
+                  className="absolute inset-0 flex items-center justify-center p-4 md:p-8"
                 >
-                  <div className="relative w-full h-full" style={{ maxWidth: '900px' }}>
+                  <div className="relative w-full h-full max-w-[1400px] 3xl:max-w-[2800px] max-h-[787px] 3xl:max-h-[1012px] mx-auto">
                     <Image
                       src={plansFetched[currentIndex].plan.url}
                       alt={plansFetched[currentIndex].plan.alt || `Project plan ${currentIndex + 1}`}
                       fill
                       className="object-contain"
-                      quality={85}
-                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 90vw, 900px"
+                      sizes="(min-width: 1920px) 1800px, (max-width: 1200px) 90vw, 1400px"
                       priority={currentIndex === 0}
                     />
                   </div>
@@ -70,43 +70,42 @@ export const ProjectPlans = ({ plans }: ProjectPlansProps) => {
               )}
             </AnimatePresence>
           </div>
-        </div>
-        
-        {/* Navigation Buttons */}
-        <div className="flex justify-center gap-2 mt-4">
-          <button 
-            onClick={handlePrevious}
-            disabled={isFirstImage}
-            className={`p-2 pr-0 transition-opacity ${
-              isFirstImage ? 'opacity-30 cursor-not-allowed' : 'hover:opacity-75'
-            }`}
-            aria-label="Previous plan"
-          >
-            <Image
-              src={GoForward}
-              alt="Previous"
-              width={24}
-              height={24}
-              className="rotate-180"
-              loading="eager"
-            />
-          </button>
-          <button 
-            onClick={handleNext}
-            disabled={isLastImage}
-            className={`p-2 pl-0 transition-opacity ${
-              !hasNextImage ? 'opacity-30 cursor-not-allowed' : 'hover:opacity-75'
-            }`}
-            aria-label="Next plan"
-          >
-            <Image
-              src={GoForward}
-              alt="Next"
-              width={24}
-              height={24}
-              loading="eager"
-            />
-          </button>
+          {/* Navigation Buttons - Moved inside the container */}
+          <div className="flex justify-center py-2 bg-[#1E1E1E]">
+            <button
+              onClick={handlePrevious}
+              disabled={isFirstImage}
+              className={`p-1 transition-opacity ${
+                isFirstImage ? 'opacity-30 cursor-not-allowed' : 'hover:opacity-75'
+              }`}
+              aria-label="Previous plan"
+            >
+              <Image
+                src={GoForward}
+                alt="Previous"
+                width={32}
+                height={32}
+                className="rotate-180"
+                loading="eager"
+              />
+            </button>
+            <button
+              onClick={handleNext}
+              disabled={isLastImage}
+              className={`p-1 transition-opacity ${
+                !hasNextImage ? 'opacity-30 cursor-not-allowed' : 'hover:opacity-75'
+              }`}
+              aria-label="Next plan"
+            >
+              <Image
+                src={GoForward}
+                alt="Next"
+                width={32}
+                height={32}
+                loading="eager"
+              />
+            </button>
+          </div>
         </div>
       </div>
     </div>
