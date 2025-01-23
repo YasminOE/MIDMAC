@@ -44,42 +44,33 @@ export const ProjectsComponent: React.FC<Props> = ({
   // Function to chunk projects differently for mobile
   const chunkProjects = (projects: NonNullable<ProjectsBlockProps['projects']>) => {
     if (typeof window !== 'undefined' && window.innerWidth < 768) {
-      // For mobile: pattern of 1-2-2
+      // For mobile: alternate between 1 and 2 projects per row
       const result: NonNullable<ProjectsBlockProps['projects']>[] = []
       let currentIndex = 0
 
       while (currentIndex < projects.length) {
-        const patternIndex = Math.floor((result.length % 3))
-        
-        if (patternIndex === 0) {
-          // First row of pattern: 1 project
-          result.push(projects.slice(currentIndex, currentIndex + 1))
-          currentIndex += 1
-        } else {
-          // Second and third rows: 2 projects each
-          result.push(projects.slice(currentIndex, currentIndex + 2))
-          currentIndex += 2
-        }
+        // Check if this is an even or odd row (0-based index)
+        const isEvenRow = result.length % 2 === 0
+        // Even rows get 1 project, odd rows get 2
+        const projectsInRow = isEvenRow ? 1 : 2
+        result.push(projects.slice(currentIndex, currentIndex + projectsInRow))
+        currentIndex += projectsInRow
       }
       return result
     }
 
-    // For desktop: keep the 3-2-2 pattern
+    // For desktop: alternate between 3 and 2 projects per row
     const result: NonNullable<ProjectsBlockProps['projects']>[] = []
     let currentIndex = 0
 
     while (currentIndex < projects.length) {
-      const patternIndex = Math.floor(result.length % 3)
+      // Check if this is an even or odd row (0-based index)
+      const isEvenRow = result.length % 2 === 0
       
-      if (patternIndex === 0) {
-        // First row of each pattern: 3 projects
-        result.push(projects.slice(currentIndex, currentIndex + 3))
-        currentIndex += 3
-      } else {
-        // Second and third rows of pattern: 2 projects each
-        result.push(projects.slice(currentIndex, currentIndex + 2))
-        currentIndex += 2
-      }
+      // Even rows get 3 projects, odd rows get 2
+      const projectsInRow = isEvenRow ? 3 : 2
+      result.push(projects.slice(currentIndex, currentIndex + projectsInRow))
+      currentIndex += projectsInRow
     }
     return result
   }
@@ -106,7 +97,8 @@ export const ProjectsComponent: React.FC<Props> = ({
         
         <div className="space-y-4 md:space-y-8 container">
           {projectChunks.map((chunk, chunkIndex) => {
-            const patternIndex = chunkIndex % 3
+            const isEvenRow = chunkIndex % 2 === 0
+            const isThreeCol = isEvenRow
 
             return (
               <div 
@@ -114,10 +106,9 @@ export const ProjectsComponent: React.FC<Props> = ({
                 className={`
                   relative grid gap-4 mx-auto
                   ${chunk.length === 1 ? 'grid-cols-1' : 'grid-cols-2'}
-                  ${patternIndex === 0
+                  ${isThreeCol
                     ? 'md:grid-cols-3 max-w-[2560px]'
-                    : 'md:grid-cols-2 md:w-[66%] 2xl:w-[50%]'}
-                  ${patternIndex !== 0 ? 'md:mx-auto' : ''} 
+                    : 'md:grid-cols-2 md:w-[66%] 2xl:w-[50%] md:mx-auto'}
                 `}
               >
                 {chunk.map((projectItem, index) => {

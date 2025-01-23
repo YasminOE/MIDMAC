@@ -1,7 +1,21 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 
-export function middleware(request: NextRequest) {
+// List of known page routes that should not be under /projects/
+const PAGE_ROUTES = ['about-us', 'design-order', 'contact-us', 'contact', 'services']
+
+export async function middleware(request: NextRequest) {
+  // Check if this is a projects route
+  if (request.nextUrl.pathname.startsWith('/projects/')) {
+    const slug = request.nextUrl.pathname.split('/projects/')[1]
+    const locale = request.nextUrl.searchParams.get('locale') || 'en'
+
+    // If the slug matches a known page route, redirect
+    if (PAGE_ROUTES.includes(slug)) {
+      return NextResponse.redirect(new URL(`/${slug}?locale=${locale}`, request.url))
+    }
+  }
+
   const response = NextResponse.next()
 
   // Add security headers
@@ -29,5 +43,6 @@ export const config = {
   matcher: [
     '/((?!api|_next/static|_next/image|favicon.ico).*)',
     '/api/:path*',
+    '/projects/:path*',
   ],
 } 

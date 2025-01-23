@@ -70,42 +70,44 @@ export const ProjectPlans = ({ plans }: ProjectPlansProps) => {
               )}
             </AnimatePresence>
           </div>
-          {/* Navigation Buttons - Moved inside the container */}
-          <div className="flex justify-center py-2 bg-[#1E1E1E]">
-            <button
-              onClick={handlePrevious}
-              disabled={isFirstImage}
-              className={`p-1 transition-opacity ${
-                isFirstImage ? 'opacity-30 cursor-not-allowed' : 'hover:opacity-75'
-              }`}
-              aria-label="Previous plan"
-            >
-              <Image
-                src={GoForward}
-                alt="Previous"
-                width={32}
-                height={32}
-                className="rotate-180"
-                loading="eager"
-              />
-            </button>
-            <button
-              onClick={handleNext}
-              disabled={isLastImage}
-              className={`p-1 transition-opacity ${
-                !hasNextImage ? 'opacity-30 cursor-not-allowed' : 'hover:opacity-75'
-              }`}
-              aria-label="Next plan"
-            >
-              <Image
-                src={GoForward}
-                alt="Next"
-                width={32}
-                height={32}
-                loading="eager"
-              />
-            </button>
-          </div>
+          {/* Navigation Buttons - Only show if there's more than one plan */}
+          {plansFetched.length > 1 && (
+            <div className="flex justify-center py-2 bg-[#1E1E1E]">
+              <button
+                onClick={handlePrevious}
+                disabled={isFirstImage}
+                className={`p-1 transition-opacity ${
+                  isFirstImage ? 'opacity-30 cursor-not-allowed' : 'hover:opacity-75'
+                }`}
+                aria-label="Previous plan"
+              >
+                <Image
+                  src={GoForward}
+                  alt="Previous"
+                  width={32}
+                  height={32}
+                  className="rotate-180"
+                  loading="eager"
+                />
+              </button>
+              <button
+                onClick={handleNext}
+                disabled={isLastImage}
+                className={`p-1 transition-opacity ${
+                  !hasNextImage ? 'opacity-30 cursor-not-allowed' : 'hover:opacity-75'
+                }`}
+                aria-label="Next plan"
+              >
+                <Image
+                  src={GoForward}
+                  alt="Next"
+                  width={32}
+                  height={32}
+                  loading="eager"
+                />
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </div>

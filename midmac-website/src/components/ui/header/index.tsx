@@ -84,7 +84,6 @@ export function LanguageSwitch() {
 const HeaderNav: React.FC<Props> = ({ HeaderLinks }) => {
   const [isOpen, setIsOpen] = useState(false)
   const [isAnimating, setIsAnimating] = useState(false)
-  const [showPreloader, setShowPreloader] = useState(false)
   const menuRef = useRef<HTMLDivElement>(null)
   const buttonRef = useRef<HTMLButtonElement>(null)
   const _pathname = usePathname()
@@ -117,9 +116,14 @@ const HeaderNav: React.FC<Props> = ({ HeaderLinks }) => {
       if (sectionId) {
         const element = document.querySelector(`#${sectionId}`)
         if (element) {
+          // Clean up the URL by removing the section parameter
+          const url = new URL(window.location.href)
+          url.searchParams.delete('section')
+          window.history.replaceState({}, '', url.toString())
+          // Scroll after a small delay to ensure page is ready
           setTimeout(() => {
             element.scrollIntoView({ behavior: 'smooth' })
-          }, 100) // Small delay to ensure page is ready
+          }, 100)
         }
       }
     }
@@ -152,27 +156,42 @@ const HeaderNav: React.FC<Props> = ({ HeaderLinks }) => {
     if (linkType === 'section') {
       const sectionId = link.replace('#', '')
 
-      // Start exit animation for menu only
+      // Close menu and wait for animation
       setIsOpen(false)
       setIsAnimating(true)
-      // Wait for animation to complete
       await new Promise(resolve => setTimeout(resolve, 500))
+
       if (_pathname !== '/' && _pathname !== '/index') {
-        // Navigate to home with section parameter without triggering preloader
-        const url = new URL(window.location.href)
-        url.pathname = '/'
-        url.searchParams.set('locale', currentLocale)
-        url.searchParams.set('section', sectionId)
-        window.location.replace(url.toString())
+        // Navigate to home with section parameter
+        window.location.href = `/?locale=${currentLocale}&section=${sectionId}`
         return
       }
-      // Direct scroll when already on home page
+
+      // If already on home page, just scroll
       const element = document.querySelector(`#${sectionId}`)
       if (element) {
+        // Clean up the URL
+        const url = new URL(window.location.href)
+        url.searchParams.delete('section')
+        window.history.replaceState({}, '', url.toString())
         element.scrollIntoView({ behavior: 'smooth' })
       }
     } else {
       setIsOpen(false)
+      // For page navigation, don't include section parameter
+      const url = new URL(window.location.origin + (link || '/'))
+      url.searchParams.set('locale', currentLocale)
+      window.location.href = url.toString()
+    }
+  }
+
+  const handleLogoClick = (e: React.MouseEvent) => {
+    e.preventDefault()
+    if (_pathname !== '/' && _pathname !== '/index') {
+      window.location.href = `/?locale=${currentLocale}`
+    } else {
+      // If already on home, just scroll to top smoothly
+      window.scrollTo({ top: 0, behavior: 'smooth' })
     }
   }
 
@@ -189,20 +208,6 @@ const HeaderNav: React.FC<Props> = ({ HeaderLinks }) => {
         easeIn: [0.61, 0.01, 0.39, 0.96],
         delay: 4.3
       }
-    }
-  }
-
-  const handleLogoClick = (e: React.MouseEvent) => {
-    e.preventDefault()
-    // Only show preloader if not already on home page
-    if (_pathname !== '/' && _pathname !== '/index') {
-      setShowPreloader(true)
-      setTimeout(() => {
-        window.location.href = `/?locale=${currentLocale}`
-      }, 2000)
-    } else {
-      // If already on home, just scroll to top smoothly
-      window.scrollTo({ top: 0, behavior: 'smooth' })
     }
   }
 

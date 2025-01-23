@@ -1,4 +1,4 @@
-import { notFound } from 'next/navigation'
+import { notFound, redirect } from 'next/navigation'
 import configPromise from '@payload-config'
 import { getPayload } from 'payload'
 import { Project } from '@/payload-types'
@@ -57,6 +57,7 @@ export default async function Page({ params, searchParams }: PageParams) {
   const { slug = 'index' } = resolvedParams
   const searchParamsLocale = typeof resolvedSearchParams?.locale === 'string' ? resolvedSearchParams.locale : 'en'
   const isArabic = searchParamsLocale === 'ar'
+
   const payload = await getPayload({ config: configPromise })
 
   const { docs: projects } = await payload.find({
@@ -69,11 +70,12 @@ export default async function Page({ params, searchParams }: PageParams) {
     locale: isArabic ? 'ar' : 'en',
   })
 
-  const project = JSON.parse(JSON.stringify(projects[0])) as Project
-
-  if (!project) {
+  // If no project is found, trigger 404
+  if (!projects.length) {
     notFound()
   }
+
+  const project = JSON.parse(JSON.stringify(projects[0])) as Project
 
   const getContentText = (content: NonNullable<Project['content']>): ContentParagraph[] => {
     try {
