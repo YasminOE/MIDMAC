@@ -19,6 +19,8 @@ import { Pages } from './collections/Pages'
 import Header from './collections/general/Header'
 import Footer from './collections/general/Footer'
 
+import { resendAdapter } from '@payloadcms/email-resend'
+
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
@@ -125,7 +127,7 @@ export default buildConfig({
       }),
     payloadCloudPlugin(),
     formBuilderPlugin({
-      defaultToEmail: 'elmahdijasmin@gmail.com',
+      // defaultToEmail: 'elmahdijasmin@gmail.com',
       formOverrides: {
         fields: ({ defaultFields }) => [
           ...defaultFields,
@@ -142,4 +144,9 @@ export default buildConfig({
     }),
     // storage-adapter-placeholder
   ],
+  email: resendAdapter({
+    defaultFromAddress: 'info@midmac.design',
+    defaultFromName: 'MIDMAC',
+    apiKey: process.env.RESEND_API_KEY || '',
+  }),
 })
