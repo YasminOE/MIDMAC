@@ -5,6 +5,14 @@ import type { NextRequest } from 'next/server'
 const PAGE_ROUTES = ['about-us', 'design-order', 'contact-us', 'contact', 'services']
 
 export async function middleware(request: NextRequest) {
+  const url = request.nextUrl.clone()
+
+  // Handle domain redirects
+  if (request.headers.get('host')?.includes('about-us' || 'design-order')) {
+    const newUrl = new URL(url.pathname, 'https://midmac.design')
+    return NextResponse.redirect(newUrl)
+  }
+
   // Check if this is a projects route
   if (request.nextUrl.pathname.startsWith('/projects/')) {
     const slug = request.nextUrl.pathname.split('/projects/')[1]

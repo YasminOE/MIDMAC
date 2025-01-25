@@ -6,6 +6,16 @@ const nextConfig = {
     locales: ['en', 'ar'],
     defaultLocale: 'en',
     localeDetection: false,
+    domains: [
+      {
+        domain: 'midmac.design',
+        defaultLocale: 'en',
+      },
+      {
+        domain: 'ar.midmac.design',
+        defaultLocale: 'ar',
+      }
+    ]
   },
   images: {
     minimumCacheTTL: 60,
@@ -17,7 +27,7 @@ const nextConfig = {
     optimizeCss: true,
     serverActions: {
       bodySizeLimit: '2mb',
-      allowedOrigins: ['localhost:3000'] || ['midmac.design']
+      allowedOrigins: ['localhost:3000', 'midmac.design', 'www.midmac.design']
     },
     optimizePackageImports: ['@payloadcms/richtext-lexical', 'lucide-react'],
   },
