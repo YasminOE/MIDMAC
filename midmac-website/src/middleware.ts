@@ -8,7 +8,8 @@ export async function middleware(request: NextRequest) {
   const url = request.nextUrl.clone()
 
   // Handle domain redirects
-  if (request.headers.get('host')?.includes('about-us' || 'design-order')) {
+  const host = request.headers.get('host')
+  if (host && (host.includes('about-us') || host.includes('design-order'))) {
     const newUrl = new URL(url.pathname, 'https://midmac.design')
     return NextResponse.redirect(newUrl)
   }
