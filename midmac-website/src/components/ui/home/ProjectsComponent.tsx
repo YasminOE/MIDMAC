@@ -1,6 +1,6 @@
 'use client'
 
-import React from 'react'
+import React, { useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { motion } from 'motion/react'
@@ -39,7 +39,14 @@ export const ProjectsComponent: React.FC<Props> = ({
   const currentLocale = searchParams.get('locale') || 'en'
   const isArabic = currentLocale === 'ar'
 
-  if (!projects?.length) return null
+  useEffect(() => {
+    console.log('ProjectsComponent rendered with:', { title, projects })
+  }, [title, projects])
+
+  if (!projects?.length) {
+    console.log('No projects found')
+    return null
+  }
 
   // Function to chunk projects differently for mobile
   const chunkProjects = (projects: NonNullable<ProjectsBlockProps['projects']>) => {
@@ -112,11 +119,28 @@ export const ProjectsComponent: React.FC<Props> = ({
                 `}
               >
                 {chunk.map((projectItem, index) => {
+                  console.log('Processing project item:', projectItem)
                   const project = projectItem.project
-                  if (!project || !isProject(project) || !project.media?.[0]?.image) return null
+                  if (!project || !isProject(project)) {
+                    console.log('Invalid project:', project)
+                    return null
+                  }
+
+                  if (!project.media?.[0]?.image) {
+                    console.log('No media found for project:', project)
+                    return null
+                  }
 
                   const firstImage = project.media[0].image
-                  if (!isMediaObject(firstImage) || !firstImage.url) return null
+                  if (!isMediaObject(firstImage)) {
+                    console.log('Invalid media object:', firstImage)
+                    return null
+                  }
+
+                  if (!firstImage.url) {
+                    console.log('No URL in media object:', firstImage)
+                    return null
+                  }
 
                   // Get localized title and details
                   const projectTitle = isArabic ? project.titleAr || project.title : project.title

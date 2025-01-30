@@ -104,6 +104,7 @@ const queryPageBySlug = cache(async ({
         ],
       },
       locale: locale as 'ar' | 'en' | 'all',
+      depth: 2,
     })
 
     if (!result.docs?.[0]) {
@@ -111,7 +112,6 @@ const queryPageBySlug = cache(async ({
     }
 
     const page = JSON.parse(JSON.stringify(result.docs[0])) as PageType
-    // console.log("queryPageBySlug",page)
     return page || null
   } catch (error) {
     console.error('Error fetching page:', error)

@@ -21,7 +21,7 @@ const blockComponents = {
   teamMembers: TeamMembersComponent,
   designOrderTitle: DesignOrderTitleComponent,
   designOrderForm: DesignOrderFormComponent,
-}
+} as const
 
 // Create a type for valid block types
 type BlockType = keyof typeof blockComponents
@@ -37,15 +37,16 @@ export const RenderBlocks: React.FC<{
       <Fragment>
         {blocks.map((block, index) => {
           const { blockType } = block as { blockType: BlockType }
-
           const uniqueKey = `${blockType}-${index}`
 
           if (blockType && blockType in blockComponents) {
             const Block = blockComponents[blockType]
-            // Type assertion to tell TypeScript this is safe
+            if (blockType === 'projects') {
+              console.log('Rendering projects block:', block) // Debug log
+            }
             return (
               <div key={uniqueKey}>
-                <Block {...(block as any)} />
+                <Block {...block} />
               </div>
             )
           }
