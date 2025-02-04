@@ -5,6 +5,7 @@ import { usePathname, useSearchParams } from 'next/navigation'
 import { motion, AnimatePresence } from "motion/react"
 import Image from 'next/image'
 import Link from 'next/link'
+import { Globe } from 'lucide-react'
 import ImageLogo from '@/assets/images/header-logo.svg'
 import ImageMenu from '@/assets/images/header-nav-icon.svg'
 import { Page } from '@/payload-types'
@@ -29,6 +30,21 @@ function LanguageSwitchContent() {
   const pathname = usePathname()
   const searchParams = useSearchParams()
   const currentLocale = searchParams.get('locale') || 'en'
+  const [isOpen, setIsOpen] = useState(false)
+  const switcherRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (switcherRef.current && !switcherRef.current.contains(event.target as Node)) {
+        setIsOpen(false)
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [])
 
   const createLocaleUrl = (locale: string) => {
     const params = new URLSearchParams(searchParams.toString())
@@ -48,27 +64,54 @@ function LanguageSwitchContent() {
   }
 
   return (
-    <div className="lang-switches">
-      <Link
-        href={createLocaleUrl('ar')}
-        className={`lang-switch montserrat ${currentLocale === "ar" ? "active" : ""}`}
-        onClick={(e) => {
-          e.preventDefault()
-          handleLocaleChange('ar')
-        }}
-      >
-        A
-      </Link>
-      <Link
-        href={createLocaleUrl('en')}
-        className={`lang-switch montserrat ${currentLocale === "en" ? "active" : ""}`}
-        onClick={(e) => {
-          e.preventDefault()
-          handleLocaleChange('en')
-        }}
-      >
-        E
-      </Link>
+    <div
+      className="lang-switches-container"
+      ref={switcherRef}
+    >
+      <AnimatePresence mode="wait">
+        {!isOpen ? (
+          <motion.button
+            className="lang-toggle mt-2"
+            onClick={() => setIsOpen(true)}
+            aria-label="Toggle language menu"
+            initial={{ x: 0, opacity: 1 }}
+            animate={{ x: 0, opacity: 1 }}
+            exit={{ x: -20, opacity: 0 }}
+            transition={{ duration: 0.3, ease: "easeInOut" }}
+          >
+            <Globe className="size-5" />
+          </motion.button>
+        ) : (
+          <motion.div
+            className="lang-switches"
+            initial={{ x: 20, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            exit={{ x: 20, opacity: 0 }}
+            transition={{ duration: 0.3, ease: "easeInOut" }}
+          >
+            <Link
+              href={createLocaleUrl('ar')}
+              className={`lang-switch montserrat ${currentLocale === "ar" ? "active" : ""}`}
+              onClick={(e) => {
+                e.preventDefault()
+                handleLocaleChange('ar')
+              }}
+            >
+              A
+            </Link>
+            <Link
+              href={createLocaleUrl('en')}
+              className={`lang-switch montserrat ${currentLocale === "en" ? "active" : ""}`}
+              onClick={(e) => {
+                e.preventDefault()
+                handleLocaleChange('en')
+              }}
+            >
+              E
+            </Link>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   )
 }
