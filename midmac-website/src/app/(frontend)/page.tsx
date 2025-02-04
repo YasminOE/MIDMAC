@@ -8,29 +8,24 @@ import { Metadata } from 'next'
 // Enable ISR
 export const revalidate = 3600 // Revalidate every hour
 
-type HomePageProps = {
-  searchParams: { [key: string]: string | string[] | undefined }
-}
-
 // Generate metadata
-export async function generateMetadata({ searchParams }: HomePageProps): Promise<Metadata> {
-  const locale = typeof searchParams?.locale === 'string' &&
-    (searchParams.locale === 'ar' || searchParams.locale === 'en')
-    ? searchParams.locale
-    : 'en'
-
+export async function generateMetadata(): Promise<Metadata> {
   return {
     title: 'MIDMAC',
     description: 'MIDMAC Design',
   }
 }
 
-export default async function HomePage({
-  searchParams,
-}: HomePageProps) {
-  const locale = typeof searchParams?.locale === 'string' &&
+interface PageProps {
+  params: Promise<Record<string, string>>;
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
+}
+
+export default async function HomePage(props: PageProps) {
+  const searchParams = await props.searchParams
+  const currentLocale = typeof searchParams?.locale === 'string' &&
     (searchParams.locale === 'ar' || searchParams.locale === 'en')
-    ? searchParams.locale 
+    ? searchParams.locale
     : 'en'
 
   try {
@@ -39,7 +34,7 @@ export default async function HomePage({
     // First, get all projects to ensure they're properly populated
     const { docs: projects } = await payload.find({
       collection: 'projects',
-      locale,
+      locale: currentLocale,
       depth: 1,
     })
 
@@ -67,7 +62,7 @@ export default async function HomePage({
         ],
       },
       depth: 2,
-      locale,
+      locale: currentLocale,
     })
 
     if (!pages?.[0]) {

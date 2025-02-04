@@ -7,18 +7,20 @@ import { ProjectPlans } from '@/components/ui/projects/ProjectPlans'
 import { Contact } from '@/components/ui/projects/Contacts'
 import RtlText from '@/components/ui/RtlText'
 import { Suspense } from 'react'
-import type { Metadata, ResolvingMetadata } from 'next'
+import type { Metadata } from 'next'
 
 // Remove force-dynamic and use ISR instead
 export const revalidate = 3600 // Revalidate every hour
 
-export async function generateMetadata(
-  { params }: { params: Promise<{ slug: string }> },
-  parent: ResolvingMetadata
-): Promise<Metadata> {
-  const resolvedParams = await params
+interface PageProps {
+  params: Promise<{ slug: string }>;
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
+}
+
+export async function generateMetadata(props: PageProps): Promise<Metadata> {
+  const params = await props.params
   return {
-    title: resolvedParams.slug,
+    title: params.slug,
   }
 }
 
@@ -53,16 +55,11 @@ interface ContentChild {
   direction?: string;
 }
 
-interface PageParams {
-  params: Promise<{ slug: string }>;
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
-}
-
-export default async function Page({ params, searchParams }: PageParams) {
-  const resolvedParams = await params
-  const resolvedSearchParams = await searchParams
-  const { slug = 'index' } = resolvedParams
-  const searchParamsLocale = typeof resolvedSearchParams?.locale === 'string' ? resolvedSearchParams.locale : 'en'
+export default async function Page(props: PageProps) {
+  const params = await props.params
+  const searchParams = await props.searchParams
+  const { slug = 'index' } = params
+  const searchParamsLocale = typeof searchParams?.locale === 'string' ? searchParams.locale : 'en'
   const isArabic = searchParamsLocale === 'ar'
 
   try {

@@ -46,7 +46,7 @@ export const RenderBlocks: React.FC<{
             }
             return (
               <div key={uniqueKey}>
-                <Block {...block} />
+                <Block {...(block as any)} />
               </div>
             )
           }
