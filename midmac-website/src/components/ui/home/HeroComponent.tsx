@@ -75,8 +75,10 @@ export const HeroComponent: React.FC<Props> = ({ images }) => {
           <Image 
             src={ForegroundImage.url}
             alt={ForegroundImage.alt || ''}
-            width={1550}
-            height={37}
+            // width={1550}
+            // height={37}
+            width={(ForegroundImageMobile.width || 0) * 100}
+            height={(ForegroundImageMobile.height || 0) * 100}
             priority
             quality={100}
             className="w-auto hidden md:block"
@@ -92,10 +94,10 @@ export const HeroComponent: React.FC<Props> = ({ images }) => {
           <Image 
             src={ForegroundImageMobile.url}
             alt={ForegroundImageMobile.alt || ''}
-            width={55}
-            height={178}
-            // width={(ForegroundImageMobile.width || 0) * 100}
-            // height={(ForegroundImageMobile.height || 0) * 100}
+            // width={55}
+            // height={178}
+            width={(ForegroundImageMobile.width || 0) * 100}
+            height={(ForegroundImageMobile.height || 0) * 100}
             priority
             quality={100}
             className="w-full h-auto block md:hidden"
