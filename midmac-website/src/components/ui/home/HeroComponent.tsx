@@ -13,51 +13,72 @@ const isMediaObject = (image: string | Media): image is Media => {
   return typeof image !== 'string' && 'url' in image;
 };
 
-export const HeroComponent: React.FC<Props> = ({ images }) => {
-  if (!images?.backgroundImage || !images?.foregroundImage || !images?.foregroundImageMobile) {
+export const HeroComponent: React.FC<Props> = ({ images, settings }) => {
+  if (!images?.backgroundImage || !images?.backgroundImageMobile || !images?.foregroundImage || !images?.foregroundImageMobile) {
     return null
   }
 
   const BackgroundImage = JSON.parse(JSON.stringify(images.backgroundImage))
+  const BackgroundImageMobile = JSON.parse(JSON.stringify(images.backgroundImageMobile))
   const ForegroundImage = JSON.parse(JSON.stringify(images.foregroundImage))
   const ForegroundImageMobile = JSON.parse(JSON.stringify(images.foregroundImageMobile))
 
   // Type guard checks
   if (!isMediaObject(BackgroundImage) ||
+      !isMediaObject(BackgroundImageMobile) ||
       !isMediaObject(ForegroundImage) ||
       !isMediaObject(ForegroundImageMobile) ||
       !BackgroundImage.url ||
+      !BackgroundImageMobile.url ||
       !ForegroundImage.url ||
       !ForegroundImageMobile.url) {
     return null
   }
 
   return (
-    <section id="hero" className="section w-full">
-      <div className="row no-wrap justify-center items-center w-full h-full">
-        {/* Background Image */}
+    <section id="hero" className="section w-full h-screen relative">
+      <div className="absolute inset-0 w-full h-full">
+        {/* Background Images Container */}
         <motion.div 
-          className="inset-0"
+          className="relative w-full h-full"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.8, ease: [0.7, 0, 0.3, 1] }}
         >
-          <Image 
-            src={BackgroundImage.url}
-            alt={BackgroundImage.alt || ''}
-            fill
-            priority
-            className="object-cover object-center"
-            sizes="100vw"
-            quality={95}
-            placeholder="blur"
-            blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDABQODxIPDRQSEBIXFRQdHx4eHRoaHSQrJyEkKSM4Mjc1NjM4PTEwO0BCNUFBNTY6UFxbYWFkZ2RnPT1zdXFk/8IACwgAIAAgAQERAP/EABgAAAMBAQAAAAAAAAAAAAAAAAECAwAE/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAH/2gAMAwEAAhADEAAAAfQZrm7lLUs6Ek4h0c+8fRjSCgDTz74GbWYqgAH/xAAcEAACAgIDAAAAAAAAAAAAAAABEQACAyASITH/2gAIAQEAAQUCxcvai52yfH1nTE7Wm3q5nxH0Zn//xAAUEQEAAAAAAAAAAAAAAAAAAAAQ/9oACAEDAQE/AT//xAAUEQEAAAAAAAAAAAAAAAAAAAAQ/9oACAECAQE/AT//xAAbEAACAgMBAAAAAAAAAAAAAAAAAREQEiExUf/aAAgBAQAGPwLhJeR7FLPA5Hs//8QAHRAAAwACAgMAAAAAAAAAAAABESEAMUFRYXGBkaH/2gAIAQEAAT8QFW0aZ8YKA7kEsv8AeAUgdvX3jyXoXoe8VYmhpHzgrQBQB4wqNhf3hO7QePlwQCSh0M//2Q=="
-          />
+          {/* Desktop Background */}
+          <div className="relative w-full h-full hidden md:block">
+            <Image 
+              src={BackgroundImage.url}
+              alt={BackgroundImage.alt || ''}
+              fill
+              priority
+              className="object-cover"
+              sizes="100vw"
+              quality={95}
+              placeholder="blur"
+              blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDABQODxIPDRQSEBIXFRQdHx4eHRoaHSQrJyEkKSM4Mjc1NjM4PTEwO0BCNUFBNTY6UFxbYWFkZ2RnPT1zdXFk/8IACwgAIAAgAQERAP/EABgAAAMBAQAAAAAAAAAAAAAAAAECAwAE/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAH/2gAMAwEAAhADEAAAAfQZrm7lLUs6Ek4h0c+8fRjSCgDTz74GbWYqgAH/xAAcEAACAgIDAAAAAAAAAAAAAAABEQACAyASITH/2gAIAQEAAQUCxcvai52yfH1nTE7Wm3q5nxH0Zn//xAAUEQEAAAAAAAAAAAAAAAAAAAAQ/9oACAEDAQE/AT//xAAUEQEAAAAAAAAAAAAAAAAAAAAQ/9oACAECAQE/AT//xAAbEAACAgMBAAAAAAAAAAAAAAAAAREQEiExUf/aAAgBAQAGPwLhJeR7FLPA5Hs//8QAHRAAAwACAgMAAAAAAAAAAAABESEAMUFRYXGBkaH/2gAIAQEAAT8QFW0aZ8YKA7kEsv8AeAUgdvX3jyXoXoe8VYmhpHzgrQBQB4wqNhf3hO7QePlwQCSh0M//2Q=="
+            />
+          </div>
+
+          {/* Mobile Background */}
+          <div className="relative w-full h-full block md:hidden">
+            <Image 
+              src={BackgroundImageMobile.url}
+              alt={BackgroundImageMobile.alt || ''}
+              fill
+              priority
+              className="object-cover"
+              sizes="100vw"
+              quality={95}
+              placeholder="blur"
+              blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDABQODxIPDRQSEBIXFRQdHx4eHRoaHSQrJyEkKSM4Mjc1NjM4PTEwO0BCNUFBNTY6UFxbYWFkZ2RnPT1zdXFk/8IACwgAIAAgAQERAP/EABgAAAMBAQAAAAAAAAAAAAAAAAECAwAE/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAH/2gAMAwEAAhADEAAAAfQZrm7lLUs6Ek4h0c+8fRjSCgDTz74GbWYqgAH/xAAcEAACAgIDAAAAAAAAAAAAAAABEQACAyASITH/2gAIAQEAAQUCxcvai52yfH1nTE7Wm3q5nxH0Zn//xAAUEQEAAAAAAAAAAAAAAAAAAAAQ/9oACAEDAQE/AT//xAAUEQEAAAAAAAAAAAAAAAAAAAAQ/9oACAECAQE/AT//xAAbEAACAgMBAAAAAAAAAAAAAAAAAREQEiExUf/aAAgBAQAGPwLhJeR7FLPA5Hs//8QAHRAAAwACAgMAAAAAAAAAAAABESEAMUFRYXGBkaH/2gAIAQEAAT8QFW0aZ8YKA7kEsv8AeAUgdvX3jyXoXoe8VYmhpHzgrQBQB4wqNhf3hO7QePlwQCSh0M//2Q=="
+            />
+          </div>
         </motion.div>
 
         {/* Foreground Content */}
         <motion.div 
-          className="row no-wrap relative top-[-200px] z-10"
+          className="absolute inset-0 flex items-center justify-center z-10"
           initial={{ y: 100, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ 
@@ -65,54 +86,43 @@ export const HeroComponent: React.FC<Props> = ({ images }) => {
             easeIn: [0.61, 0.01, 0.39, 0.96],
             delay: 4.3
           }}
-          style={{
-            maxWidth: '90vw',
-            width: 'auto',
-            height: 'auto',
-          }}
         >
-          {/* Desktop Image */}
-          <Image 
-            src={ForegroundImage.url}
-            alt={ForegroundImage.alt || ''}
-            // width={1550}
-            // height={37}
-            width={(ForegroundImageMobile.width || 0) * 100}
-            height={(ForegroundImageMobile.height || 0) * 100}
-            priority
-            quality={100}
-            className="w-auto hidden md:block"
-            loading="eager"
-            // sizes="(min-width: 768px) 90vw, 0vw"
-            placeholder="blur"
-            blurDataURL={`data:image/svg+xml;base64,${Buffer.from(
-              '<svg width="1" height="1" xmlns="http://www.w3.org/2000/svg"><rect width="1" height="1" fill="#888888"/></svg>'
-            ).toString('base64')}`}
-          />
+          {/* Desktop Foreground */}
+          <div className="relative w-full h-full hidden md:block">
+            <Image 
+              src={ForegroundImage.url}
+              alt={ForegroundImage.alt || ''}
+              fill
+              priority
+              className="object-contain"
+              quality={100}
+              loading="eager"
+              placeholder="blur"
+              blurDataURL={`data:image/svg+xml;base64,${Buffer.from(
+                '<svg width="1" height="1" xmlns="http://www.w3.org/2000/svg"><rect width="1" height="1" fill="#888888"/></svg>'
+              ).toString('base64')}`}
+            />
+          </div>
           
-          {/* Mobile Image */}
-          <Image 
-            src={ForegroundImageMobile.url}
-            alt={ForegroundImageMobile.alt || ''}
-            // width={55}
-            // height={178}
-            width={(ForegroundImageMobile.width || 0) * 100}
-            height={(ForegroundImageMobile.height || 0) * 100}
-            priority
-            quality={100}
-            className="w-full h-auto block md:hidden"
-            loading="eager"
-            // sizes="(max-width: 768px) 100vw"
-            placeholder="blur"
-            style={{
-              maxWidth: '100vw',
-              height: 'auto',
-              objectFit: 'contain',
-            }}
-            blurDataURL={`data:image/svg+xml;base64,${Buffer.from(
-              '<svg width="1" height="1" xmlns="http://www.w3.org/2000/svg"><rect width="1" height="1" fill="#888888"/></svg>'
-            ).toString('base64')}`}
-          />
+          {/* Mobile Foreground */}
+          <div className="mt-20 relative w-full h-[80vh] block md:hidden px-4">
+            <div className="relative w-full h-[30%] flex items-center justify-center">
+              <Image 
+                src={ForegroundImageMobile.url}
+                alt={ForegroundImageMobile.alt || ''}
+                fill
+                priority
+                className="object-contain object-center"
+                quality={100}
+                loading="eager"
+                sizes="80vw"
+                placeholder="blur"
+                blurDataURL={`data:image/svg+xml;base64,${Buffer.from(
+                  '<svg width="1" height="1" xmlns="http://www.w3.org/2000/svg"><rect width="1" height="1" fill="#888888"/></svg>'
+                ).toString('base64')}`}
+              />
+            </div>
+          </div>
         </motion.div>
       </div>
     </section>

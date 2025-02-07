@@ -103,6 +103,7 @@ export interface Page {
 export interface HeroBlock {
   images: {
     backgroundImage: string | Media;
+    backgroundImageMobile: string | Media;
     foregroundImage: string | Media;
     foregroundImageMobile: string | Media;
   };
@@ -689,6 +690,7 @@ export interface HeroBlockSelect<T extends boolean = true> {
     | T
     | {
         backgroundImage?: T;
+        backgroundImageMobile?: T;
         foregroundImage?: T;
         foregroundImageMobile?: T;
       };

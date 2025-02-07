@@ -17,6 +17,13 @@ export const Hero: Block = {
           label: 'Background Image',
         },
         {
+          name: 'backgroundImageMobile',
+          type: 'upload',
+          relationTo: 'media',
+          required: true,
+          label: 'Background Image Mobile',
+        },
+        {
           name: 'foregroundImage',
           type: 'upload',
           relationTo: 'media',
