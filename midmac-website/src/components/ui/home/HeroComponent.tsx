@@ -1,9 +1,10 @@
 'use client'
 
 import React from 'react'
-import Image from 'next/image'
 import type { HeroBlock as HeroBlockProps, Media } from '@/payload-types'
 import { motion } from 'motion/react'
+import { ImageWithLoader } from '@/components/ui/ImageWithLoader'
+import { IMAGE_PLACEHOLDER_BLUR } from '@/constants/imagePlaceholders'
 
 type Props = {
   className?: string
@@ -13,7 +14,7 @@ const isMediaObject = (image: string | Media): image is Media => {
   return typeof image !== 'string' && 'url' in image;
 };
 
-export const HeroComponent: React.FC<Props> = ({ images, settings }) => {
+export const HeroComponent: React.FC<Props> = ({ images, settings: _settings }) => {
   if (!images?.backgroundImage || !images?.backgroundImageMobile || !images?.foregroundImage || !images?.foregroundImageMobile) {
     return null
   }
@@ -47,31 +48,33 @@ export const HeroComponent: React.FC<Props> = ({ images, settings }) => {
         >
           {/* Desktop Background */}
           <div className="relative w-full h-full hidden md:block">
-            <Image 
+            <ImageWithLoader
               src={BackgroundImage.url}
               alt={BackgroundImage.alt || ''}
               fill
               priority
+              wrapperClassName="w-full h-full"
               className="object-cover"
               sizes="100vw"
-              quality={95}
+              quality={85}
               placeholder="blur"
-              blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDABQODxIPDRQSEBIXFRQdHx4eHRoaHSQrJyEkKSM4Mjc1NjM4PTEwO0BCNUFBNTY6UFxbYWFkZ2RnPT1zdXFk/8IACwgAIAAgAQERAP/EABgAAAMBAQAAAAAAAAAAAAAAAAECAwAE/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAH/2gAMAwEAAhADEAAAAfQZrm7lLUs6Ek4h0c+8fRjSCgDTz74GbWYqgAH/xAAcEAACAgIDAAAAAAAAAAAAAAABEQACAyASITH/2gAIAQEAAQUCxcvai52yfH1nTE7Wm3q5nxH0Zn//xAAUEQEAAAAAAAAAAAAAAAAAAAAQ/9oACAEDAQE/AT//xAAUEQEAAAAAAAAAAAAAAAAAAAAQ/9oACAECAQE/AT//xAAbEAACAgMBAAAAAAAAAAAAAAAAAREQEiExUf/aAAgBAQAGPwLhJeR7FLPA5Hs//8QAHRAAAwACAgMAAAAAAAAAAAABESEAMUFRYXGBkaH/2gAIAQEAAT8QFW0aZ8YKA7kEsv8AeAUgdvX3jyXoXoe8VYmhpHzgrQBQB4wqNhf3hO7QePlwQCSh0M//2Q=="
+              blurDataURL={IMAGE_PLACEHOLDER_BLUR}
             />
           </div>
 
           {/* Mobile Background */}
           <div className="relative w-full h-full block md:hidden">
-            <Image 
+            <ImageWithLoader
               src={BackgroundImageMobile.url}
               alt={BackgroundImageMobile.alt || ''}
               fill
               priority
+              wrapperClassName="w-full h-full"
               className="object-cover"
               sizes="100vw"
-              quality={95}
+              quality={85}
               placeholder="blur"
-              blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVigAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDABQODxIPDRQSEBIXFRQdHx4eHRoaHSQrJyEkKSM4Mjc1NjM4PTEwO0BCNUFBNTY6UFxbYWFkZ2RnPT1zdXFk/8IACwgAIAAgAQERAP/EABgAAAMBAQAAAAAAAAAAAAAAAAECAwAE/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAH/2gAMAwEAAhADEAAAAfQZrm7lLUs6Ek4h0c+8fRjSCgDTz74GbWYqgAH/xAAcEAACAgIDAAAAAAAAAAAAAAABEQACAyASITH/2gAIAQEAAQUCxcvai52yfH1nTE7Wm3q5nxH0Zn//xAAUEQEAAAAAAAAAAAAAAAAAAAAQ/9oACAEDAQE/AT//xAAUEQEAAAAAAAAAAAAAAAAAAAAQ/9oACAECAQE/AT//xAAbEAACAgMBAAAAAAAAAAAAAAAAAREQEiExUf/aAAgBAQAGPwLhJeR7FLPA5Hs//8QAHRAAAwACAgMAAAAAAAAAAAABESEAMUFRYXGBkaH/2gAIAQEAAT8QFW0aZ8YKA7kEsv8AeAUgdvX3jyXoXoe8VYmhpHzgrQBQB4wqNhf3hO7QePlwQCSh0M//2Q=="
+              blurDataURL={IMAGE_PLACEHOLDER_BLUR}
             />
           </div>
         </motion.div>
@@ -89,38 +92,36 @@ export const HeroComponent: React.FC<Props> = ({ images, settings }) => {
         >
           {/* Desktop Foreground */}
           <div className="relative w-[90%] h-[60vh] mt-52 hidden md:block">
-            <Image 
+            <ImageWithLoader
               src={ForegroundImage.url}
               alt={ForegroundImage.alt || ''}
               fill
               priority
+              wrapperClassName="w-full h-full"
               className="object-contain object-top"
-              quality={100}
+              quality={90}
               loading="eager"
               sizes="80vw"
               placeholder="blur"
-              blurDataURL={`data:image/svg+xml;base64,${Buffer.from(
-                '<svg width="1" height="1" xmlns="http://www.w3.org/2000/svg"><rect width="1" height="1" fill="#888888"/></svg>'
-              ).toString('base64')}`}
+              blurDataURL={IMAGE_PLACEHOLDER_BLUR}
             />
           </div>
           
           {/* Mobile Foreground */}
           <div className="mt-40 relative w-full h-[80vh] block md:hidden px-4">
             <div className="relative w-full h-[30%] flex items-center justify-center">
-              <Image 
+              <ImageWithLoader
                 src={ForegroundImageMobile.url}
                 alt={ForegroundImageMobile.alt || ''}
                 fill
                 priority
+                wrapperClassName="w-full h-full"
                 className="object-contain object-center"
-                quality={100}
+                quality={90}
                 loading="eager"
                 sizes="80vw"
                 placeholder="blur"
-                blurDataURL={`data:image/svg+xml;base64,${Buffer.from(
-                  '<svg width="1" height="1" xmlns="http://www.w3.org/2000/svg"><rect width="1" height="1" fill="#888888"/></svg>'
-                ).toString('base64')}`}
+                blurDataURL={IMAGE_PLACEHOLDER_BLUR}
               />
             </div>
           </div>

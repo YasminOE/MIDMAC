@@ -48,6 +48,8 @@ export async function generateStaticParams() {
   })
 }
 
+export const revalidate = 3600
+
 interface Props {
   params: Promise<{ slug: string }>
   searchParams: Promise<{ locale?: string }>
@@ -63,7 +65,6 @@ export default async function Page({ params, searchParams }: Props) {
   })
 
   const pageFetched = JSON.parse(JSON.stringify(page)) as PageType
-  console.log("Page",pageFetched)
   if (!pageFetched) {
     notFound()
   }

@@ -14,9 +14,9 @@ export default function PreLoader() {
   useEffect(() => {
     setDimension({ width: window.innerWidth, height: window.innerHeight });
     
-    const stage1 = setTimeout(() => setCurrentStage(1), 2500);
-    const stage2 = setTimeout(() => setCurrentStage(2), 3400);
-    const stage3 = setTimeout(() => setIsComplete(true), 4300);
+    const stage1 = setTimeout(() => setCurrentStage(1), 1000);
+    const stage2 = setTimeout(() => setCurrentStage(2), 1700);
+    const stage3 = setTimeout(() => setIsComplete(true), 2400);
 
     return () => {
       clearTimeout(stage1);

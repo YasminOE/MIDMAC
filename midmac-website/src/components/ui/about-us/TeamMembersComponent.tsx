@@ -6,6 +6,7 @@ import { motion } from 'motion/react'
 import type { TeamMembersBlock as TeamMembersBlockProps, Media } from '@/payload-types'
 import RtlText from '../RtlText'
 import { useSearchParams } from 'next/navigation'
+import { IMAGE_PLACEHOLDER_BLUR } from '@/constants/imagePlaceholders'
 
 // TODO: Fix on small screens
 type Props = {
@@ -94,6 +95,9 @@ export const TeamMembersComponent: React.FC<Props> = ({
                     alt={member.name || ''}
                     fill
                     className="object-cover"
+                    placeholder="blur"
+                    blurDataURL={IMAGE_PLACEHOLDER_BLUR}
+                    sizes="(max-width: 768px) 64px, 96px"
                   />
                 )}
               </div>

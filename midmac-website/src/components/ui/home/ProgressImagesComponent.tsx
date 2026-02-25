@@ -73,6 +73,7 @@ import React, { useRef, useEffect, useMemo } from 'react'
 import Image from 'next/image'
 import { motion, useAnimationControls } from 'motion/react'
 import type { ProgressImagesBlock as ProgressImagesBlockProps } from '@/payload-types'
+import { IMAGE_PLACEHOLDER_BLUR } from '@/constants/imagePlaceholders'
 
 type Props = {
   className?: string
@@ -176,8 +177,10 @@ export const ProgressImagesComponent: React.FC<Props> = ({
                   fill
                   className="object-cover object-center"
                   sizes="(max-width: 768px) 90vw, 80vw"
-                  quality={100}
+                  quality={85}
                   priority={index === 0}
+                  placeholder="blur"
+                  blurDataURL={IMAGE_PLACEHOLDER_BLUR}
                 />
               </motion.div>
             )

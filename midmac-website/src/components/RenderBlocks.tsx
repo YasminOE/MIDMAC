@@ -10,7 +10,6 @@ import { Contacts } from './ui/home/ContactsComponent'
 import { DesignOrderTitleComponent } from './ui/design-order/OrderTitleCompmnent'
 import { DesignOrderFormComponent } from './ui/design-order/OrderFormCompmnent'
 
-// Define a type for the block components mapping
 const blockComponents = {
   hero: HeroComponent,
   services: ServicesComponent,
@@ -41,9 +40,6 @@ export const RenderBlocks: React.FC<{
 
           if (blockType && blockType in blockComponents) {
             const Block = blockComponents[blockType]
-            if (blockType === 'projects') {
-              console.log('Rendering projects block:', block) // Debug log
-            }
             return (
               <div key={uniqueKey}>
                 <Block {...(block as any)} />

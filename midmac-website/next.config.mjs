@@ -18,7 +18,7 @@ const nextConfig = {
     ]
   },
   images: {
-    minimumCacheTTL: 60 * 60 * 24, // 24 hours
+    minimumCacheTTL: 60 * 60 * 24 * 7, // 7 days for heavy image site
     formats: ['image/avif', 'image/webp'],
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048],
     imageSizes: [16, 32, 48, 64, 96, 128, 256],
@@ -29,6 +29,8 @@ const nextConfig = {
         hostname: '**.midmac.design',
       },
     ],
+    // Keep quality high for design-heavy site; Next.js still serves WebP/AVIF for smaller bytes
+    unoptimized: false,
   },
   experimental: {
     optimizeCss: true,
@@ -36,7 +38,7 @@ const nextConfig = {
       bodySizeLimit: '2mb',
       allowedOrigins: ['localhost:3000', 'midmac.design', 'www.midmac.design']
     },
-    optimizePackageImports: ['@payloadcms/richtext-lexical', 'lucide-react'],
+    optimizePackageImports: ['@payloadcms/richtext-lexical', 'lucide-react', 'motion'],
     turbo: {
       loaders: {
         '.svg': ['@svgr/webpack'],

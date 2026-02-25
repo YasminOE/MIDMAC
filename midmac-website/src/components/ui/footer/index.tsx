@@ -23,7 +23,9 @@ type Props = {
 }
 
 const Footer: React.FC<Props> = ({ Footer }) => {
-  const footerText = Footer.text?.root?.children?.[0]?.children?.[0]?.text || '2024 MIDMAC. ALL RIGHTS RESERVED'
+  const year = new Date().getFullYear()
+  const rawText = Footer.text?.root?.children?.[0]?.children?.[0]?.text || `${year} MIDMAC. ALL RIGHTS RESERVED`
+  const footerText = rawText.replace(/\b(20\d{2})\b/, String(year))
 
   return (
     <footer className="footer mt-4 mb-4">

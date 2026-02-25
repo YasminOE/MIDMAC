@@ -5,7 +5,8 @@ import Image from 'next/image'
 import { motion, AnimatePresence } from 'motion/react'
 import { Project } from '@/payload-types'
 import GoForward from '@/assets/images/go-forward.svg'
-import GoBackward from '@/assets/images/go-backward.svg'
+import { ImageWithLoader } from '@/components/ui/ImageWithLoader'
+import { IMAGE_PLACEHOLDER_BLUR } from '@/constants/imagePlaceholders'
 
 type ProjectPlansProps = {
   plans: Project['plans']
@@ -57,15 +58,16 @@ export const ProjectPlans = ({ plans }: ProjectPlansProps) => {
                   className="absolute inset-0 flex items-center justify-center p-4 md:p-8"
                 >
                   <div className="relative w-full h-full max-w-[1400px] 3xl:max-w-[2800px] max-h-[787px] 3xl:max-h-[1012px] mx-auto">
-                    <Image
+                    <ImageWithLoader
                       src={plansFetched[currentIndex].plan.url}
                       alt={plansFetched[currentIndex].plan.alt || `Project plan ${currentIndex + 1}`}
                       fill
+                      wrapperClassName="w-full h-full"
                       className="object-contain"
                       sizes="(min-width: 1920px) 1800px, (max-width: 1200px) 90vw, 1400px"
                       priority={currentIndex === 0}
                       placeholder="blur"
-                      blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVigAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDABQODxIPDRQSEBIXFRQdHx4eHRoaHSQrJyEkKSM4Mjc1NjM4PTEwO0BCNUFBNTY6UFxbYWFkZ2RnPT1zdXFk/8IACwgAIAAgAQERAP/EABgAAAMBAQAAAAAAAAAAAAAAAAECAwAE/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAH/2gAMAwEAAhADEAAAAfQZrm7lLUs6Ek4h0c+8fRjSCgDTz74GbWYqgAH/xAAcEAACAgIDAAAAAAAAAAAAAAABEQACAyASITH/2gAIAQEAAQUCxcvai52yfH1nTE7Wm3q5nxH0Zn//xAAUEQEAAAAAAAAAAAAAAAAAAAAQ/9oACAEDAQE/AT//xAAUEQEAAAAAAAAAAAAAAAAAAAAQ/9oACAECAQE/AT//xAAbEAACAgMBAAAAAAAAAAAAAAAAAREQEiExUf/aAAgBAQAGPwLhJeR7FLPA5Hs//8QAHRAAAwACAgMAAAAAAAAAAAABESEAMUFRYXGBkaH/2gAIAQEAAT8QFW0aZ8YKA7kEsv8AeAUgdvX3jyXoXoe8VYmhpHzgrQBQB4wqNhf3hO7QePlwQCSh0M//2Q=="
+                      blurDataURL={IMAGE_PLACEHOLDER_BLUR}
                     />
                   </div>
                 </motion.div>

@@ -1,12 +1,13 @@
 'use client'
 
-import React, { useEffect } from 'react'
+import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { motion } from 'motion/react'
 import type { ProjectsBlock as ProjectsBlockProps, Project, Media } from '@/payload-types'
 import { RtlText } from '../RtlText'
 import { useSearchParams } from 'next/navigation'
+import { IMAGE_PLACEHOLDER_BLUR } from '@/constants/imagePlaceholders'
 
 type Props = {
   className?: string
@@ -39,12 +40,7 @@ export const ProjectsComponent: React.FC<Props> = ({
   const currentLocale = searchParams.get('locale') || 'en'
   const isArabic = currentLocale === 'ar'
 
-  useEffect(() => {
-    console.log('ProjectsComponent rendered with:', { title, projects })
-  }, [title, projects])
-
   if (!projects?.length) {
-    console.log('No projects found')
     return null
   }
 
@@ -119,26 +115,21 @@ export const ProjectsComponent: React.FC<Props> = ({
                 `}
               >
                 {chunk.map((projectItem, index) => {
-                  console.log('Processing project item:', projectItem)
                   const project = projectItem.project
                   if (!project || !isProject(project)) {
-                    console.log('Invalid project:', project)
                     return null
                   }
 
                   if (!project.media?.[0]?.image) {
-                    console.log('No media found for project:', project)
                     return null
                   }
 
                   const firstImage = project.media[0].image
                   if (!isMediaObject(firstImage)) {
-                    console.log('Invalid media object:', firstImage)
                     return null
                   }
 
                   if (!firstImage.url) {
-                    console.log('No URL in media object:', firstImage)
                     return null
                   }
 
@@ -166,6 +157,10 @@ export const ProjectsComponent: React.FC<Props> = ({
                             fill
                             className="object-cover transition-transform duration-500 group-hover:scale-110"
                             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                            placeholder="blur"
+                            blurDataURL={IMAGE_PLACEHOLDER_BLUR}
+                            loading={index < 3 ? 'eager' : 'lazy'}
+                            quality={82}
                           />
                           <div className="absolute inset-0 bg-black/70 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                           
