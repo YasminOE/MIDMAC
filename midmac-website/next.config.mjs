@@ -40,8 +40,11 @@ const nextConfig = {
     },
     optimizePackageImports: ['@payloadcms/richtext-lexical', 'lucide-react', 'motion'],
     turbo: {
-      loaders: {
-        '.svg': ['@svgr/webpack'],
+      rules: {
+        '*.svg': {
+          loaders: ['@svgr/webpack'],
+          as: '*.js',
+        },
       },
     },
     scrollRestoration: true,
@@ -98,7 +101,6 @@ const nextConfig = {
   poweredByHeader: false,
   compress: true,
   reactStrictMode: true,
-  swcMinify: true,
   async headers() {
     return [
       {

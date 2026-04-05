@@ -3,6 +3,9 @@ import HeaderServer from '@/blocks/global/Header/Server'
 import FooterServer from '@/blocks/global/Footer/Server'
 import PreLoader from './preloader/Preloader'
 
+/** Same as root layout — ensures marketing routes get 60s on Vercel (Payload + DB + S3). */
+export const maxDuration = 60
+
 export const metadata = {
   title: {
     template: '%s - MIDMAC',
