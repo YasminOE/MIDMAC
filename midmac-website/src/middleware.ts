@@ -10,7 +10,37 @@ const STATIC_ASSET_REGEX = /\.(css|js|jpg|jpeg|png|gif|ico|svg|woff|woff2|ttf|eo
 export async function middleware(request: NextRequest) {
   try {
     const url = request.nextUrl.clone()
-    const isStaticAsset = STATIC_ASSET_REGEX.test(url.pathname)
+    const pathname = url.pathname
+
+    // Avoid SSR + Payload for crawlers (Next i18n can expose e.g. /en/robots.txt)
+    if (pathname === '/robots.txt' || pathname.endsWith('/robots.txt')) {
+      const origin = request.nextUrl.origin
+      const body = `User-agent: *\nAllow: /\nSitemap: ${origin}/sitemap.xml\n`
+      return new NextResponse(body, {
+        status: 200,
+        headers: {
+          'Content-Type': 'text/plain; charset=utf-8',
+          'Cache-Control': 'public, max-age=3600, s-maxage=86400',
+        },
+      })
+    }
+
+    if (pathname === '/sitemap.xml' || pathname.endsWith('/sitemap.xml')) {
+      const origin = request.nextUrl.origin
+      const xml = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>${origin}/</loc></url>
+</urlset>`
+      return new NextResponse(xml, {
+        status: 200,
+        headers: {
+          'Content-Type': 'application/xml; charset=utf-8',
+          'Cache-Control': 'public, max-age=3600, s-maxage=86400',
+        },
+      })
+    }
+
+    const isStaticAsset = STATIC_ASSET_REGEX.test(pathname)
 
     // Skip middleware for static assets
     if (isStaticAsset) {

@@ -103,6 +103,13 @@ export default async function HomePage(props: PageProps) {
     )
   } catch (error) {
     console.error('Error fetching home page:', error)
-    notFound()
+    return (
+      <div className="container-wrapper px-6 py-24 text-center text-sm text-neutral-600">
+        <p>We can&apos;t load the site content right now. Please refresh in a moment.</p>
+        <p className="mt-2 text-xs opacity-70">
+          If this continues, confirm MongoDB Atlas allows connections from the internet (Network Access).
+        </p>
+      </div>
+    )
   }
 }

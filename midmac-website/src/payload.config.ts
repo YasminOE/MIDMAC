@@ -104,6 +104,11 @@ export default buildConfig({
   },
   db: mongooseAdapter({
     url: process.env.DATABASE_URI || '',
+    connectOptions: {
+      // Default 30s holds serverless invocations open; fail faster so catch blocks run
+      serverSelectionTimeoutMS: 10_000,
+      connectTimeoutMS: 10_000,
+    },
   }),
   sharp,
   plugins: [
