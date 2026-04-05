@@ -28,6 +28,11 @@ const nextConfig = {
         protocol: 'https',
         hostname: '**.midmac.design',
       },
+      // @payloadcms/storage-s3 builds file URLs as `${S3_ENDPOINT}/${bucket}/…` (Supabase)
+      {
+        protocol: 'https',
+        hostname: '**.storage.supabase.co',
+      },
     ],
     // Keep quality high for design-heavy site; Next.js still serves WebP/AVIF for smaller bytes
     unoptimized: false,

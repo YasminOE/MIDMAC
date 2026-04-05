@@ -24,6 +24,23 @@ import { resendAdapter } from '@payloadcms/email-resend'
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
+/** https://payloadcms.com/docs/configuration/overview — absolute app URL (links, cookies, CSRF). */
+function serverURLFromEnv(): string | undefined {
+  const explicit = process.env.NEXT_PUBLIC_SERVER_URL?.trim()
+  if (explicit) {
+    return explicit.replace(/\/$/, '')
+  }
+  const vercel = process.env.VERCEL_URL?.trim()
+  if (vercel) {
+    return `https://${vercel.replace(/\/$/, '')}`
+  }
+  return undefined
+}
+
+/** Deployment docs use DATABASE_URL; this project historically used DATABASE_URI. */
+const databaseURL =
+  (process.env.DATABASE_URI || process.env.DATABASE_URL || '').trim()
+
 const requiredEnv = [
   ['S3_BUCKET', process.env.S3_BUCKET],
   ['S3_ACCESS_KEY_ID', process.env.S3_ACCESS_KEY_ID],
@@ -44,7 +61,12 @@ const s3AccessKeyId = process.env.S3_ACCESS_KEY_ID!.trim()
 const s3SecretAccessKey = process.env.S3_SECRET_ACCESS_KEY!.trim()
 const s3Region = process.env.S3_REGION!.trim()
 
+if (process.env.NODE_ENV === 'production' && !process.env.PAYLOAD_SECRET?.trim()) {
+  throw new Error('PAYLOAD_SECRET is required in production (Payload config overview).')
+}
+
 export default buildConfig({
+  serverURL: serverURLFromEnv(),
   admin: {
     user: Users.slug,
     importMap: {
@@ -107,7 +129,7 @@ export default buildConfig({
     outputFile: path.resolve(dirname, 'payload-types.ts'),
   },
   db: mongooseAdapter({
-    url: process.env.DATABASE_URI || '',
+    url: databaseURL,
     connectOptions: {
       // Default 30s holds serverless invocations open; fail faster so catch blocks run
       serverSelectionTimeoutMS: 10_000,
