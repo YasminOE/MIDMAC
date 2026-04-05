@@ -9,10 +9,15 @@ export default async function FooterServer() {
     return <Footer Footer={{}} />
   }
 
-  const payload = await getPayload({ config: configPromise })
-  const footer = await payload.findGlobal({
-    slug: 'footer',
-  })
-  
-  return <Footer Footer={footer} />
+  try {
+    const payload = await getPayload({ config: configPromise })
+    const footer = await payload.findGlobal({
+      slug: 'footer',
+    })
+
+    return <Footer Footer={footer} />
+  } catch (error) {
+    console.error('Error fetching footer:', error)
+    return <Footer Footer={{}} />
+  }
 }

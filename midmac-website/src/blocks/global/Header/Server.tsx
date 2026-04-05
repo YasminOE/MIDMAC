@@ -23,9 +23,8 @@ export default async function HeaderServer() {
     }
   }
 
-  const payload = await getPayload({ config })
-
   try {
+    const payload = await getPayload({ config })
     const header = await payload.findGlobal({
       slug: 'header',
       depth: 2,

@@ -32,7 +32,7 @@ export default async function HomePage(props: PageProps) {
   if (shouldSkipBuildTimeDb()) {
     return (
       <div className="container-wrapper" aria-hidden>
-        {/* Local build without Atlas; production never sets SKIP_BUILD_STATIC_GENERATION */}
+        {/* Empty shell during `next build` only (NEXT_PHASE); live requests load CMS below */}
       </div>
     )
   }
