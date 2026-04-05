@@ -9,7 +9,8 @@ export const maxDuration = 30
  * GET /api/health → { ok } or { ok: false, error } to see why Mongo/Payload fails.
  */
 export async function GET() {
-  const showDetail = process.env.DEBUG_DB_HEALTH === '1'
+  const showDetail =
+    process.env.DEBUG_DB_HEALTH === '1' || process.env.NODE_ENV === 'development'
 
   try {
     const payload = await getPayload({ config: configPromise })
