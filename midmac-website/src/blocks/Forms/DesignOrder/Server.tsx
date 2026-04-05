@@ -1,28 +1,38 @@
 import { DesignOrderFormComponent } from "@/components/ui/design-order/OrderFormCompmnent";
 import { getPayload } from "payload";
-// import configPromise from "@payload-config";
-import config from "@payload-config";
+import configPromise from "@payload-config";
 
 async function OrderFormServer() {
-    const payload = await getPayload({ config })
-    const form = await payload.find({
+  try {
+    const payload = await getPayload({ config: configPromise })
+    return await payload.find({
       collection: 'forms',
       where: {
         title: {
-          equals: 'Design Order Form'
-        }
+          equals: 'Design Order Form',
+        },
       },
       depth: 1,
     })
-    return form;
+  } catch (error) {
+    console.error('DesignOrderPage: Payload failed', error)
+    return { docs: [] as never[] }
   }
-  
+}
+
 export default async function DesignOrderPage() {
-    const formData = await OrderFormServer();
-    return (
-        formData &&
-      <DesignOrderFormComponent 
-        form={ typeof formData.docs[0].fields !== 'string' ? formData.docs[0].fields : JSON.parse(formData.docs[0].fields)}
-      />
-    );
+  const formData = await OrderFormServer()
+  const first = formData.docs?.[0]
+  if (!first) {
+    return null
   }
+  return (
+    <DesignOrderFormComponent
+      form={
+        typeof first.fields !== 'string'
+          ? first.fields
+          : JSON.parse(first.fields as string)
+      }
+    />
+  )
+}

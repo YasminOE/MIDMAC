@@ -5,20 +5,24 @@ import { FormBlock } from '@/blocks/Forms/Component'
 import type { Form } from '@payloadcms/plugin-form-builder/types'
 import type { DesignOrderFormBlock as DesignOrderFormBlockProps } from '@/payload-types'
 import { getPayload } from 'payload'
-import config from '@payload-config'
+import configPromise from '@payload-config'
 
 async function OrderFormServer() {
-    const payload = await getPayload({ config })
-    const form = await payload.find({
+  try {
+    const payload = await getPayload({ config: configPromise })
+    return await payload.find({
       collection: 'forms',
       where: {
         title: {
-          equals: 'Design Order Form'
-        }
+          equals: 'Design Order Form',
+        },
       },
       depth: 1,
     })
-    return form;
+  } catch (error) {
+    console.error('Design order form: failed to load from Payload', error)
+    return { docs: [] as never[] }
+  }
 }
 
 type Props = {
