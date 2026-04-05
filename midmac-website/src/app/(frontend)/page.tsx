@@ -3,6 +3,7 @@ import configPromise from '@payload-config'
 import { notFound } from 'next/navigation'
 import { RenderBlocks } from '@/components/RenderBlocks'
 import type { Page } from '@/payload-types'
+import { shouldSkipBuildTimeDb } from '@/utilities/skipBuildTimeDb'
 import { Metadata } from 'next'
 
 // Enable ISR
@@ -27,6 +28,14 @@ export default async function HomePage(props: PageProps) {
     (searchParams.locale === 'ar' || searchParams.locale === 'en')
     ? searchParams.locale
     : 'en'
+
+  if (shouldSkipBuildTimeDb()) {
+    return (
+      <div className="container-wrapper" aria-hidden>
+        {/* Local build without Atlas; production never sets SKIP_BUILD_STATIC_GENERATION */}
+      </div>
+    )
+  }
 
   try {
     const payload = await getPayload({ config: configPromise })

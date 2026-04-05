@@ -2,9 +2,14 @@ import React from 'react'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import HeaderNav from '@/components/ui/header'
+import { shouldSkipBuildTimeDb } from '@/utilities/skipBuildTimeDb'
 import { headers } from 'next/headers'
 
 export default async function HeaderServer() {
+  if (shouldSkipBuildTimeDb()) {
+    return null
+  }
+
   const headersList = await headers()
   const nextUrl = headersList.get('x-next-url')
   let locale: 'en' | 'ar' = 'en'

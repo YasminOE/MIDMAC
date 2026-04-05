@@ -6,6 +6,7 @@ import { ProjectGallery } from '@/components/ui/projects/ProjectGallarey'
 import { ProjectPlans } from '@/components/ui/projects/ProjectPlans'
 import { Contact } from '@/components/ui/projects/Contacts'
 import RtlText from '@/components/ui/RtlText'
+import { shouldSkipBuildTimeDb } from '@/utilities/skipBuildTimeDb'
 import { Suspense } from 'react'
 import type { Metadata } from 'next'
 
@@ -24,23 +25,28 @@ export async function generateMetadata(props: PageProps): Promise<Metadata> {
   }
 }
 
-// Optimize static params generation with proper caching
 export async function generateStaticParams() {
+  if (shouldSkipBuildTimeDb()) {
+    console.warn(
+      '[build] Skipping project static paths (set DATABASE_URI and unset SKIP_BUILD_STATIC_GENERATION for full prerender).',
+    )
+    return []
+  }
   try {
     const payload = await getPayload({ config: configPromise })
     const { docs: projects } = await payload.find({
       collection: 'projects',
-      limit: 100, // Limit to reasonable number
-      sort: '-updatedAt', // Sort by most recently updated
-      depth: 0, // Minimize data fetched
-      locale: 'en', // Default locale
+      limit: 100,
+      sort: '-updatedAt',
+      depth: 0,
+      locale: 'en',
     })
 
     return projects.map((project) => ({
       slug: project.title,
     }))
   } catch (error) {
-    console.error('Error generating static params:', error)
+    console.warn('[build] generateStaticParams (projects): MongoDB unavailable.', error)
     return []
   }
 }
@@ -63,6 +69,10 @@ export default async function Page(props: PageProps) {
   const isArabic = searchParamsLocale === 'ar'
 
   try {
+    if (shouldSkipBuildTimeDb()) {
+      notFound()
+    }
+
     const payload = await getPayload({ config: configPromise })
 
     // Optimize query with proper field selection and indexing

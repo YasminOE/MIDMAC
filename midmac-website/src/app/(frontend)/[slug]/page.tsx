@@ -5,6 +5,7 @@ import React, { cache } from 'react'
 import { notFound } from 'next/navigation'
 import type { Page as PageType } from '@/payload-types'
 import { RenderBlocks } from '@/components/RenderBlocks'
+import { shouldSkipBuildTimeDb } from '@/utilities/skipBuildTimeDb'
 import { Metadata } from 'next'
 
 // Define type for Payload response
@@ -22,30 +23,42 @@ type PayloadPagesResponse = {
 }
 
 export async function generateStaticParams() {
-  const payload = await getPayload({ config: configPromise })
-  const pages = await payload.find({
-    collection: 'pages',
-    locale: 'en',
-    draft: false,
-    limit: 1000,
-    where: {
-      slug: {
-        not_equals: 'index',
+  if (shouldSkipBuildTimeDb()) {
+    console.warn(
+      '[build] Skipping CMS static paths (set DATABASE_URI and unset SKIP_BUILD_STATIC_GENERATION for full prerender).',
+    )
+    return []
+  }
+  try {
+    const payload = await getPayload({ config: configPromise })
+    const pages = await payload.find({
+      collection: 'pages',
+      locale: 'en',
+      draft: false,
+      limit: 1000,
+      where: {
+        slug: {
+          not_equals: 'index',
+        },
       },
-    },
-  })
-  const pagesFetched = JSON.parse(JSON.stringify(pages)) as PayloadPagesResponse
-  // console.log("generateStaticParams", pagesFetched)
+    })
+    const pagesFetched = JSON.parse(JSON.stringify(pages)) as PayloadPagesResponse
 
-  const locales = ['en', 'ar']
+    const locales = ['en', 'ar']
 
-  return pagesFetched.docs.flatMap(({ slug }) => {
-    // console.log("slug", slug)
-    return locales.map((locale) => ({
-      slug: slug,
-      locale: locale,
-    }))
-  })
+    return pagesFetched.docs.flatMap(({ slug }) => {
+      return locales.map((locale) => ({
+        slug: slug,
+        locale: locale,
+      }))
+    })
+  } catch (error) {
+    console.warn(
+      '[build] generateStaticParams: MongoDB unavailable (local build or network). Skipping static paths.',
+      error,
+    )
+    return []
+  }
 }
 
 export const revalidate = 3600
@@ -83,6 +96,9 @@ const queryPageBySlug = cache(async ({
   slug: string
   locale: 'ar' | 'en' | 'all'
 }): Promise<PageType | null> => {
+  if (shouldSkipBuildTimeDb()) {
+    return null
+  }
   const { isEnabled: draft } = await draftMode()
   const payload = await getPayload({ config: configPromise })
 
