@@ -70,7 +70,11 @@ export default async function Page(props: PageProps) {
 
   try {
     if (shouldSkipBuildTimeDb()) {
-      notFound()
+      return (
+        <main className="min-h-full pt-24 mx-auto" aria-hidden>
+          {/* Build-time placeholder; real render happens at request when DB is available */}
+        </main>
+      )
     }
 
     const payload = await getPayload({ config: configPromise })

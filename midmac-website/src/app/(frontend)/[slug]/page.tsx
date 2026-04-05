@@ -77,10 +77,14 @@ export default async function Page({ params, searchParams }: Props) {
     locale: locale as 'ar' | 'en' | 'all',
   })
 
-  const pageFetched = JSON.parse(JSON.stringify(page)) as PageType
-  if (!pageFetched) {
+  if (!page) {
+    if (shouldSkipBuildTimeDb()) {
+      return <div className="container-wrapper" aria-hidden />
+    }
     notFound()
   }
+
+  const pageFetched = JSON.parse(JSON.stringify(page)) as PageType
 
   return (
     <div className="container-wrapper">

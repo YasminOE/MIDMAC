@@ -6,8 +6,8 @@ import type { Page } from '@/payload-types'
 import { shouldSkipBuildTimeDb } from '@/utilities/skipBuildTimeDb'
 import { Metadata } from 'next'
 
-// Enable ISR
-export const revalidate = 3600 // Revalidate every hour
+/** Avoid caching an empty build-time shell when DB is skipped on Vercel build. */
+export const dynamic = 'force-dynamic'
 
 // Generate metadata
 export async function generateMetadata(): Promise<Metadata> {
