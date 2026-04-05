@@ -24,21 +24,25 @@ import { resendAdapter } from '@payloadcms/email-resend'
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
-if (!process.env.S3_BUCKET) {
-  throw new Error('S3_BUCKET environment variable is required');
+const requiredEnv = [
+  ['S3_BUCKET', process.env.S3_BUCKET],
+  ['S3_ACCESS_KEY_ID', process.env.S3_ACCESS_KEY_ID],
+  ['S3_SECRET_ACCESS_KEY', process.env.S3_SECRET_ACCESS_KEY],
+  ['S3_REGION', process.env.S3_REGION],
+] as const
+
+const missingEnv = requiredEnv.filter(([, v]) => !v?.trim()).map(([k]) => k)
+if (missingEnv.length > 0) {
+  throw new Error(
+    `Missing required env: ${missingEnv.join(', ')}. ` +
+      'Set them in Vercel (Production + Preview). Supabase Storage S3 needs S3_ENDPOINT too.',
+  )
 }
 
-if (!process.env.S3_ACCESS_KEY_ID) {
-  throw new Error('S3_ACCESS_KEY_ID environment variable is required');
-}
-
-if (!process.env.S3_SECRET_ACCESS_KEY) {
-  throw new Error('S3_SECRET_ACCESS_KEY environment variable is required');
-}
-
-if (!process.env.S3_REGION) {
-  throw new Error('S3_REGION environment variable is required');
-}
+const s3Bucket = process.env.S3_BUCKET!.trim()
+const s3AccessKeyId = process.env.S3_ACCESS_KEY_ID!.trim()
+const s3SecretAccessKey = process.env.S3_SECRET_ACCESS_KEY!.trim()
+const s3Region = process.env.S3_REGION!.trim()
 
 export default buildConfig({
   admin: {
@@ -118,13 +122,13 @@ export default buildConfig({
             prefix: 'media',
           },
         },
-        bucket: process.env.S3_BUCKET,
+        bucket: s3Bucket,
         config: {
           credentials: {
-            accessKeyId: process.env.S3_ACCESS_KEY_ID,
-            secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
+            accessKeyId: s3AccessKeyId,
+            secretAccessKey: s3SecretAccessKey,
           },
-          region: process.env.S3_REGION,
+          region: s3Region,
           endpoint: process.env.S3_ENDPOINT,
           forcePathStyle: true,
           // ... Other S3 configuration
