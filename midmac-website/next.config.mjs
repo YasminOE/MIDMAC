@@ -2,21 +2,8 @@ import { withPayload } from '@payloadcms/next/withPayload'
 import DependencyCheckWebpackPlugin from 'dependency-check-webpack-plugin'
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  i18n:{
-    locales: ['en', 'ar'],
-    defaultLocale: 'en',
-    localeDetection: false,
-    domains: [
-      {
-        domain: 'midmac.design',
-        defaultLocale: 'en',
-      },
-      {
-        domain: 'ar.midmac.design',
-        defaultLocale: 'ar',
-      }
-    ]
-  },
+  // Do NOT use next.config i18n with the App Router — it breaks routing (see vercel/next.js#53724).
+  // Locale is handled via ?locale= and middleware (ar.midmac.design + legacy /en/* paths).
   images: {
     minimumCacheTTL: 60 * 60 * 24 * 7, // 7 days for heavy image site
     formats: ['image/avif', 'image/webp'],
@@ -41,7 +28,12 @@ const nextConfig = {
     optimizeCss: true,
     serverActions: {
       bodySizeLimit: '2mb',
-      allowedOrigins: ['localhost:3000', 'midmac.design', 'www.midmac.design']
+      allowedOrigins: [
+        'localhost:3000',
+        'midmac.design',
+        'www.midmac.design',
+        'ar.midmac.design',
+      ],
     },
     optimizePackageImports: ['@payloadcms/richtext-lexical', 'lucide-react', 'motion'],
     turbo: {
@@ -57,7 +49,7 @@ const nextConfig = {
   compiler: {
     removeConsole: process.env.NODE_ENV === 'production',
   },
-  webpack: (config, { dev, isServer }) => {
+  webpack: (config, { dev }) => {
     new DependencyCheckWebpackPlugin({})
 
     const configCopy = { ...config }

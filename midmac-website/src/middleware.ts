@@ -11,6 +11,29 @@ export async function middleware(request: NextRequest) {
   try {
     const url = request.nextUrl.clone()
     const pathname = url.pathname
+    const host = request.headers.get('host') ?? ''
+
+    // Arabic subdomain: default Payload locale to ar (same as old i18n.domains behavior).
+    if (
+      (host === 'ar.midmac.design' || host.startsWith('ar.midmac.design:')) &&
+      !url.searchParams.has('locale')
+    ) {
+      const withLocale = url.clone()
+      withLocale.searchParams.set('locale', 'ar')
+      return NextResponse.rewrite(withLocale)
+    }
+
+    // Legacy URLs from old Pages Router i18n: /en/... and /ar/... → /...?locale=
+    const legacy = pathname.match(/^\/(en|ar)(\/.*)?$/)
+    if (legacy) {
+      const localeCode = legacy[1] as 'en' | 'ar'
+      const rest = legacy[2] && legacy[2].length > 0 ? legacy[2] : '/'
+      const target = new URL(rest, request.url)
+      if (!target.searchParams.has('locale')) {
+        target.searchParams.set('locale', localeCode)
+      }
+      return NextResponse.redirect(target)
+    }
 
     // Avoid SSR + Payload for crawlers (Next i18n can expose e.g. /en/robots.txt)
     if (pathname === '/robots.txt' || pathname.endsWith('/robots.txt')) {
@@ -48,7 +71,6 @@ export async function middleware(request: NextRequest) {
     }
 
     // Handle domain redirects
-    const host = request.headers.get('host')
     if (host && (host.includes('about-us') || host.includes('design-order'))) {
       const newUrl = new URL(url.pathname, 'https://midmac.design')
       return NextResponse.redirect(newUrl)
