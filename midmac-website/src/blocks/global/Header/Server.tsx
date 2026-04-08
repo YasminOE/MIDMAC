@@ -1,4 +1,5 @@
 import React from 'react'
+import { unstable_rethrow } from 'next/navigation'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import HeaderNav from '@/components/ui/header'
@@ -38,6 +39,7 @@ export default async function HeaderServer() {
 
     return <HeaderNav HeaderLinks={header.links} />
   } catch (error) {
+    unstable_rethrow(error)
     console.error('Error fetching header:', error)
     return null
   }

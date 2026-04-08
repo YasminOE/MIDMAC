@@ -4,6 +4,7 @@
 import { FormBlock } from '@/blocks/Forms/Component'
 import type { Form } from '@payloadcms/plugin-form-builder/types'
 import type { DesignOrderFormBlock as DesignOrderFormBlockProps } from '@/payload-types'
+import { unstable_rethrow } from 'next/navigation'
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
 
@@ -20,6 +21,7 @@ async function OrderFormServer() {
       depth: 1,
     })
   } catch (error) {
+    unstable_rethrow(error)
     console.error('Design order form: failed to load from Payload', error)
     return { docs: [] as never[] }
   }

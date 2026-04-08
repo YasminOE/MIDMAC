@@ -41,25 +41,19 @@ function serverURLFromEnv(): string | undefined {
 const databaseURL =
   (process.env.DATABASE_URI || process.env.DATABASE_URL || '').trim()
 
-const requiredEnv = [
-  ['S3_BUCKET', process.env.S3_BUCKET],
-  ['S3_ACCESS_KEY_ID', process.env.S3_ACCESS_KEY_ID],
-  ['S3_SECRET_ACCESS_KEY', process.env.S3_SECRET_ACCESS_KEY],
-  ['S3_REGION', process.env.S3_REGION],
-] as const
+/** Supabase S3 needs endpoint + path-style; omit plugin if any var missing (avoid crash at import). */
+const hasFullS3Env =
+  Boolean(process.env.S3_BUCKET?.trim()) &&
+  Boolean(process.env.S3_ACCESS_KEY_ID?.trim()) &&
+  Boolean(process.env.S3_SECRET_ACCESS_KEY?.trim()) &&
+  Boolean(process.env.S3_REGION?.trim()) &&
+  Boolean(process.env.S3_ENDPOINT?.trim())
 
-const missingEnv = requiredEnv.filter(([, v]) => !v?.trim()).map(([k]) => k)
-if (missingEnv.length > 0) {
-  throw new Error(
-    `Missing required env: ${missingEnv.join(', ')}. ` +
-      'Set them in Vercel (Production + Preview). Supabase Storage S3 needs S3_ENDPOINT too.',
+if (process.env.NODE_ENV === 'production' && !hasFullS3Env) {
+  console.warn(
+    '[payload] S3 env incomplete — skipping S3 storage plugin. Set S3_BUCKET, S3_ACCESS_KEY_ID, S3_SECRET_ACCESS_KEY, S3_REGION, S3_ENDPOINT (Supabase).',
   )
 }
-
-const s3Bucket = process.env.S3_BUCKET!.trim()
-const s3AccessKeyId = process.env.S3_ACCESS_KEY_ID!.trim()
-const s3SecretAccessKey = process.env.S3_SECRET_ACCESS_KEY!.trim()
-const s3Region = process.env.S3_REGION!.trim()
 
 if (process.env.NODE_ENV === 'production' && !process.env.PAYLOAD_SECRET?.trim()) {
   throw new Error('PAYLOAD_SECRET is required in production (Payload config overview).')
@@ -138,24 +132,27 @@ export default buildConfig({
   }),
   sharp,
   plugins: [
-      s3Storage({
-        collections: {
-          'media': {
-            prefix: 'media',
-          },
-        },
-        bucket: s3Bucket,
-        config: {
-          credentials: {
-            accessKeyId: s3AccessKeyId,
-            secretAccessKey: s3SecretAccessKey,
-          },
-          region: s3Region,
-          endpoint: process.env.S3_ENDPOINT,
-          forcePathStyle: true,
-          // ... Other S3 configuration
-        },
-      }),
+    ...(hasFullS3Env
+      ? [
+          s3Storage({
+            collections: {
+              media: {
+                prefix: 'media',
+              },
+            },
+            bucket: process.env.S3_BUCKET!.trim(),
+            config: {
+              credentials: {
+                accessKeyId: process.env.S3_ACCESS_KEY_ID!.trim(),
+                secretAccessKey: process.env.S3_SECRET_ACCESS_KEY!.trim(),
+              },
+              region: process.env.S3_REGION!.trim(),
+              endpoint: process.env.S3_ENDPOINT!.trim(),
+              forcePathStyle: true,
+            },
+          }),
+        ]
+      : []),
     payloadCloudPlugin(),
     formBuilderPlugin({
       // defaultToEmail: 'elmahdijasmin@gmail.com',

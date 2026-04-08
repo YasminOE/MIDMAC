@@ -1,4 +1,5 @@
 import React from 'react'
+import { unstable_rethrow } from 'next/navigation'
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
 import Footer from '@/components/ui/footer'
@@ -17,6 +18,7 @@ export default async function FooterServer() {
 
     return <Footer Footer={footer} />
   } catch (error) {
+    unstable_rethrow(error)
     console.error('Error fetching footer:', error)
     return <Footer Footer={{}} />
   }

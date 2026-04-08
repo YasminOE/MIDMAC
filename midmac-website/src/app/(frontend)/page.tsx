@@ -1,6 +1,6 @@
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
-import { notFound } from 'next/navigation'
+import { notFound, unstable_rethrow } from 'next/navigation'
 import { RenderBlocks } from '@/components/RenderBlocks'
 import type { Page } from '@/payload-types'
 import { shouldSkipBuildTimeDb } from '@/utilities/skipBuildTimeDb'
@@ -102,6 +102,7 @@ export default async function HomePage(props: PageProps) {
       </div>
     )
   } catch (error) {
+    unstable_rethrow(error)
     console.error('Error fetching home page:', error)
     return (
       <div className="container-wrapper px-6 py-24 text-center text-sm text-neutral-600">

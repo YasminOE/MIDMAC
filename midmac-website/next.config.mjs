@@ -25,7 +25,8 @@ const nextConfig = {
     unoptimized: false,
   },
   experimental: {
-    optimizeCss: true,
+    // critters + App Router has caused rare production crashes on Vercel; disable until stable.
+    optimizeCss: false,
     serverActions: {
       bodySizeLimit: '2mb',
       allowedOrigins: [

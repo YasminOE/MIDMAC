@@ -1,4 +1,4 @@
-import { notFound } from 'next/navigation'
+import { notFound, unstable_rethrow } from 'next/navigation'
 import configPromise from '@payload-config'
 import { getPayload } from 'payload'
 import { Project } from '@/payload-types'
@@ -46,6 +46,7 @@ export async function generateStaticParams() {
       slug: project.title,
     }))
   } catch (error) {
+    unstable_rethrow(error)
     console.warn('[build] generateStaticParams (projects): MongoDB unavailable.', error)
     return []
   }
@@ -99,12 +100,6 @@ export default async function Page(props: PageProps) {
     const project = JSON.parse(JSON.stringify(projects[0])) as Project
     const projectTitle = isArabic ? project.titleAr || project.title : project.title
 
-    // Add metadata
-    const metadata = {
-      title: projectTitle,
-      description: `MIDMAC - ${projectTitle}`,
-    }
-
     const getContentText = (content: NonNullable<Project['content']>): ContentParagraph[] => {
       try {
         const children = content.root?.children as ContentChild[] | undefined
@@ -136,10 +131,6 @@ export default async function Page(props: PageProps) {
 
     return (
       <>
-        <head>
-          <title>{metadata.title}</title>
-          <meta name="description" content={metadata.description} />
-        </head>
         <main className="min-h-full pt-24 mx-auto">
           <div className="px-4 md:px-10 h-full">
             {/* Project Header for Mobile */}
@@ -247,6 +238,7 @@ export default async function Page(props: PageProps) {
       </>
     )
   } catch (error) {
+    unstable_rethrow(error)
     console.error('Error fetching project:', error)
     notFound()
   }

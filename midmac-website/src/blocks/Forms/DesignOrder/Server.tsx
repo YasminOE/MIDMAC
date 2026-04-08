@@ -1,4 +1,5 @@
 import { DesignOrderFormComponent } from "@/components/ui/design-order/OrderFormCompmnent";
+import { unstable_rethrow } from "next/navigation";
 import { getPayload } from "payload";
 import configPromise from "@payload-config";
 
@@ -15,6 +16,7 @@ async function OrderFormServer() {
       depth: 1,
     })
   } catch (error) {
+    unstable_rethrow(error)
     console.error('DesignOrderPage: Payload failed', error)
     return { docs: [] as never[] }
   }

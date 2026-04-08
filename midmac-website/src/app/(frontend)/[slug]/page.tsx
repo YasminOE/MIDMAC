@@ -2,7 +2,7 @@ import configPromise from '@payload-config'
 import { getPayload } from 'payload'
 import { draftMode } from 'next/headers'
 import React, { cache } from 'react'
-import { notFound } from 'next/navigation'
+import { notFound, unstable_rethrow } from 'next/navigation'
 import type { Page as PageType } from '@/payload-types'
 import { RenderBlocks } from '@/components/RenderBlocks'
 import { shouldSkipBuildTimeDb } from '@/utilities/skipBuildTimeDb'
@@ -53,6 +53,7 @@ export async function generateStaticParams() {
       }))
     })
   } catch (error) {
+    unstable_rethrow(error)
     console.warn(
       '[build] generateStaticParams: MongoDB unavailable (local build or network). Skipping static paths.',
       error,
@@ -134,6 +135,7 @@ const queryPageBySlug = cache(async ({
     const page = JSON.parse(JSON.stringify(result.docs[0])) as PageType
     return page || null
   } catch (error) {
+    unstable_rethrow(error)
     console.error('Error fetching page:', error)
     return null
   }
