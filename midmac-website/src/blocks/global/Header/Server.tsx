@@ -10,20 +10,20 @@ export default async function HeaderServer() {
     return null
   }
 
-  const headersList = await headers()
-  const nextUrl = headersList.get('x-next-url')
-  let locale: 'en' | 'ar' = 'en'
-
-  if (nextUrl) {
-    const searchParams = nextUrl.split('?')[1]
-    const urlParams = new URLSearchParams(searchParams || '')
-    const urlLocale = urlParams.get('locale')
-    if (urlLocale === 'ar') {
-      locale = 'ar'
-    }
-  }
-
   try {
+    const headersList = await headers()
+    const nextUrl = headersList.get('x-next-url')
+    let locale: 'en' | 'ar' = 'en'
+
+    if (nextUrl) {
+      const searchParams = nextUrl.split('?')[1]
+      const urlParams = new URLSearchParams(searchParams || '')
+      const urlLocale = urlParams.get('locale')
+      if (urlLocale === 'ar') {
+        locale = 'ar'
+      }
+    }
+
     const payload = await getPayload({ config })
     const header = await payload.findGlobal({
       slug: 'header',

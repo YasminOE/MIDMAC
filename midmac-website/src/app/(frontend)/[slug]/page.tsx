@@ -103,10 +103,9 @@ const queryPageBySlug = cache(async ({
   if (shouldSkipBuildTimeDb()) {
     return null
   }
-  const { isEnabled: draft } = await draftMode()
-  const payload = await getPayload({ config: configPromise })
-
   try {
+    const { isEnabled: draft } = await draftMode()
+    const payload = await getPayload({ config: configPromise })
     const result = await payload.find({
       collection: 'pages',
       draft,

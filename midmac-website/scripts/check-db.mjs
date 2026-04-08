@@ -9,9 +9,9 @@ import dns from 'node:dns/promises'
 import net from 'node:net'
 import mongoose from 'mongoose'
 
-const uri = process.env.DATABASE_URI?.trim()
+const uri = (process.env.DATABASE_URI || process.env.DATABASE_URL || '').trim()
 if (!uri) {
-  console.error('❌ DATABASE_URI is missing or empty in .env')
+  console.error('❌ Set DATABASE_URI or DATABASE_URL in .env')
   process.exit(1)
 }
 
