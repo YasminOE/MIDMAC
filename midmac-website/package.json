@@ -15,6 +15,7 @@
     "payload": "cross-env NODE_OPTIONS=--no-deprecation payload",
     "start": "cross-env NODE_OPTIONS=--no-deprecation next start",
     "check:db": "node --env-file=.env scripts/check-db.mjs",
+    "check:user": "node --env-file=.env scripts/check-user-role.mjs",
     "seed:pages": "tsx --env-file=.env scripts/seed-pages.ts"
   },
   "dependencies": {
