@@ -30,7 +30,8 @@ export const Pages: CollectionConfig = {
     },
     access: {
         read: () => true,
-        create: isAdmin,
+        // Match update: first account is often `user` only (Users.roles defaults to user); admins-only create blocked the UI.
+        create: isAdminOrUser,
         update: isAdminOrUser,
         delete: isAdmin,
     },

@@ -18,6 +18,12 @@ const isAdminFieldLevel: FieldAccess = ({ req }) => {
   return Boolean(user?.roles?.includes('admin'))
 }
 
+/** First-user signup has no session yet; they must be able to assign Admin. */
+const rolesFieldCreateAccess: FieldAccess = ({ req }) => {
+  if (!req.user) return true
+  return Boolean((req.user as User).roles?.includes('admin'))
+}
+
 export const Users: CollectionConfig = {
   slug: 'users',
   admin: {
@@ -48,7 +54,7 @@ export const Users: CollectionConfig = {
       defaultValue: ['user'],
       access: {
         update: isAdminFieldLevel,
-        create: isAdminFieldLevel,
+        create: rolesFieldCreateAccess,
         read: isAdminFieldLevel,
       },
     },
