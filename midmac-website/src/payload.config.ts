@@ -30,6 +30,14 @@ function serverURLFromEnv(): string | undefined {
   if (explicit) {
     return explicit.replace(/\/$/, '')
   }
+  // Never prefer VERCEL_URL on production: it is deployment-specific (*.vercel.app). If visitors use
+  // a custom domain (e.g. www.midmac.design), the admin would POST to *.vercel.app → CORS / 401.
+  if (process.env.VERCEL_ENV === 'production') {
+    const productionHost = process.env.VERCEL_PROJECT_PRODUCTION_URL?.trim()
+    if (productionHost) {
+      return `https://${productionHost.replace(/\/$/, '')}`
+    }
+  }
   const vercel = process.env.VERCEL_URL?.trim()
   if (vercel) {
     return `https://${vercel.replace(/\/$/, '')}`

@@ -15,6 +15,23 @@ if (!uri) {
   process.exit(1)
 }
 
+/** True when URI targets MongoDB on this machine (not Atlas). */
+function isLocalMongoHost(u) {
+  const rest = u.replace(/^mongodb(\+srv)?:\/\//i, '')
+  const afterAt = rest.includes('@') ? rest.split('@').slice(1).join('@') : rest
+  const host = afterAt.split(/[/:?#]/)[0]?.toLowerCase() ?? ''
+  return host === 'localhost' || host === '127.0.0.1'
+}
+
+if (isLocalMongoHost(uri)) {
+  console.error(
+    '\n⚠️  DATABASE_URI points at localhost — nothing answered on that port.\n' +
+      '   • Use Atlas: MongoDB Atlas → your cluster → Connect → Drivers → copy mongodb+srv://…\n' +
+      '     Put it in midmac-website/.env as DATABASE_URI=… (include /midmac-website-db before ?).\n' +
+      '   • Or install/start MongoDB locally if you really want localhost.\n',
+  )
+}
+
 /** Host after @ for mongodb+srv://… (no path/query). */
 function srvHostnameFromUri(u) {
   const m = u.match(/^mongodb\+srv:\/\/[^@]+@([^/?#]+)/i)
@@ -119,6 +136,13 @@ try {
   if (err?.name) console.error('   name:', err.name)
   if (err?.code) console.error('   code:', err.code)
   if (err?.reason?.type) console.error('   topology:', err.reason.type)
+
+  const msg = String(err?.message || '')
+  if (isLocalMongoHost(uri) && /ECONNREFUSED/i.test(msg)) {
+    console.error(
+      '\n→ ECONNREFUSED on localhost: update .env DATABASE_URI to your Atlas connection string; restart the command.\n',
+    )
+  }
 
   if (err?.reason?.type === 'ReplicaSetNoPrimary') {
     console.error('\nReplicaSetNoPrimary = no node answered as primary in time. Common causes:')
