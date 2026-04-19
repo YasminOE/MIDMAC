@@ -1,4 +1,4 @@
-import { Access, CollectionConfig, FieldAccess } from 'payload'
+import type { Access, CollectionConfig, FieldAccess } from 'payload'
 import { User } from '@/payload-types'
 
 const isAdmin: Access = ({ req }) => {
@@ -18,10 +18,16 @@ const isAdminFieldLevel: FieldAccess = ({ req }) => {
   return Boolean(user?.roles?.includes('admin'))
 }
 
-/** First-user signup has no session yet; they must be able to assign Admin. */
-const rolesFieldCreateAccess: FieldAccess = ({ req }) => {
-  if (!req.user) return true
-  return Boolean((req.user as User).roles?.includes('admin'))
+/** Admins invite users; when the database is empty, allow the bootstrap signup (no session yet). */
+const allowFirstUserOrAdminCreate: Access = async ({ req }) => {
+  const user = req.user as User | null
+  if (user?.roles?.includes('admin')) return true
+  const { totalDocs } = await req.payload.count({
+    collection: 'users',
+    overrideAccess: true,
+    where: {},
+  })
+  return totalDocs === 0
 }
 
 export const Users: CollectionConfig = {
@@ -31,10 +37,26 @@ export const Users: CollectionConfig = {
   },
   auth: true,
   access: {
-    create: isAdmin,
+    create: allowFirstUserOrAdminCreate,
     read: isAdminOrSelf,
     update: isAdminOrSelf,
     delete: isAdmin,
+  },
+  hooks: {
+    beforeChange: [
+      async ({ data, operation, req }) => {
+        if (operation !== 'create' || !data) return data
+        const { totalDocs } = await req.payload.count({
+          collection: 'users',
+          overrideAccess: true,
+          where: {},
+        })
+        if (totalDocs === 0) {
+          return { ...data, roles: ['admin'] }
+        }
+        return data
+      },
+    ],
   },
   fields: [
     {
@@ -52,9 +74,13 @@ export const Users: CollectionConfig = {
         },
       ],
       defaultValue: ['user'],
+      admin: {
+        description:
+          'First account is always Admin. For additional users, only an Admin can set roles.',
+      },
       access: {
         update: isAdminFieldLevel,
-        create: rolesFieldCreateAccess,
+        create: isAdminFieldLevel,
         read: isAdminFieldLevel,
       },
     },
