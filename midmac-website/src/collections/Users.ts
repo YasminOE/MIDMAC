@@ -1,27 +1,46 @@
-import type { Access, CollectionConfig, FieldAccess } from 'payload'
+import type { Access, CollectionConfig, FieldAccess, Payload } from 'payload'
 import { User } from '@/payload-types'
 
-const isAdmin: Access = ({ req }) => {
-  const user = req.user as User | null
-  return Boolean(user?.roles?.includes('admin'))
+type PayloadReq = { user?: User | null; payload: Payload }
+
+/** Session/JWT often omits `roles`; load from DB so admin checks work in the admin UI. */
+async function getUserFromDb(req: PayloadReq): Promise<User | null> {
+  const u = req.user as User | null
+  if (!u?.id) return null
+  try {
+    const doc = await req.payload.findByID({
+      collection: 'users',
+      id: u.id,
+      depth: 0,
+      overrideAccess: true,
+    })
+    return doc as User
+  } catch {
+    return null
+  }
 }
 
-const isAdminOrSelf: Access = ({ req, id }) => {
-  const user = req.user as User | null
-  if (!user) return false
-  if (user.roles?.includes('admin')) return true
-  return Boolean(user.id === id)
+const isAdmin: Access = async ({ req }) => {
+  const full = await getUserFromDb(req as PayloadReq)
+  return Boolean(full?.roles?.includes('admin'))
 }
 
-const isAdminFieldLevel: FieldAccess = ({ req }) => {
-  const user = req.user as User | null
-  return Boolean(user?.roles?.includes('admin'))
+const isAdminOrSelf: Access = async ({ req, id }) => {
+  const full = await getUserFromDb(req as PayloadReq)
+  if (!full) return false
+  if (full.roles?.includes('admin')) return true
+  return Boolean(full.id === id)
 }
 
-/** Admins invite users; when the database is empty, allow the bootstrap signup (no session yet). */
+const isAdminFieldLevel: FieldAccess = async ({ req }) => {
+  const full = await getUserFromDb(req as PayloadReq)
+  return Boolean(full?.roles?.includes('admin'))
+}
+
+/** Bootstrap when DB is empty, or any logged-in admin (resolved from DB). */
 const allowFirstUserOrAdminCreate: Access = async ({ req }) => {
-  const user = req.user as User | null
-  if (user?.roles?.includes('admin')) return true
+  const full = await getUserFromDb(req as PayloadReq)
+  if (full?.roles?.includes('admin')) return true
   const { totalDocs } = await req.payload.count({
     collection: 'users',
     overrideAccess: true,
