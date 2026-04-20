@@ -28,12 +28,13 @@ type Props = {
 
 /** CMS "page" rows use `pageLink`; `link` is for sections. Map slug → URL path. */
 function pagePathname(link: HeaderLink): string {
-  if (link.link && link.link.startsWith('/')) {
-    return link.link
-  }
   const page = link.pageLink
   if (page && typeof page === 'object' && page.slug) {
     return page.slug === 'index' ? '/' : `/${page.slug}`
+  }
+  // Legacy fallback if relationship isn't set.
+  if (link.link && link.link.startsWith('/')) {
+    return link.link
   }
   return '/'
 }
@@ -177,17 +178,32 @@ const HeaderNav: React.FC<Props> = ({ HeaderLinks }) => {
     if (_pathname === '/' || _pathname === '/index') {
       const sectionId = searchParams.get('section')
       if (sectionId) {
-        const element = document.querySelector(`#${CSS.escape(sectionId)}`)
-        if (element) {
-          // Clean up the URL by removing the section parameter
-          const url = new URL(window.location.href)
-          url.searchParams.delete('section')
-          window.history.replaceState({}, '', url.toString())
-          // Scroll after a small delay to ensure page is ready
-          setTimeout(() => {
+        // Home sections are CMS-driven and may mount after hydration; retry briefly.
+        const selector = `#${CSS.escape(sectionId)}`
+        const startedAt = Date.now()
+        const maxMs = 4000
+
+        const tryScroll = () => {
+          const element = document.querySelector(selector)
+          if (element) {
+            const url = new URL(window.location.href)
+            url.searchParams.delete('section')
+            window.history.replaceState({}, '', url.toString())
             element.scrollIntoView({ behavior: 'smooth' })
-          }, 100)
+            return true
+          }
+          return false
         }
+
+        if (tryScroll()) return
+
+        const interval = window.setInterval(() => {
+          if (tryScroll() || Date.now() - startedAt > maxMs) {
+            window.clearInterval(interval)
+          }
+        }, 100)
+
+        return () => window.clearInterval(interval)
       }
     }
   }, [_pathname, searchParams])
