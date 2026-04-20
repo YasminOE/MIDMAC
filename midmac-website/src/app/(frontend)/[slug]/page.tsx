@@ -8,6 +8,9 @@ import { RenderBlocks } from '@/components/RenderBlocks'
 import { shouldSkipBuildTimeDb } from '@/utilities/skipBuildTimeDb'
 import { Metadata } from 'next'
 
+/** Payload access relies on request headers/cookies; avoid static/ISR rendering. */
+export const dynamic = 'force-dynamic'
+
 // Define type for Payload response
 type PayloadPagesResponse = {
   docs: Array<{ slug: string }>;

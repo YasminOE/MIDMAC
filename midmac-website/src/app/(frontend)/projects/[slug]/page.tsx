@@ -10,6 +10,9 @@ import { shouldSkipBuildTimeDb } from '@/utilities/skipBuildTimeDb'
 import { Suspense } from 'react'
 import type { Metadata } from 'next'
 
+/** Payload access relies on request headers/cookies; avoid static/ISR rendering. */
+export const dynamic = 'force-dynamic'
+
 // Remove force-dynamic and use ISR instead
 export const revalidate = 3600 // Revalidate every hour
 
