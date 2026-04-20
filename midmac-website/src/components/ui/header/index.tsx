@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useEffect, useRef, useState, Suspense } from 'react'
-import { usePathname, useSearchParams } from 'next/navigation'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { motion, AnimatePresence } from "motion/react"
 import Image from 'next/image'
 import Link from 'next/link'
@@ -24,6 +24,25 @@ interface HeaderLink {
 
 type Props = {
   HeaderLinks: HeaderLink[]
+}
+
+/** CMS "page" rows use `pageLink`; `link` is for sections. Map slug → URL path. */
+function pagePathname(link: HeaderLink): string {
+  if (link.link && link.link.startsWith('/')) {
+    return link.link
+  }
+  const page = link.pageLink
+  if (page && typeof page === 'object' && page.slug) {
+    return page.slug === 'index' ? '/' : `/${page.slug}`
+  }
+  return '/'
+}
+
+function withLocaleQuery(pathname: string, locale: string): string {
+  const params = new URLSearchParams()
+  params.set('locale', locale)
+  const q = params.toString()
+  return pathname === '/' ? `/?${q}` : `${pathname}?${q}`
 }
 
 function LanguageSwitchContent() {
@@ -126,9 +145,10 @@ export function LanguageSwitch() {
 
 const HeaderNav: React.FC<Props> = ({ HeaderLinks }) => {
   const [isOpen, setIsOpen] = useState(false)
-  const [isAnimating, setIsAnimating] = useState(false)
+  const [_isAnimating, setIsAnimating] = useState(false)
   const menuRef = useRef<HTMLDivElement>(null)
   const buttonRef = useRef<HTMLButtonElement>(null)
+  const router = useRouter()
   const _pathname = usePathname()
   const searchParams = useSearchParams()
   const currentLocale = (searchParams.get('locale') || 'en') as 'en' | 'ar'
@@ -157,7 +177,7 @@ const HeaderNav: React.FC<Props> = ({ HeaderLinks }) => {
     if (_pathname === '/' || _pathname === '/index') {
       const sectionId = searchParams.get('section')
       if (sectionId) {
-        const element = document.querySelector(`#${sectionId}`)
+        const element = document.querySelector(`#${CSS.escape(sectionId)}`)
         if (element) {
           // Clean up the URL by removing the section parameter
           const url = new URL(window.location.href)
@@ -195,25 +215,22 @@ const HeaderNav: React.FC<Props> = ({ HeaderLinks }) => {
     },
   }
 
-  const handleNavClick = async (link: string, linkType: 'section' | 'page') => {
-    if (linkType === 'section') {
-      const sectionId = link.replace('#', '')
+  const handleNavClick = async (item: HeaderLink) => {
+    if (item.linkType === 'section') {
+      const sectionId = (item.link || '').replace(/^#/, '')
+      if (!sectionId) return
 
-      // Close menu and wait for animation
       setIsOpen(false)
       setIsAnimating(true)
-      await new Promise(resolve => setTimeout(resolve, 500))
+      await new Promise((resolve) => setTimeout(resolve, 500))
 
       if (_pathname !== '/' && _pathname !== '/index') {
-        // Navigate to home with section parameter
-        window.location.href = `/?locale=${currentLocale}&section=${sectionId}`
+        router.push(`/?locale=${currentLocale}&section=${sectionId}`)
         return
       }
 
-      // If already on home page, just scroll
-      const element = document.querySelector(`#${sectionId}`)
+      const element = document.querySelector(`#${CSS.escape(sectionId)}`)
       if (element) {
-        // Clean up the URL
         const url = new URL(window.location.href)
         url.searchParams.delete('section')
         window.history.replaceState({}, '', url.toString())
@@ -221,19 +238,17 @@ const HeaderNav: React.FC<Props> = ({ HeaderLinks }) => {
       }
     } else {
       setIsOpen(false)
-      // For page navigation, don't include section parameter
-      const url = new URL(window.location.origin + (link || '/'))
-      url.searchParams.set('locale', currentLocale)
-      window.location.href = url.toString()
+      await new Promise((resolve) => setTimeout(resolve, 500))
+      const path = pagePathname(item)
+      router.push(withLocaleQuery(path, currentLocale))
     }
   }
 
   const handleLogoClick = (e: React.MouseEvent) => {
     e.preventDefault()
     if (_pathname !== '/' && _pathname !== '/index') {
-      window.location.href = `/?locale=${currentLocale}`
+      router.push(withLocaleQuery('/', currentLocale))
     } else {
-      // If already on home, just scroll to top smoothly
       window.scrollTo({ top: 0, behavior: 'smooth' })
     }
   }
@@ -306,12 +321,13 @@ const HeaderNav: React.FC<Props> = ({ HeaderLinks }) => {
               <nav className="nav">
                 <div className="nav-links">
                   {HeaderLinks?.map((link: HeaderLink, index: number) => {
-                    const sectionId = link.link?.replace('#', '')
-                    const href = link.linkType === 'section'
-                      ? (_pathname === '/' || _pathname === '/index')
-                        ? `#${sectionId}`
-                        : `/?locale=${currentLocale}&section=${sectionId}`
-                      : `${link.link || '/'}?locale=${currentLocale}`
+                    const sectionId = (link.link || '').replace(/^#/, '')
+                    const href =
+                      link.linkType === 'section'
+                        ? _pathname === '/' || _pathname === '/index'
+                          ? `#${sectionId}`
+                          : `/?locale=${currentLocale}&section=${encodeURIComponent(sectionId)}`
+                        : withLocaleQuery(pagePathname(link), currentLocale)
 
                     return (
                       <RtlText key={index}>
@@ -319,10 +335,8 @@ const HeaderNav: React.FC<Props> = ({ HeaderLinks }) => {
                           href={href}
                           className="nav-link"
                           onClick={(e) => {
-                            if (link.linkType === 'section' && (_pathname === '/' || _pathname === '/index')) {
-                              e.preventDefault()
-                            }
-                            handleNavClick(link.link || '/', link.linkType)
+                            e.preventDefault()
+                            void handleNavClick(link)
                           }}
                         >
                           {link.label[currentLocale]}
